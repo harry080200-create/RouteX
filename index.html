@@ -3,198 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RouteX 2.0 - Smart Route Planner</title>
+<title>RouteX 3.0 | Smart Navigation</title>
 
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
 :root {
-  --bg: #09111f;
-  --panel: #111d30;
-  --panel2: #17263d;
-  --line: #2b3d58;
-  --text: #eef5ff;
-  --muted: #a6b7cf;
-  --mint: #48e0bd;
-  --blue: #65a8ff;
+  --bg:#08111f;
+  --panel:#111e32;
+  --card:#192941;
+  --line:#2d405b;
+  --mint:#48e0bd;
+  --blue:#65a8ff;
+  --orange:#ffbd69;
+  --text:#eff6ff;
+  --muted:#a9bad0;
 }
 
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
+header{
+  padding:18px;
+  background:#101c2e;
+  border-bottom:1px solid var(--line);
 }
 
-header {
-  padding: 18px;
-  background: #0e192a;
-  border-bottom: 1px solid var(--line);
+header h1{
+  margin:0;
+  color:var(--mint);
+  font-size:27px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 25px;
-  color: var(--mint);
+header p{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:0;
 }
 
-header p {
-  color: var(--muted);
-  font-size: 12px;
+.layout{
+  display:grid;
+  grid-template-columns:350px minmax(0,1fr);
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  min-height: calc(100vh - 80px);
+.sidebar{
+  padding:17px;
+  background:var(--panel);
+  border-right:1px solid var(--line);
 }
 
-.sidebar {
-  padding: 18px;
-  background: var(--panel);
+h2{font-size:18px}
+
+label{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+  margin:14px 0 7px;
 }
 
-h2 {
-  font-size: 18px;
+input,select{
+  width:100%;
+  padding:12px;
+  background:#0b1627;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:9px;
+  font-size:14px;
 }
 
-label {
-  display: block;
-  margin: 15px 0 7px;
-  font-size: 12px;
-  color: var(--muted);
+button{
+  border:0;
+  border-radius:9px;
+  padding:12px;
+  margin-top:10px;
+  width:100%;
+  background:var(--mint);
+  color:#071720;
+  font-weight:bold;
+  font-size:13px;
+  cursor:pointer;
 }
 
-input, select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: #0b1627;
-  color: white;
-  font-size: 14px;
+button:disabled{opacity:.5}
+
+.secondary{
+  background:#293c57;
+  color:white;
 }
 
-button {
-  width: 100%;
-  margin-top: 12px;
-  padding: 13px;
-  border: 0;
-  border-radius: 9px;
-  background: var(--mint);
-  color: #061820;
-  font-weight: bold;
-  cursor: pointer;
+.blue{
+  background:#2459a0;
+  color:white;
 }
 
-.secondary {
-  background: #263a56;
-  color: white;
+.card{
+  margin-top:15px;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:var(--card);
 }
 
-.blue {
-  background: #2459a0;
-  color: white;
+.card h3{
+  color:var(--mint);
+  margin:0 0 10px;
+  font-size:14px;
 }
 
-.card {
-  margin-top: 16px;
-  padding: 14px;
-  background: var(--panel2);
-  border: 1px solid var(--line);
-  border-radius: 11px;
+.status{
+  font-size:12px;
+  line-height:1.7;
+  overflow-wrap:anywhere;
 }
 
-.card h3 {
-  margin-top: 0;
-  color: var(--mint);
-  font-size: 14px;
+.note{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
 }
 
-.status {
-  font-size: 12px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
+#map{
+  height:calc(100vh - 77px);
+  min-height:500px;
 }
 
-.metrics {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 10px;
+.metrics{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px;
 }
 
-.metric {
-  padding: 10px;
-  background: #0d192a;
-  border-radius: 8px;
+.metric{
+  padding:11px;
+  border-radius:9px;
+  background:#0b1729;
 }
 
-.metric strong {
-  display: block;
-  font-size: 18px;
+.metric strong{
+  display:block;
+  font-size:20px;
 }
 
-.metric span {
-  color: var(--muted);
-  font-size: 10px;
+.metric span{
+  color:var(--muted);
+  font-size:10px;
 }
 
-.tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
-.tabs button {
-  background: #263a56;
-  color: white;
+.tabs button{
+  background:#293c57;
+  color:white;
 }
 
-.tabs button.active {
-  background: var(--mint);
-  color: #061820;
+.tabs button.active{
+  background:var(--mint);
+  color:#071720;
 }
 
-.note {
-  font-size: 11px;
-  line-height: 1.6;
-  color: var(--muted);
+.route-option{
+  padding:10px;
+  border:1px solid var(--line);
+  background:#0b1729;
+  border-radius:9px;
+  margin-top:8px;
+  font-size:12px;
+  line-height:1.7;
 }
 
-pre {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  padding: 10px;
-  background: #0b1627;
-  border-radius: 8px;
-  font-size: 11px;
-  line-height: 1.6;
+.route-option button{
+  padding:8px;
+  margin-top:6px;
 }
 
-#map {
-  height: calc(100vh - 80px);
-  min-height: 500px;
+#progressOuter{
+  background:#0b1729;
+  border-radius:10px;
+  height:9px;
+  margin-top:12px;
+  overflow:hidden;
 }
 
-@media(max-width:750px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
+#progressBar{
+  width:0;
+  height:100%;
+  background:var(--mint);
+  transition:width .15s;
+}
 
-  #map {
-    height: 50vh;
-    min-height: 330px;
-  }
+pre{
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  font-size:11px;
+  line-height:1.6;
+  padding:10px;
+  background:#0b1729;
+  border-radius:8px;
+}
 
-  .sidebar {
-    order: 2;
-  }
+@media(max-width:800px){
+  .layout{grid-template-columns:1fr}
+  #map{height:48vh;min-height:330px}
+  .sidebar{order:2}
 }
 </style>
 </head>
@@ -202,8 +224,8 @@ pre {
 <body>
 
 <header>
-  <h1>🗺️ RouteX 2.0</h1>
-  <p>Smart Navigation • Graph Algorithms • DSA Project</p>
+  <h1>🗺️ RouteX <span style="color:white">3.0</span></h1>
+  <p>Smart Navigation · Animated DSA · Route Comparison</p>
 </header>
 
 <div class="layout">
@@ -214,39 +236,35 @@ pre {
 
   <label>START LOCATION</label>
   <input id="start" value="Ropar, Punjab, India"
-         placeholder="Starting location">
+  placeholder="Starting location">
 
   <label>DESTINATION</label>
   <input id="end" value="Chandigarh, India"
-         placeholder="Destination">
+  placeholder="Destination">
 
-  <button id="routeBtn" onclick="findRoute()">
-    🔍 Find Real Road Route
+  <button id="routeButton" onclick="findRoute()">
+    🔍 Find Real Road Routes
   </button>
 
-  <button class="secondary" onclick="useMyLocation()">
+  <button class="secondary" onclick="useLocation()">
     📍 Use My Location
   </button>
 
-  <button class="secondary" onclick="clearRoute()">
-    Clear Map
+  <button class="secondary" onclick="clearRoutes()">
+    Clear Routes
   </button>
 
-  <p class="note">
-    OpenStreetMap provides the map. Internet is required
-    for location search and road routing.
-  </p>
-
   <div class="card">
-    <h3>Route Information</h3>
+    <h3>📍 Route Summary</h3>
+
     <div id="routeStatus" class="status">
-      Enter your locations and press Find Route.
+      Enter locations and tap Find Real Road Routes.
     </div>
 
-    <div id="metrics" class="metrics" style="display:none">
+    <div class="metrics">
       <div class="metric">
         <strong id="distance">—</strong>
-        <span>DISTANCE</span>
+        <span>SELECTED DISTANCE</span>
       </div>
 
       <div class="metric">
@@ -257,31 +275,50 @@ pre {
   </div>
 
   <div class="card">
-    <h3>DSA Algorithm Visualizer</h3>
+    <h3>🛣️ Alternative Routes</h3>
+    <p class="note">
+      Available alternatives depend on the routing service.
+      Select a route to display it on the map.
+    </p>
+    <div id="alternatives" class="status">
+      Find a route to compare available options.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🧠 DSA Visualizer</h3>
 
     <div class="tabs">
       <button id="dijkstraTab" class="active"
-              onclick="showAlgorithm('dijkstra')">
+      onclick="selectAlgorithm('dijkstra')">
         Dijkstra
       </button>
 
       <button id="bfsTab"
-              onclick="showAlgorithm('bfs')">
+      onclick="selectAlgorithm('bfs')">
         BFS
       </button>
     </div>
 
-    <p class="note" id="algoDescription">
-      Dijkstra finds the minimum-weight path in the demo graph.
+    <p id="algoDescription" class="note">
+      Dijkstra finds a minimum-weight path in the demo graph.
     </p>
 
-    <button class="blue" onclick="runDemo()">
-      ▶ Run Algorithm
+    <button class="blue" id="runButton" onclick="animateAlgorithm()">
+      ▶ Animate Algorithm
     </button>
+
+    <button class="secondary" onclick="stopAnimation()">
+      Stop Animation
+    </button>
+
+    <div id="progressOuter">
+      <div id="progressBar"></div>
+    </div>
 
     <div class="metrics">
       <div class="metric">
-        <strong id="nodesCount">0</strong>
+        <strong id="explored">0</strong>
         <span>NODES EXPLORED</span>
       </div>
 
@@ -291,20 +328,36 @@ pre {
       </div>
     </div>
 
-    <pre id="graphOutput">Demo graph:
-A — B — D — F
-A — C — D
-C — E — F
+    <pre id="algorithmOutput">Choose an algorithm and press Animate Algorithm.</pre>
+  </div>
 
-Run an algorithm to see its result.</pre>
+  <div class="card">
+    <h3>📊 Performance Dashboard</h3>
+
+    <div class="metrics">
+      <div class="metric">
+        <strong id="timeTaken">—</strong>
+        <span>EXECUTION TIME</span>
+      </div>
+
+      <div class="metric">
+        <strong id="pathLength">—</strong>
+        <span>PATH NODES</span>
+      </div>
+    </div>
+
+    <p class="note">
+      Execution time is measured for the small demo graph.
+      It is not the performance of the external real-road service.
+    </p>
   </div>
 
   <div class="card">
     <h3>DSA Concepts Used</h3>
     <div class="status">
-      • Graph: vertices and edges<br>
-      • Dijkstra: minimum-weight path<br>
-      • BFS: fewest edges in an unweighted graph<br>
+      • Graphs: vertices and edges<br>
+      • Dijkstra: weighted shortest path<br>
+      • BFS: minimum number of edges<br>
       • Arrays and objects<br>
       • Priority-queue-style node selection<br>
       • Searching and minimum selection
@@ -312,9 +365,9 @@ Run an algorithm to see its result.</pre>
   </div>
 
   <p class="note">
-    Student project only. No live traffic information.
-    Dijkstra and BFS run on the illustrative demo graph;
-    OSRM calculates the real-world driving route.
+    RouteX is a student project. Real-road routing is provided by
+    OSRM, and map data by OpenStreetMap. No live traffic information.
+    DSA algorithms run on a separate educational graph.
   </p>
 
 </aside>
@@ -328,386 +381,389 @@ Run an algorithm to see its result.</pre>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-const map = L.map('map').setView([30.968, 76.523], 10);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-let realRoute = null;
-let startMarker = null;
-let endMarker = null;
-let userMarker = null;
-let demoLayer = null;
-
 const $ = id => document.getElementById(id);
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, c => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
+const map = L.map('map').setView([30.968,76.523],10);
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    maxZoom:19,
+    attribution:'&copy; OpenStreetMap contributors'
+  }
+).addTo(map);
+
+let routeLayers=[];
+let startMarker=null;
+let endMarker=null;
+let userMarker=null;
+let selectedRouteIndex=0;
+
+const routeColors=['#087f70','#3478f6','#ef9d38','#a16bdb'];
+
+function safe(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;',
+    '"':'&quot;',"'":'&#39;'
   })[c]);
 }
 
-function formatTime(seconds) {
-  const minutes = Math.round(seconds / 60);
-
-  if (minutes < 60) {
-    return minutes + ' minutes';
-  }
-
-  return Math.floor(minutes / 60) +
-    ' hr ' + (minutes % 60) + ' min';
+function formatTime(seconds){
+  const mins=Math.round(seconds/60);
+  if(mins<60) return mins+' min';
+  return Math.floor(mins/60)+' h '+mins%60+' min';
 }
 
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 
-async function geocode(place) {
-  const url =
-    'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
-    encodeURIComponent(place);
+async function geocode(place){
+  const response=await fetch(
+    'https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+
+    encodeURIComponent(place)
+  );
 
-  const response = await fetch(url, {
-    headers: { 'Accept-Language': 'en' }
-  });
-
-  if (!response.ok) {
-    throw new Error('Location search service unavailable.');
+  if(!response.ok){
+    throw new Error('Location search service unavailable. Try again later.');
   }
 
-  const data = await response.json();
+  const data=await response.json();
 
-  if (!data.length) {
-    throw new Error('Location not found: ' + place);
+  if(!data.length){
+    throw new Error('Location not found: '+place);
   }
 
   return {
-    lat: Number(data[0].lat),
-    lon: Number(data[0].lon)
+    lat:Number(data[0].lat),
+    lon:Number(data[0].lon)
   };
 }
 
-async function findRoute() {
-  const startText = $('start').value.trim();
-  const endText = $('end').value.trim();
+async function findRoute(){
+  const startText=$('start').value.trim();
+  const endText=$('end').value.trim();
 
-  if (!startText || !endText) {
-    $('routeStatus').textContent =
-      'Please enter both locations.';
+  if(!startText||!endText){
+    $('routeStatus').textContent='Enter both locations first.';
     return;
   }
 
-  const button = $('routeBtn');
-  button.disabled = true;
-  button.textContent = 'Searching...';
+  const button=$('routeButton');
+  button.disabled=true;
+  button.textContent='Searching...';
+  $('alternatives').textContent='Searching for routes...';
 
-  $('metrics').style.display = 'none';
-  $('routeStatus').textContent =
-    'Searching for starting location...';
-
-  try {
-    const start = await geocode(startText);
+  try{
+    $('routeStatus').textContent='Finding starting location...';
+    const start=await geocode(startText);
 
     await delay(1100);
 
-    $('routeStatus').textContent =
-      'Searching for destination...';
+    $('routeStatus').textContent='Finding destination...';
+    const end=await geocode(endText);
 
-    const end = await geocode(endText);
+    $('routeStatus').textContent='Calculating available driving routes...';
 
-    $('routeStatus').textContent =
-      'Calculating driving route...';
+    const url=
+      'https://router.project-osrm.org/route/v1/driving/'+
+      start.lon+','+start.lat+';'+end.lon+','+end.lat+
+      '?overview=full&geometries=geojson&alternatives=true&steps=false';
 
-    const url =
-      'https://router.project-osrm.org/route/v1/driving/' +
-      start.lon + ',' + start.lat + ';' +
-      end.lon + ',' + end.lat +
-      '?overview=full&geometries=geojson&alternatives=true';
+    const response=await fetch(url);
 
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error('Routing service unavailable. Try again.');
+    if(!response.ok){
+      throw new Error('Routing service unavailable. Try again later.');
     }
 
-    const result = await response.json();
+    const result=await response.json();
 
-    if (result.code !== 'Ok' || !result.routes.length) {
-      throw new Error('No driving route found.');
+    if(result.code!=='Ok'||!result.routes.length){
+      throw new Error('No driving route found between these locations.');
     }
 
-    const route = result.routes[0];
+    clearRouteLayersOnly();
 
-    if (realRoute) map.removeLayer(realRoute);
-    if (startMarker) map.removeLayer(startMarker);
-    if (endMarker) map.removeLayer(endMarker);
+    if(startMarker) map.removeLayer(startMarker);
+    if(endMarker) map.removeLayer(endMarker);
 
-    realRoute = L.geoJSON(route.geometry, {
-      style: {
-        color: '#087f70',
-        weight: 6,
-        opacity: 0.95
-      }
-    }).addTo(map);
+    startMarker=L.marker([start.lat,start.lon])
+      .addTo(map).bindPopup('Start: '+safe(startText));
 
-    startMarker = L.marker([start.lat, start.lon])
-      .addTo(map)
-      .bindPopup('Start: ' + escapeHTML(startText));
+    endMarker=L.marker([end.lat,end.lon])
+      .addTo(map).bindPopup('Destination: '+safe(endText));
 
-    endMarker = L.marker([end.lat, end.lon])
-      .addTo(map)
-      .bindPopup('Destination: ' + escapeHTML(endText));
+    result.routes.forEach((route,index)=>{
+      const layer=L.geoJSON(route.geometry,{
+        style:{
+          color:routeColors[index%routeColors.length],
+          weight:index===0?7:5,
+          opacity:index===0?0.95:0.65
+        }
+      }).addTo(map);
 
-    map.fitBounds(realRoute.getBounds(), {
-      padding: [35, 35]
+      layer.on('click',()=>selectRoute(index,result.routes));
+      routeLayers.push(layer);
     });
 
-    $('distance').textContent =
-      (route.distance / 1000).toFixed(1) + ' km';
+    selectedRouteIndex=0;
+    renderAlternatives(result.routes);
+    displayRoute(result.routes[0],0,result.routes.length);
 
-    $('duration').textContent =
-      formatTime(route.duration);
+    map.fitBounds(routeLayers[0].getBounds(),{
+      padding:[35,35]
+    });
 
-    $('metrics').style.display = 'grid';
-
-    $('routeStatus').innerHTML =
-      '<b style="color:#48e0bd">Route Found ✓</b><br><br>' +
-      '<b>From:</b> ' + escapeHTML(startText) + '<br>' +
-      '<b>To:</b> ' + escapeHTML(endText) + '<br>' +
-      '<b>Available routes:</b> ' + result.routes.length +
-      '<br><br><span style="color:#a6b7cf">' +
-      'Estimated driving time. Live traffic is not included.' +
-      '</span>';
-
-  } catch (error) {
-    $('routeStatus').textContent =
-      'Could not create route: ' + error.message +
-      ' Check internet and try again.';
-  } finally {
-    button.disabled = false;
-    button.textContent = '🔍 Find Real Road Route';
+  }catch(error){
+    $('routeStatus').textContent=
+      'Could not calculate route: '+error.message;
+    $('alternatives').textContent=
+      'Try again later or use more specific location names.';
+  }finally{
+    button.disabled=false;
+    button.textContent='🔍 Find Real Road Routes';
   }
 }
 
-function useMyLocation() {
-  if (!navigator.geolocation) {
-    $('routeStatus').textContent =
-      'Location is not supported by this browser.';
+function displayRoute(route,index,total){
+  $('distance').textContent=(route.distance/1000).toFixed(1)+' km';
+  $('duration').textContent=formatTime(route.duration);
+
+  $('routeStatus').innerHTML=
+    '<b style="color:#48e0bd">Route '+(index+1)+' selected ✓</b><br>'+
+    '<br>Distance: '+(route.distance/1000).toFixed(1)+' km'+
+    '<br>Estimated drive: '+formatTime(route.duration)+
+    '<br>Routes returned by service: '+total+
+    '<br><span style="color:#a9bad0">No live traffic data.</span>';
+
+  routeLayers.forEach((layer,i)=>{
+    layer.setStyle({
+      color:routeColors[i%routeColors.length],
+      weight:i===index?8:5,
+      opacity:i===index?1:0.55
+    });
+    layer.bringToFront();
+  });
+
+  startMarker?.bringToFront();
+  endMarker?.bringToFront();
+}
+
+function renderAlternatives(routes){
+  $('alternatives').innerHTML='';
+
+  routes.forEach((route,index)=>{
+    const box=document.createElement('div');
+    box.className='route-option';
+
+    box.innerHTML=
+      '<b style="color:'+routeColors[index%routeColors.length]+'">'+
+      'Route '+(index+1)+'</b><br>'+
+      'Distance: '+(route.distance/1000).toFixed(1)+' km<br>'+
+      'Estimated time: '+formatTime(route.duration)+
+      '<button class="secondary" type="button">Select this route</button>';
+
+    box.querySelector('button').onclick=()=>{
+      selectRoute(index,routes);
+    };
+
+    $('alternatives').appendChild(box);
+  });
+
+  if(routes.length===1){
+    $('alternatives').insertAdjacentHTML(
+      'beforeend',
+      '<p class="note">Only one route was returned for this journey.</p>'
+    );
+  }
+}
+
+function selectRoute(index,routes){
+  selectedRouteIndex=index;
+  displayRoute(routes[index],index,routes.length);
+}
+
+function clearRouteLayersOnly(){
+  routeLayers.forEach(layer=>map.removeLayer(layer));
+  routeLayers=[];
+}
+
+function clearRoutes(){
+  clearRouteLayersOnly();
+
+  if(startMarker) map.removeLayer(startMarker);
+  if(endMarker) map.removeLayer(endMarker);
+
+  startMarker=null;
+  endMarker=null;
+
+  $('routeStatus').textContent='Routes cleared.';
+  $('alternatives').textContent='Search for a journey to compare routes.';
+  $('distance').textContent='—';
+  $('duration').textContent='—';
+}
+
+function useLocation(){
+  if(!navigator.geolocation){
+    $('routeStatus').textContent='Location is not supported by this browser.';
     return;
   }
 
-  $('routeStatus').textContent =
-    'Requesting location permission...';
+  $('routeStatus').textContent='Requesting location permission...';
 
   navigator.geolocation.getCurrentPosition(
-    position => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
+    position=>{
+      const lat=position.coords.latitude;
+      const lon=position.coords.longitude;
 
-      $('start').value =
-        lat.toFixed(5) + ',' + lon.toFixed(5);
+      $('start').value=lat.toFixed(5)+','+lon.toFixed(5);
 
-      if (userMarker) map.removeLayer(userMarker);
+      if(userMarker) map.removeLayer(userMarker);
 
-      userMarker = L.marker([lat, lon])
-        .addTo(map)
-        .bindPopup('Your location')
-        .openPopup();
+      userMarker=L.marker([lat,lon])
+        .addTo(map).bindPopup('Your current location').openPopup();
 
-      map.setView([lat, lon], 14);
+      map.setView([lat,lon],14);
 
-      $('routeStatus').textContent =
-        'Starting location added. Enter a destination.';
+      $('routeStatus').textContent=
+        'Location added. Enter destination and find routes.';
     },
-    () => {
-      $('routeStatus').textContent =
+    ()=>{
+      $('routeStatus').textContent=
         'Location permission denied or unavailable.';
     },
-    { enableHighAccuracy: true, timeout: 10000 }
+    {enableHighAccuracy:true,timeout:10000}
   );
 }
 
-function clearRoute() {
-  [realRoute, startMarker, endMarker, demoLayer]
-    .forEach(layer => {
-      if (layer) map.removeLayer(layer);
-    });
+/* Educational graph for algorithm animation */
 
-  realRoute = null;
-  startMarker = null;
-  endMarker = null;
-  demoLayer = null;
-
-  $('metrics').style.display = 'none';
-  $('routeStatus').textContent =
-    'Route cleared. Enter locations to find another route.';
-}
-
-/* Educational graph used for Dijkstra and BFS */
-
-const graph = {
-  A: [{to:'B',w:4},{to:'C',w:2}],
-  B: [{to:'A',w:4},{to:'C',w:1},{to:'D',w:5}],
-  C: [{to:'A',w:2},{to:'B',w:1},{to:'D',w:8},{to:'E',w:10}],
-  D: [{to:'B',w:5},{to:'C',w:8},{to:'E',w:2},{to:'F',w:6}],
-  E: [{to:'C',w:10},{to:'D',w:2},{to:'F',w:3}],
-  F: [{to:'D',w:6},{to:'E',w:3}]
+const graph={
+ A:[{to:'B',w:4},{to:'C',w:2}],
+ B:[{to:'A',w:4},{to:'C',w:1},{to:'D',w:5}],
+ C:[{to:'A',w:2},{to:'B',w:1},{to:'D',w:8},{to:'E',w:10}],
+ D:[{to:'B',w:5},{to:'C',w:8},{to:'E',w:2},{to:'F',w:6}],
+ E:[{to:'C',w:10},{to:'D',w:2},{to:'F',w:3}],
+ F:[{to:'D',w:6},{to:'E',w:3}]
 };
 
-const coordinates = {
-  A:[30.99,76.48],
-  B:[31.03,76.55],
-  C:[30.94,76.57],
-  D:[31.00,76.66],
-  E:[30.90,76.67],
-  F:[30.95,76.76]
+const points={
+ A:[30.99,76.48],
+ B:[31.03,76.55],
+ C:[30.94,76.57],
+ D:[31.00,76.66],
+ E:[30.90,76.67],
+ F:[30.95,76.76]
 };
 
-let selectedAlgorithm = 'dijkstra';
+let algorithm='dijkstra';
+let animationToken=0;
+let animationLayer=null;
 
-function showAlgorithm(name) {
-  selectedAlgorithm = name;
+function selectAlgorithm(name){
+  algorithm=name;
 
-  $('dijkstraTab').classList.toggle(
-    'active', name === 'dijkstra'
-  );
+  $('dijkstraTab').classList.toggle('active',name==='dijkstra');
+  $('bfsTab').classList.toggle('active',name==='bfs');
 
-  $('bfsTab').classList.toggle(
-    'active', name === 'bfs'
-  );
-
-  $('algoDescription').textContent =
-    name === 'dijkstra'
-      ? 'Dijkstra finds the minimum total edge weight.'
-      : 'BFS finds a path with the fewest edges, ignoring weights.';
+  $('algoDescription').textContent=
+    name==='dijkstra'
+    ?'Dijkstra finds the minimum total edge weight.'
+    :'BFS finds a path with the fewest edges, ignoring weights.';
 }
 
-/* Dijkstra shortest weighted path */
+function dijkstra(start,end){
+  const dist={},prev={},visited=new Set(),order=[];
 
-function dijkstra(start, end) {
-  const distances = {};
-  const previous = {};
-  const visited = new Set();
-  const order = [];
+  Object.keys(graph).forEach(n=>dist[n]=Infinity);
+  dist[start]=0;
 
-  Object.keys(graph).forEach(node => {
-    distances[node] = Infinity;
-  });
+  while(true){
+    let current=null;
 
-  distances[start] = 0;
-
-  while (true) {
-    let current = null;
-
-    for (const node of Object.keys(graph)) {
-      if (
-        !visited.has(node) &&
-        (current === null ||
-         distances[node] < distances[current])
-      ) {
-        current = node;
+    for(const node of Object.keys(graph)){
+      if(!visited.has(node)&&
+        (current===null||dist[node]<dist[current])){
+        current=node;
       }
     }
 
-    if (current === null ||
-        distances[current] === Infinity) break;
+    if(current===null||dist[current]===Infinity) break;
 
     visited.add(current);
     order.push(current);
 
-    if (current === end) break;
+    if(current===end) break;
 
-    for (const edge of graph[current]) {
-      if (
-        !visited.has(edge.to) &&
-        distances[current] + edge.w < distances[edge.to]
-      ) {
-        distances[edge.to] =
-          distances[current] + edge.w;
-
-        previous[edge.to] = current;
+    for(const edge of graph[current]){
+      if(!visited.has(edge.to)&&
+        dist[current]+edge.w<dist[edge.to]){
+        dist[edge.to]=dist[current]+edge.w;
+        prev[edge.to]=current;
       }
     }
   }
 
   return {
-    path: buildPath(previous, start, end),
-    cost: distances[end],
-    order: order
+    path:buildPath(prev,start,end),
+    cost:dist[end],
+    order
   };
 }
 
-/* Breadth-First Search */
+function bfs(start,end){
+  const queue=[start];
+  const seen=new Set([start]);
+  const prev={},order=[];
 
-function bfs(start, end) {
-  const queue = [start];
-  const visited = new Set([start]);
-  const previous = {};
-  const order = [];
-
-  while (queue.length > 0) {
-    const current = queue.shift();
+  while(queue.length){
+    const current=queue.shift();
     order.push(current);
 
-    if (current === end) break;
+    if(current===end) break;
 
-    for (const edge of graph[current]) {
-      if (!visited.has(edge.to)) {
-        visited.add(edge.to);
-        previous[edge.to] = current;
+    for(const edge of graph[current]){
+      if(!seen.has(edge.to)){
+        seen.add(edge.to);
+        prev[edge.to]=current;
         queue.push(edge.to);
       }
     }
   }
 
   return {
-    path: buildPath(previous, start, end),
-    cost: null,
-    order: order
+    path:buildPath(prev,start,end),
+    cost:null,
+    order
   };
 }
 
-function buildPath(previous, start, end) {
-  if (start !== end && !previous[end]) {
-    return [];
-  }
+function buildPath(prev,start,end){
+  if(start!==end&&!prev[end]) return [];
 
-  const path = [end];
+  const path=[end];
 
-  while (path[0] !== start) {
-    path.unshift(previous[path[0]]);
+  while(path[0]!==start){
+    path.unshift(prev[path[0]]);
   }
 
   return path;
 }
 
-function runDemo() {
-  const result =
-    selectedAlgorithm === 'dijkstra'
-      ? dijkstra('A', 'F')
-      : bfs('A', 'F');
+function drawDemo(highlighted=[],finalPath=[]){
+  if(animationLayer) map.removeLayer(animationLayer);
 
-  if (demoLayer) map.removeLayer(demoLayer);
+  const edges=[];
 
-  const edgeFeatures = [];
-
-  for (const [node, edges] of Object.entries(graph)) {
-    for (const edge of edges) {
-      if (node < edge.to) {
-        edgeFeatures.push({
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'LineString',
-            coordinates: [
-              [coordinates[node][1], coordinates[node][0]],
-              [coordinates[edge.to][1], coordinates[edge.to][0]]
+  for(const [node,list] of Object.entries(graph)){
+    for(const edge of list){
+      if(node<edge.to){
+        edges.push({
+          type:'Feature',
+          properties:{},
+          geometry:{
+            type:'LineString',
+            coordinates:[
+              [points[node][1],points[node][0]],
+              [points[edge.to][1],points[edge.to][0]]
             ]
           }
         });
@@ -715,92 +771,138 @@ function runDemo() {
     }
   }
 
-  const edgeLayer = L.geoJSON({
-    type: 'FeatureCollection',
-    features: edgeFeatures
-  }, {
-    style: {
-      color: '#8295af',
-      weight: 2
-    }
+  const edgeLayer=L.geoJSON({
+    type:'FeatureCollection',features:edges
+  },{
+    style:{color:'#8094ae',weight:2,opacity:.75}
   });
 
-  const pathFeatures = [];
+  const pathFeatures=[];
 
-  for (let i = 0; i < result.path.length - 1; i++) {
-    const a = result.path[i];
-    const b = result.path[i + 1];
+  for(let i=0;i<finalPath.length-1;i++){
+    const a=finalPath[i],b=finalPath[i+1];
 
     pathFeatures.push({
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [coordinates[a][1], coordinates[a][0]],
-          [coordinates[b][1], coordinates[b][0]]
+      type:'Feature',
+      properties:{},
+      geometry:{
+        type:'LineString',
+        coordinates:[
+          [points[a][1],points[a][0]],
+          [points[b][1],points[b][0]]
         ]
       }
     });
   }
 
-  const pathLayer = L.geoJSON({
-    type: 'FeatureCollection',
-    features: pathFeatures
-  }, {
-    style: {
-      color: '#48e0bd',
-      weight: 6
-    }
+  const pathLayer=L.geoJSON({
+    type:'FeatureCollection',features:pathFeatures
+  },{
+    style:{color:'#48e0bd',weight:7}
   });
 
-  const nodeLayer = L.layerGroup();
+  const nodes=L.layerGroup();
 
-  Object.entries(coordinates).forEach(([name, point]) => {
-    const onPath = result.path.includes(name);
+  Object.entries(points).forEach(([name,point])=>{
+    const isPath=finalPath.includes(name);
+    const isExplored=highlighted.includes(name);
 
-    L.circleMarker(point, {
-      radius: 8,
-      color: onPath ? '#48e0bd' : '#65a8ff',
-      fillColor: onPath ? '#48e0bd' : '#65a8ff',
-      fillOpacity: 1,
-      weight: 2
+    L.circleMarker(point,{
+      radius:10,
+      color:isPath?'#48e0bd':isExplored?'#65a8ff':'#d0d9e7',
+      fillColor:isPath?'#48e0bd':isExplored?'#65a8ff':'#263b56',
+      fillOpacity:1,
+      weight:3
     })
-    .bindTooltip('Node ' + name)
-    .addTo(nodeLayer);
+    .bindTooltip('Node '+name)
+    .addTo(nodes);
   });
 
-  demoLayer = L.layerGroup([
-    edgeLayer,
-    pathLayer,
-    nodeLayer
+  animationLayer=L.layerGroup([
+    edgeLayer,pathLayer,nodes
   ]).addTo(map);
 
-  $('nodesCount').textContent = result.order.length;
-
-  $('pathCost').textContent =
-    result.cost === null
-      ? (result.path.length - 1) + ' edges'
-      : result.cost;
-
-  $('graphOutput').textContent =
-    'Algorithm: ' + selectedAlgorithm.toUpperCase() +
-    '\nStart: A → Destination: F' +
-    '\nExploration order: ' + result.order.join(' → ') +
-    '\nSelected path: ' + result.path.join(' → ') +
-    '\n' +
-    (result.cost === null
-      ? 'Number of edges: ' + (result.path.length - 1)
-      : 'Total edge weight: ' + result.cost) +
-    '\n\nThis is the illustrative DSA graph, not the real map route.';
-
-  map.fitBounds(
-    L.latLngBounds(Object.values(coordinates)),
-    { padding: [30, 30] }
-  );
+  map.fitBounds(L.latLngBounds(Object.values(points)),{
+    padding:[35,35]
+  });
 }
 
-showAlgorithm('dijkstra');
+async function animateAlgorithm(){
+  stopAnimation();
+
+  const myToken=animationToken;
+  const runButton=$('runButton');
+  runButton.disabled=true;
+  runButton.textContent='Animating...';
+
+  $('explored').textContent='0';
+  $('pathCost').textContent='—';
+  $('pathLength').textContent='—';
+  $('timeTaken').textContent='—';
+  $('progressBar').style.width='0%';
+
+  const begin=performance.now();
+
+  const result=algorithm==='dijkstra'
+    ?dijkstra('A','F')
+    :bfs('A','F');
+
+  for(let i=0;i<result.order.length;i++){
+    if(myToken!==animationToken) return;
+
+    const explored=result.order.slice(0,i+1);
+
+    drawDemo(explored,[]);
+    $('explored').textContent=explored.length;
+    $('progressBar').style.width=
+      ((i+1)/result.order.length*100)+'%';
+
+    $('algorithmOutput').textContent=
+      'Algorithm: '+algorithm.toUpperCase()+
+      '\nStart: A → Destination: F'+
+      '\nExploring: '+explored.join(' → ')+
+      '\nStatus: Exploring graph nodes...';
+
+    await delay(550);
+  }
+
+  if(myToken!==animationToken) return;
+
+  drawDemo(result.order,result.path);
+
+  const elapsed=(performance.now()-begin).toFixed(2);
+
+  $('pathCost').textContent=
+    result.cost===null
+    ?(result.path.length-1)+' edges'
+    :result.cost;
+
+  $('pathLength').textContent=result.path.length;
+  $('timeTaken').textContent=elapsed+' ms';
+
+  $('algorithmOutput').textContent=
+    'Algorithm: '+algorithm.toUpperCase()+
+    '\nStart: A → Destination: F'+
+    '\nExploration order: '+result.order.join(' → ')+
+    '\nFinal path: '+result.path.join(' → ')+
+    '\n'+
+    (result.cost===null
+      ?'Number of edges: '+(result.path.length-1)
+      :'Total edge weight: '+result.cost)+
+    '\nExecution time: '+elapsed+' ms'+
+    '\n\nThis is the educational graph, not the real-world road route.';
+
+  runButton.disabled=false;
+  runButton.textContent='▶ Animate Algorithm';
+}
+
+function stopAnimation(){
+  animationToken++;
+  $('runButton').disabled=false;
+  $('runButton').textContent='▶ Animate Algorithm';
+}
+
+selectAlgorithm('dijkstra');
 </script>
 
 </body>
