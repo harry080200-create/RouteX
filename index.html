@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RouteX 5.0 - Smart Navigation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08111f">
+<title>RouteX 6.0 — Live GPS Navigation</title>
 
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -30,31 +31,31 @@ body {
 }
 
 header {
-  padding:18px;
+  padding:17px 20px;
   background:#101b2d;
   border-bottom:1px solid var(--line);
 }
 
 header h1 {
-  margin:0;
   color:var(--mint);
+  margin:0;
   font-size:28px;
 }
 
 header p {
-  color:var(--muted);
   margin:7px 0 0;
+  color:var(--muted);
   font-size:13px;
 }
 
 .layout {
   display:grid;
   grid-template-columns:350px minmax(0,1fr);
-  min-height:calc(100vh - 85px);
+  min-height:calc(100vh - 80px);
 }
 
 .sidebar {
-  padding:17px;
+  padding:16px;
   background:var(--panel);
   border-right:1px solid var(--line);
 }
@@ -63,18 +64,18 @@ h2 { font-size:21px; }
 
 label {
   display:block;
-  margin:16px 0 7px;
+  margin:15px 0 7px;
   color:var(--muted);
-  font-size:13px;
+  font-size:12px;
 }
 
-input,select {
+input {
   width:100%;
   padding:13px;
-  border-radius:10px;
-  border:1px solid var(--line);
   background:#0a1526;
   color:white;
+  border:1px solid var(--line);
+  border-radius:10px;
   font-size:15px;
 }
 
@@ -87,7 +88,7 @@ button {
   color:#071923;
   font-size:14px;
   font-weight:bold;
-  margin-top:10px;
+  margin-top:9px;
   cursor:pointer;
 }
 
@@ -107,29 +108,29 @@ button:disabled {
 }
 
 .card {
-  margin-top:16px;
-  padding:15px;
+  margin-top:15px;
+  padding:14px;
   border-radius:13px;
-  border:1px solid var(--line);
   background:var(--card);
+  border:1px solid var(--line);
 }
 
 .card h3 {
-  color:var(--mint);
   margin:0 0 12px;
-  font-size:17px;
-}
-
-.small {
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
+  color:var(--mint);
+  font-size:16px;
 }
 
 .status {
   font-size:13px;
   line-height:1.7;
   overflow-wrap:anywhere;
+}
+
+.small {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
 }
 
 .metrics {
@@ -141,22 +142,22 @@ button:disabled {
 
 .metric {
   padding:12px;
-  border-radius:10px;
   background:#0a1628;
+  border-radius:10px;
   min-width:0;
 }
 
 .metric strong {
   display:block;
-  font-size:20px;
+  font-size:19px;
   overflow-wrap:anywhere;
 }
 
 .metric span {
   display:block;
+  margin-top:5px;
   color:var(--muted);
   font-size:10px;
-  margin-top:4px;
 }
 
 .map-area { min-width:0; }
@@ -178,17 +179,17 @@ button:disabled {
 
 #map {
   width:100%;
-  height:calc(100vh - 145px);
+  height:calc(100vh - 140px);
   min-height:430px;
 }
 
 #map.fullscreen-map {
   position:fixed;
   inset:0;
-  z-index:9998;
   width:100vw;
   height:100dvh !important;
   min-height:0;
+  z-index:9998;
 }
 
 #exitFullscreen {
@@ -207,25 +208,16 @@ button:disabled {
 
 .route-option {
   margin-top:9px;
-  padding:12px;
+  padding:11px;
   background:#0a1628;
   border:1px solid var(--line);
   border-radius:10px;
   font-size:13px;
-  line-height:1.6;
+  line-height:1.7;
 }
 
 .route-option button {
   padding:9px;
-  margin-top:7px;
-}
-
-#graphCanvas {
-  display:block;
-  width:100%;
-  height:270px;
-  background:#0a1628;
-  border-radius:10px;
 }
 
 .graph-buttons {
@@ -234,28 +226,40 @@ button:disabled {
   gap:8px;
 }
 
+#graphCanvas {
+  width:100%;
+  height:250px;
+  display:block;
+  background:#0a1628;
+  border-radius:10px;
+}
+
 pre {
   white-space:pre-wrap;
   overflow-wrap:anywhere;
-  padding:12px;
+  padding:11px;
   border-radius:9px;
   background:#0a1628;
   color:#e3efff;
   font-size:12px;
-  line-height:1.7;
+  line-height:1.6;
 }
 
 footer {
-  padding:20px;
+  padding:18px;
   color:var(--muted);
   font-size:12px;
   line-height:1.7;
 }
 
 @media(max-width:800px) {
-  .layout { display:flex; flex-direction:column; }
+  .layout {
+    display:flex;
+    flex-direction:column;
+  }
+
   .map-area { order:1; }
-  .sidebar { order:2; border-right:0; }
+  .sidebar { order:2; border:0; }
   #map { height:55vh; min-height:350px; }
   header h1 { font-size:25px; }
 }
@@ -265,8 +269,8 @@ footer {
 <body>
 
 <header>
-  <h1>🗺️ RouteX 5.0</h1>
-  <p>Smart Navigation · Moving Car · DSA Visualizer</p>
+  <h1>🗺️ RouteX 6.0</h1>
+  <p>Live GPS · Real Roads · Smart Route Planner · DSA Lab</p>
 </header>
 
 <div class="layout">
@@ -277,27 +281,36 @@ footer {
 
 <label>STARTING LOCATION</label>
 <input id="start" value="Ropar, Punjab, India"
-placeholder="e.g. Ropar, Punjab">
+placeholder="Enter starting location">
 
 <label>DESTINATION</label>
-<input id="end" value="Kurali, Punjab, India"
-placeholder="e.g. Chandigarh">
+<input id="end" value="Chandigarh, India"
+placeholder="Enter destination">
 
 <button id="findBtn" onclick="findRoutes()">
 🔍 Find Real Road Routes
 </button>
 
-<button class="secondary" onclick="useMyLocation()">
-📍 Use My Location
+<button class="secondary" onclick="locateOnce()">
+📍 Find My Current Location
 </button>
 
-<button id="navBtn" onclick="startNavigation()" disabled>
-🚗 Start Navigation
+<button id="gpsBtn" onclick="toggleGPS()">
+📡 Start Live GPS
 </button>
 
-<button id="stopBtn" class="secondary"
-onclick="stopNavigation()" disabled>
-⏹ Stop Navigation
+<button id="stopGpsBtn" class="secondary"
+onclick="stopGPS()" disabled>
+⏹ Stop Live GPS
+</button>
+
+<button id="navBtn" onclick="startDemo()" disabled>
+🚗 Preview Route Animation
+</button>
+
+<button id="stopDemoBtn" class="secondary"
+onclick="stopDemo()" disabled>
+⏹ Stop Preview
 </button>
 
 <button class="secondary" onclick="clearRoutes()">
@@ -305,15 +318,15 @@ onclick="stopNavigation()" disabled>
 </button>
 
 <div class="card">
-  <h3>📍 Route Information</h3>
-  <div id="routeStatus" class="status">
-    Enter start and destination.
+  <h3>📍 Journey Status</h3>
+  <div id="status" class="status">
+    Enter your destination and find a route.
   </div>
 
   <div class="metrics">
     <div class="metric">
       <strong id="distance">—</strong>
-      <span>DISTANCE</span>
+      <span>ROUTE / REMAINING</span>
     </div>
     <div class="metric">
       <strong id="duration">—</strong>
@@ -322,7 +335,7 @@ onclick="stopNavigation()" disabled>
   </div>
 
   <p class="small">
-    Navigation animation is a demo. It does not track your real movement.
+    Live GPS requires location permission. Preview mode is only a simulation.
   </p>
 </div>
 
@@ -338,19 +351,22 @@ onclick="stopNavigation()" disabled>
 
   <div class="graph-buttons">
     <button id="dijkstraBtn"
-    onclick="chooseAlgorithm('dijkstra')">Dijkstra</button>
-
+      onclick="chooseAlgorithm('dijkstra')">
+      Dijkstra
+    </button>
     <button id="bfsBtn" class="secondary"
-    onclick="chooseAlgorithm('bfs')">BFS</button>
+      onclick="chooseAlgorithm('bfs')">
+      BFS
+    </button>
   </div>
 
   <p id="algoDescription" class="small">
-    Dijkstra finds a minimum-weight path.
+    Dijkstra finds the minimum-weight path.
   </p>
 
   <canvas id="graphCanvas"></canvas>
 
-  <button class="blue" id="runBtn" onclick="runAnimation()">
+  <button class="blue" id="runBtn" onclick="runAlgorithm()">
     ▶ Animate Algorithm
   </button>
 
@@ -369,18 +385,17 @@ onclick="stopNavigation()" disabled>
     </div>
   </div>
 
-  <pre id="algorithmOutput">Choose an algorithm and run the animation.</pre>
+  <pre id="algorithmOutput">Select Dijkstra or BFS.</pre>
 </div>
 
 <div class="card">
-  <h3>DSA Concepts Used</h3>
+  <h3>DSA Concepts</h3>
   <div class="status">
-    • Graphs: vertices and edges<br>
-    • Dijkstra: minimum-weight path<br>
-    • BFS: fewest edges in an unweighted graph<br>
+    • Graphs and weighted edges<br>
+    • Dijkstra shortest path<br>
+    • BFS graph traversal<br>
     • Arrays and objects<br>
-    • Graph traversal<br>
-    • Searching and minimum selection
+    • Queue and path reconstruction
   </div>
 </div>
 
@@ -389,7 +404,7 @@ onclick="stopNavigation()" disabled>
 <main class="map-area">
 
   <div class="map-toolbar" id="mapToolbar">
-    <strong>🗺️ Live Road Map</strong>
+    <strong>🗺️ RouteX Live Map</strong>
     <button onclick="toggleFullscreen()">⛶ Full Screen Map</button>
   </div>
 
@@ -404,9 +419,10 @@ onclick="stopNavigation()" disabled>
 
 <footer>
   Map data © OpenStreetMap contributors.
-  Driving routes are supplied by the OSRM public routing service.
-  This student project does not provide live traffic or turn-by-turn voice guidance.
-  Dijkstra and BFS run on a separate educational graph.
+  Road routes provided by the public OSRM routing service.
+  Live GPS depends on your phone and location permissions.
+  This project does not provide guaranteed turn-by-turn navigation,
+  live traffic, or emergency services.
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -425,20 +441,25 @@ let routeLayers=[];
 let startMarker=null;
 let endMarker=null;
 let movingCar=null;
-let carTrail=null;
+let currentLocationMarker=null;
+let accuracyCircle=null;
+let trail=null;
 
 let currentRoutes=[];
 let selectedRoute=0;
 
-let navigationTimer=null;
-let navigationIndex=0;
-let navigationPoints=[];
-let navigationDistance=0;
+let gpsWatchId=null;
+let latestGPS=null;
+let gpsActive=false;
+
+let demoTimer=null;
+let demoIndex=0;
+let demoPoints=[];
 
 let algorithm='dijkstra';
 let algorithmRunId=0;
 
-const routeColors=['#08a88b','#377cf6','#ef9e35','#a16bd7'];
+const colors=['#08a88b','#377cf6','#ef9e35','#a16bd7'];
 
 const carIcon=L.divIcon({
   className:'',
@@ -447,20 +468,26 @@ const carIcon=L.divIcon({
   iconAnchor:[20,20]
 });
 
+const gpsIcon=L.divIcon({
+  className:'',
+  html:'<div style="width:18px;height:18px;border-radius:50%;background:#287bff;border:4px solid white;box-shadow:0 0 0 8px #287bff33"></div>',
+  iconSize:[18,18],
+  iconAnchor:[9,9]
+});
+
 function formatTime(seconds) {
-  const minutes=Math.round(seconds/60);
-  return minutes<60
-    ?minutes+' min'
-    :Math.floor(minutes/60)+' h '+minutes%60+' min';
+  const mins=Math.round(seconds/60);
+  return mins<60?mins+' min':
+    Math.floor(mins/60)+' h '+(mins%60)+' min';
 }
 
 function toggleFullscreen() {
-  const mapEl=$('map');
-  const entering=!mapEl.classList.contains('fullscreen-map');
+  const el=$('map');
+  const enter=!el.classList.contains('fullscreen-map');
 
-  mapEl.classList.toggle('fullscreen-map',entering);
-  $('exitFullscreen').classList.toggle('show',entering);
-  $('mapToolbar').style.display=entering?'none':'flex';
+  el.classList.toggle('fullscreen-map',enter);
+  $('exitFullscreen').classList.toggle('show',enter);
+  $('mapToolbar').style.display=enter?'none':'flex';
 
   setTimeout(()=>map.invalidateSize(),200);
 }
@@ -471,11 +498,15 @@ async function geocode(place) {
     encodeURIComponent(place)
   );
 
-  if(!response.ok) throw new Error('Location search service unavailable.');
+  if(!response.ok) {
+    throw new Error('Location search is unavailable. Try again later.');
+  }
 
   const data=await response.json();
 
-  if(!data.length) throw new Error('Location not found: '+place);
+  if(!data.length) {
+    throw new Error('Location not found: '+place);
+  }
 
   return {
     lat:Number(data[0].lat),
@@ -484,59 +515,56 @@ async function geocode(place) {
 }
 
 async function findRoutes() {
-  const startText=$('start').value.trim();
-  const endText=$('end').value.trim();
+  const from=$('start').value.trim();
+  const to=$('end').value.trim();
 
-  if(!startText||!endText) {
-    $('routeStatus').textContent='Enter both locations first.';
+  if(!from||!to) {
+    $('status').textContent='Enter both locations first.';
     return;
   }
 
-  stopNavigation();
   $('findBtn').disabled=true;
   $('findBtn').textContent='Searching...';
 
   try {
-    $('routeStatus').textContent='Searching for starting location...';
-    const start=await geocode(startText);
+    $('status').textContent='Finding starting location...';
+    const start=await geocode(from);
 
-    $('routeStatus').textContent='Searching for destination...';
-    const end=await geocode(endText);
+    $('status').textContent='Finding destination...';
+    const end=await geocode(to);
 
-    $('routeStatus').textContent='Calculating driving routes...';
+    $('status').textContent='Calculating driving routes...';
 
-    const url=
-      'https://router.project-osrm.org/route/v1/driving/'+
+    const url='https://router.project-osrm.org/route/v1/driving/'+
       start.lon+','+start.lat+';'+end.lon+','+end.lat+
       '?overview=full&geometries=geojson&alternatives=true&steps=false';
 
     const response=await fetch(url);
 
-    if(!response.ok) throw new Error('Routing service unavailable. Try again.');
+    if(!response.ok) throw new Error('Routing service unavailable.');
 
     const result=await response.json();
 
     if(result.code!=='Ok'||!result.routes.length) {
-      throw new Error('No driving route found between these locations.');
+      throw new Error('No driving route found.');
     }
 
-    clearMapLayers();
-
+    removeRouteLayers();
     currentRoutes=result.routes;
     selectedRoute=0;
 
     startMarker=L.marker([start.lat,start.lon])
-      .addTo(map).bindPopup('Start: '+startText);
+      .addTo(map).bindPopup('Start: '+from);
 
     endMarker=L.marker([end.lat,end.lon])
-      .addTo(map).bindPopup('Destination: '+endText);
+      .addTo(map).bindPopup('Destination: '+to);
 
     result.routes.forEach((route,index)=>{
       const layer=L.geoJSON(route.geometry,{
         style:{
-          color:routeColors[index%routeColors.length],
+          color:colors[index%colors.length],
           weight:6,
-          opacity:.75
+          opacity:.8
         }
       }).addTo(map);
 
@@ -546,13 +574,16 @@ async function findRoutes() {
 
     renderAlternatives();
     selectRoute(0);
-
     map.fitBounds(routeLayers[0].getBounds(),{padding:[30,30]});
 
     $('navBtn').disabled=false;
 
+    $('status').textContent=
+      'Route ready. Start Live GPS to follow your real location, '+
+      'or use Preview Route Animation for a demo.';
+
   } catch(error) {
-    $('routeStatus').textContent='Error: '+error.message;
+    $('status').textContent='Error: '+error.message;
   } finally {
     $('findBtn').disabled=false;
     $('findBtn').textContent='🔍 Find Real Road Routes';
@@ -567,47 +598,40 @@ function selectRoute(index) {
 
   routeLayers.forEach((layer,i)=>{
     layer.setStyle({
-      color:routeColors[i%routeColors.length],
+      color:colors[i%colors.length],
       weight:i===index?8:5,
-      opacity:i===index?1:.5
+      opacity:i===index?1:.45
     });
   });
-
-  if(startMarker) startMarker.bringToFront();
-  if(endMarker) endMarker.bringToFront();
 
   $('distance').textContent=(route.distance/1000).toFixed(1)+' km';
   $('duration').textContent=formatTime(route.duration);
 
-  $('routeStatus').innerHTML=
-    '<b style="color:#4be1bd">Route '+(index+1)+' selected</b><br>'+
-    'Distance: '+(route.distance/1000).toFixed(1)+' km<br>'+
-    'Estimated time: '+formatTime(route.duration)+
-    '<br><span class="small">No live traffic data.</span>';
+  $('status').textContent='Route '+(index+1)+' selected.';
+
+  if(endMarker) endMarker.bringToFront();
 }
 
 function renderAlternatives() {
   const box=$('alternatives');
-  box.innerHTML='';
+  box.replaceChildren();
 
   currentRoutes.forEach((route,index)=>{
     const item=document.createElement('div');
     item.className='route-option';
 
     const title=document.createElement('b');
-    title.style.color=routeColors[index%routeColors.length];
+    title.style.color=colors[index%colors.length];
     title.textContent='Route '+(index+1);
 
     const details=document.createElement('div');
-    details.textContent=
-      (route.distance/1000).toFixed(1)+' km · '+
-      formatTime(route.duration);
+    details.textContent=(route.distance/1000).toFixed(1)+
+      ' km · '+formatTime(route.duration);
 
     const button=document.createElement('button');
     button.className='secondary';
-    button.textContent='Select this route';
+    button.textContent='Select route';
     button.onclick=()=>{
-      stopNavigation();
       selectRoute(index);
       map.fitBounds(routeLayers[index].getBounds(),{padding:[30,30]});
     };
@@ -615,175 +639,262 @@ function renderAlternatives() {
     item.append(title,details,button);
     box.appendChild(item);
   });
-
-  if(currentRoutes.length===1) {
-    const note=document.createElement('p');
-    note.className='small';
-    note.textContent='Only one route was returned by the routing service.';
-    box.appendChild(note);
-  }
 }
 
-function clearMapLayers() {
-  stopNavigation();
+function removeRouteLayers() {
+  stopDemo();
 
   routeLayers.forEach(layer=>map.removeLayer(layer));
   routeLayers=[];
 
   if(startMarker) map.removeLayer(startMarker);
   if(endMarker) map.removeLayer(endMarker);
-  if(movingCar) map.removeLayer(movingCar);
-  if(carTrail) map.removeLayer(carTrail);
 
   startMarker=null;
   endMarker=null;
-  movingCar=null;
-  carTrail=null;
 }
 
 function clearRoutes() {
-  clearMapLayers();
+  stopDemo();
+  stopGPS();
+  removeRouteLayers();
 
   currentRoutes=[];
   selectedRoute=0;
 
   $('navBtn').disabled=true;
-  $('routeStatus').textContent='Routes cleared.';
+  $('status').textContent='Routes cleared.';
   $('alternatives').textContent='No routes calculated yet.';
   $('distance').textContent='—';
   $('duration').textContent='—';
 }
 
-function useMyLocation() {
+/* One-time current location */
+
+function locateOnce() {
   if(!navigator.geolocation) {
-    $('routeStatus').textContent='Location is not supported by this browser.';
+    $('status').textContent='This browser does not support GPS.';
     return;
   }
 
-  $('routeStatus').textContent='Requesting location permission...';
+  $('status').textContent='Requesting location permission...';
 
   navigator.geolocation.getCurrentPosition(
     position=>{
-      $('start').value=
-        position.coords.latitude+','+position.coords.longitude;
-
-      map.setView([
-        position.coords.latitude,
-        position.coords.longitude
-      ],15);
-
-      $('routeStatus').textContent=
-        'Current location set as start. Tap Find Real Road Routes.';
+      updateGPSPosition(position,true);
+      $('status').textContent='Current location found.';
     },
-    ()=>{
-      $('routeStatus').textContent=
-        'Location permission denied or unavailable.';
+    error=>{
+      $('status').textContent='GPS error: '+error.message;
     },
-    {enableHighAccuracy:true,timeout:10000}
+    {enableHighAccuracy:true,maximumAge:1000,timeout:15000}
   );
 }
 
-/* MOVING CAR NAVIGATION */
+/* LIVE GPS: phone location, not simulated movement */
 
-function startNavigation() {
-  if(!currentRoutes.length) {
-    $('routeStatus').textContent='Find a route first.';
+function toggleGPS() {
+  if(gpsActive) {
+    stopGPS();
+  } else {
+    startGPS();
+  }
+}
+
+function startGPS() {
+  if(!navigator.geolocation) {
+    $('status').textContent='This browser does not support GPS.';
     return;
   }
 
-  stopNavigation();
+  if(gpsWatchId!==null) {
+    navigator.geolocation.clearWatch(gpsWatchId);
+  }
+
+  gpsActive=true;
+  $('gpsBtn').textContent='📡 GPS Running';
+  $('stopGpsBtn').disabled=false;
+
+  $('status').textContent=
+    'Waiting for GPS location. Allow location permission in Safari.';
+
+  gpsWatchId=navigator.geolocation.watchPosition(
+    position=>updateGPSPosition(position,true),
+    error=>{
+      $('status').textContent='GPS error: '+error.message+
+        '. Check Safari location permissions and try again.';
+    },
+    {
+      enableHighAccuracy:true,
+      maximumAge:1000,
+      timeout:20000
+    }
+  );
+}
+
+function stopGPS() {
+  if(gpsWatchId!==null) {
+    navigator.geolocation.clearWatch(gpsWatchId);
+    gpsWatchId=null;
+  }
+
+  gpsActive=false;
+  $('gpsBtn').textContent='📡 Start Live GPS';
+  $('stopGpsBtn').disabled=true;
+
+  $('status').textContent='Live GPS stopped.';
+}
+
+function updateGPSPosition(position,follow) {
+  const lat=position.coords.latitude;
+  const lon=position.coords.longitude;
+  const accuracy=position.coords.accuracy;
+
+  latestGPS={
+    lat,
+    lon,
+    accuracy,
+    speed:position.coords.speed,
+    heading:position.coords.heading
+  };
+
+  const point=[lat,lon];
+
+  if(!currentLocationMarker) {
+    currentLocationMarker=L.marker(point,{icon:gpsIcon})
+      .addTo(map).bindPopup('Your current GPS location');
+  } else {
+    currentLocationMarker.setLatLng(point);
+  }
+
+  if(!accuracyCircle) {
+    accuracyCircle=L.circle(point,{
+      radius:accuracy,
+      color:'#287bff',
+      fillColor:'#287bff',
+      fillOpacity:.09,
+      weight:1
+    }).addTo(map);
+  } else {
+    accuracyCircle.setLatLng(point);
+    accuracyCircle.setRadius(accuracy);
+  }
+
+  // Keep a separate car icon at your real GPS position.
+  if(!movingCar) {
+    movingCar=L.marker(point,{
+      icon:carIcon,
+      zIndexOffset:1000
+    }).addTo(map).bindPopup('Your live position');
+  } else {
+    movingCar.setLatLng(point);
+  }
+
+  if(follow) {
+    // Keep the real position visible while the phone moves.
+    map.panTo(point,{animate:true,duration:.4});
+  }
+
+  const speed=latestGPS.speed;
+  const speedText=speed===null||speed===undefined
+    ?'Unavailable'
+    :(speed*3.6).toFixed(1)+' km/h';
+
+  $('status').textContent=
+    (gpsActive?'📡 LIVE GPS ACTIVE':'📍 Current GPS position found')+
+    '\nAccuracy: approximately '+Math.round(accuracy)+' m'+
+    '\nSpeed reported by device: '+speedText;
+
+  updateRemainingDistance(point);
+}
+
+function updateRemainingDistance(point) {
+  if(!currentRoutes.length) return;
 
   const route=currentRoutes[selectedRoute];
+  const coordinates=route.geometry.coordinates;
 
-  navigationPoints=route.geometry.coordinates.map(
-    point=>L.latLng(point[1],point[0])
-  );
+  const destination=[
+    coordinates[coordinates.length-1][1],
+    coordinates[coordinates.length-1][0]
+  ];
 
-  if(navigationPoints.length<2) {
-    $('routeStatus').textContent='This route cannot be animated.';
+  const straightDistance=map.distance(point,destination)/1000;
+
+  $('distance').textContent=straightDistance.toFixed(2)+' km';
+
+  $('duration').textContent='GPS active';
+
+  /*
+    This is straight-line distance to the destination,
+    not remaining road distance.
+  */
+}
+
+/* Optional simulated route preview */
+
+function startDemo() {
+  if(!currentRoutes.length) {
+    $('status').textContent='Find a route first.';
     return;
   }
 
-  navigationIndex=0;
-  navigationDistance=0;
+  stopDemo();
+
+  if(gpsActive) stopGPS();
+
+  const coords=currentRoutes[selectedRoute].geometry.coordinates;
+
+  demoPoints=coords.map(c=>L.latLng(c[1],c[0]));
+  demoIndex=0;
 
   if(movingCar) map.removeLayer(movingCar);
-  if(carTrail) map.removeLayer(carTrail);
 
-  movingCar=L.marker(navigationPoints[0],{
+  movingCar=L.marker(demoPoints[0],{
     icon:carIcon,
     zIndexOffset:1000
   }).addTo(map);
 
-  movingCar.bindPopup('🚗 RouteX demo navigation');
+  if(trail) map.removeLayer(trail);
 
-  carTrail=L.polyline([navigationPoints[0]],{
+  trail=L.polyline([demoPoints[0]],{
     color:'#ffcc45',
-    weight:5,
-    opacity:.95
+    weight:5
   }).addTo(map);
 
   $('navBtn').disabled=true;
-  $('stopBtn').disabled=false;
+  $('stopDemoBtn').disabled=false;
 
-  $('routeStatus').textContent=
-    '🚗 Demo navigation started from the route beginning.';
+  map.setView(demoPoints[0],16);
 
-  map.setView(navigationPoints[0],16);
-
-  /*
-    Each step moves to the next point in the road geometry.
-    This is a visual demo, not real-world speed or GPS tracking.
-  */
-  navigationTimer=setInterval(()=>{
-    if(navigationIndex>=navigationPoints.length-1) {
-      movingCar.setLatLng(navigationPoints[navigationPoints.length-1]);
-
-      stopNavigation();
-
-      $('routeStatus').textContent=
-        '🏁 Destination reached! Demo navigation complete.';
-
-      map.setView(navigationPoints[navigationPoints.length-1],16);
+  demoTimer=setInterval(()=>{
+    if(demoIndex>=demoPoints.length-1) {
+      stopDemo();
+      $('status').textContent='Demo preview complete.';
       return;
     }
 
-    navigationIndex++;
+    demoIndex++;
+    const point=demoPoints[demoIndex];
 
-    const position=navigationPoints[navigationIndex];
-
-    movingCar.setLatLng(position);
-    carTrail.addLatLng(position);
-
-    // Keep the moving car in view.
-    map.panTo(position,{animate:false});
-
-    const travelled=(
-      navigationPoints.slice(0,navigationIndex+1).reduce(
-        (sum,p,i,arr)=>{
-          if(i===0) return sum;
-          return sum+arr[i-1].distanceTo(p);
-        },0
-      )/1000
-    ).toFixed(1);
-
-    $('routeStatus').textContent=
-      '🚗 Demo navigation in progress · '+travelled+' km along route';
+    movingCar.setLatLng(point);
+    trail.addLatLng(point);
+    map.panTo(point,{animate:false});
 
   },120);
 }
 
-function stopNavigation() {
-  if(navigationTimer) {
-    clearInterval(navigationTimer);
-    navigationTimer=null;
+function stopDemo() {
+  if(demoTimer!==null) {
+    clearInterval(demoTimer);
+    demoTimer=null;
   }
 
-  $('stopBtn').disabled=true;
+  $('stopDemoBtn').disabled=true;
   $('navBtn').disabled=currentRoutes.length===0;
 }
 
-/* EDUCATIONAL GRAPH: separate from real map */
+/* Educational DSA graph */
 
 const graph={
   A:[{to:'B',w:4},{to:'C',w:2}],
@@ -795,8 +906,8 @@ const graph={
 };
 
 const positions={
-  A:[.12,.5], B:[.34,.23], C:[.34,.77],
-  D:[.59,.23], E:[.59,.77], F:[.85,.5]
+  A:[.12,.5],B:[.34,.23],C:[.34,.77],
+  D:[.59,.23],E:[.59,.77],F:[.85,.5]
 };
 
 function buildPath(prev,start,end) {
@@ -820,9 +931,7 @@ function dijkstra(start,end) {
 
     for(const node of Object.keys(graph)) {
       if(!visited.has(node)&&
-        (current===null||dist[node]<dist[current])) {
-        current=node;
-      }
+        (current===null||dist[node]<dist[current])) current=node;
     }
 
     if(current===null||dist[current]===Infinity) break;
@@ -872,12 +981,11 @@ function drawGraph(explored=[],path=[]) {
   if(!rect.width) return;
 
   const dpr=window.devicePixelRatio||1;
-
   canvas.width=Math.round(rect.width*dpr);
   canvas.height=Math.round(rect.height*dpr);
 
   const ctx=canvas.getContext('2d');
-  ctx.scale(dpr,dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
 
   const width=rect.width,height=rect.height;
   const points={};
@@ -893,14 +1001,14 @@ function drawGraph(explored=[],path=[]) {
       if(node<edge.to) {
         const a=points[node],b=points[edge.to];
 
-        const inPath=path.includes(node)&&path.includes(edge.to)&&
+        const onPath=path.includes(node)&&path.includes(edge.to)&&
           Math.abs(path.indexOf(node)-path.indexOf(edge.to))===1;
 
         ctx.beginPath();
         ctx.moveTo(a[0],a[1]);
         ctx.lineTo(b[0],b[1]);
-        ctx.strokeStyle=inPath?'#4be1bd':'#536a88';
-        ctx.lineWidth=inPath?5:2;
+        ctx.strokeStyle=onPath?'#4be1bd':'#536a88';
+        ctx.lineWidth=onPath?5:2;
         ctx.stroke();
 
         ctx.fillStyle='#c4d3e8';
@@ -937,7 +1045,7 @@ function chooseAlgorithm(name) {
   $('bfsBtn').className=name==='bfs'?'':'secondary';
 
   $('algoDescription').textContent=name==='dijkstra'
-    ?'Dijkstra finds the minimum total edge weight.'
+    ?'Dijkstra finds a minimum-weight path.'
     :'BFS finds a path with the fewest edges, ignoring weights.';
 }
 
@@ -947,14 +1055,12 @@ function stopAlgorithm() {
   $('runBtn').textContent='▶ Animate Algorithm';
 }
 
-async function runAnimation() {
+async function runAlgorithm() {
   stopAlgorithm();
-  const myId=algorithmRunId;
 
+  const myId=algorithmRunId;
   $('runBtn').disabled=true;
   $('runBtn').textContent='Animating...';
-
-  const started=performance.now();
 
   const result=algorithm==='dijkstra'
     ?dijkstra('A','F')
@@ -964,12 +1070,10 @@ async function runAnimation() {
     if(myId!==algorithmRunId) return;
 
     drawGraph(result.order.slice(0,i+1),[]);
-
     $('explored').textContent=i+1;
 
     $('algorithmOutput').textContent=
       'Algorithm: '+algorithm.toUpperCase()+
-      '\nStart: A → Destination: F'+
       '\nExploring: '+result.order.slice(0,i+1).join(' → ');
 
     await new Promise(resolve=>setTimeout(resolve,400));
@@ -978,8 +1082,6 @@ async function runAnimation() {
   if(myId!==algorithmRunId) return;
 
   drawGraph(result.order,result.path);
-
-  const elapsed=(performance.now()-started).toFixed(2);
 
   $('cost').textContent=result.cost===null
     ?(result.path.length-1)+' edges'
@@ -990,10 +1092,9 @@ async function runAnimation() {
     '\nExploration order: '+result.order.join(' → ')+
     '\nSelected path: '+result.path.join(' → ')+
     '\n'+(result.cost===null
-      ?'Number of edges: '+(result.path.length-1)
+      ?'Edges: '+(result.path.length-1)
       :'Total edge weight: '+result.cost)+
-    '\nExecution time: '+elapsed+' ms'+
-    '\n\nThis is the educational graph, not the real road route.';
+    '\n\nEducational graph only; separate from the real map.';
 
   $('runBtn').disabled=false;
   $('runBtn').textContent='▶ Animate Algorithm';
