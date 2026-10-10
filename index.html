@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RouteX | Smart Emergency Routes</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1020;
+  color: white;
+}
+
+header {
+  padding: 22px;
+  background: #141c30;
+  border-bottom: 1px solid #29334b;
+}
+
+header h1 {
+  margin: 0;
+  color: #42e8bd;
+}
+
+header p {
+  color: #aab6cc;
+}
+
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  background: #141c30;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #29334b;
+}
+
+label {
+  display: block;
+  margin: 14px 0 7px;
+}
+
+select, button {
+  width: 100%;
+  padding: 13px;
+  border-radius: 9px;
+  font-size: 16px;
+}
+
+select {
+  background: #0b1020;
+  color: white;
+  border: 1px solid #43506b;
+}
+
+button {
+  margin-top: 15px;
+  background: #42e8bd;
+  color: #07151a;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #27334b;
+  color: white;
+}
+
+#map {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.node {
+  background: #202d46;
+  padding: 17px 5px;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px solid #43506b;
+}
+
+.node.active {
+  background: #075e50;
+  border-color: #42e8bd;
+}
+
+.node.blocked {
+  background: #722c3b;
+  border-color: #ff687d;
+}
+
+#result {
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.small {
+  color: #aab6cc;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚨 RouteX</h1>
+  <p>Smart Emergency Route Simulator</p>
+</header>
+
+<main>
+  <section class="card">
+    <h2>📍 Plan Emergency Route</h2>
+
+    <label for="start">Starting location</label>
+    <select id="start"></select>
+
+    <label for="end">Destination</label>
+    <select id="end"></select>
+
+    <button onclick="findRoute()">Find Fastest Route</button>
+    <button class="secondary" onclick="toggleRoad()">
+      Block / Unblock Selected Road
+    </button>
+
+    <label for="road">Select road to change</label>
+    <select id="road"></select>
+  </section>
+
+  <section class="card">
+    <h2>🏙️ Virtual City Map</h2>
+    <div id="map"></div>
+    <p class="small">Red locations indicate blocked roads/nodes.</p>
+  </section>
+
+  <section class="card">
+    <h2>📊 Route Results</h2>
+    <div id="result">Choose locations and find a route.</div>
+  </section>
+</main>
+
+<script>
+const locations = [
+  "Hospital", "City Center", "Fire Station",
+  "School", "Market", "Police Station",
+  "Park", "Bus Stand", "Residential Area"
+];
+
+const edges = [
+  [0,1,4], [0,3,3], [1,2,2], [1,4,3],
+  [2,5,3], [3,4,2], [3,6,4], [4,5,3],
+  [4,7,2], [5,8,4], [6,7,3], [7,8,2],
+  [1,3,5], [2,4,4]
+];
+
+const blocked = new Set();
+
+const startSelect = document.getElementById("start");
+const endSelect = document.getElementById("end");
+const roadSelect = document.getElementById("road");
+const result = document.getElementById("result");
+
+locations.forEach((name, i) => {
+  startSelect.add(new Option(name, i));
+  endSelect.add(new Option(name, i));
+});
+
+edges.forEach((edge, i) => {
+  roadSelect.add(new Option(
+    locations[edge[0]] + " ↔ " + locations[edge[1]],
+    i
+  ));
+});
+
+startSelect.value = "0";
+endSelect.value = "8";
+
+function renderMap(route = []) {
+  document.getElementById("map").innerHTML =
+    locations.map((name, i) => {
+      const active = route.includes(i) ? "active" : "";
+      return `<div class="node ${active}">
+        📍<br>${name}
+      </div>`;
+    }).join("");
+}
+
+function toggleRoad() {
+  const id = Number(roadSelect.value);
+
+  if (blocked.has(id)) {
+    blocked.delete(id);
+  } else {
+    blocked.add(id);
+  }
+
+  const edge = edges[id];
+
+  roadSelect.options[id].text =
+    locations[edge[0]] + " ↔ " + locations[edge[1]] +
+    (blocked.has(id) ? " (BLOCKED)" : "");
+
+  renderMap();
+  result.textContent = "Road status updated. Find a route again.";
+}
+
+// Dijkstra's shortest-path algorithm
+function dijkstra(source, destination) {
+  const n = locations.length;
+  const dist = Array(n).fill(Infinity);
+  const parent = Array(n).fill(-1);
+  const visited = Array(n).fill(false);
+
+  dist[source] = 0;
+  let visitedCount = 0;
+
+  for (let step = 0; step < n; step++) {
+    let u = -1;
+
+    for (let i = 0; i < n; i++) {
+      if (!visited[i] &&
+          (u === -1 || dist[i] < dist[u])) {
+        u = i;
+      }
+    }
+
+    if (u === -1 || dist[u] === Infinity) break;
+
+    visited[u] = true;
+    visitedCount++;
+
+    if (u === destination) break;
+
+    edges.forEach(([a, b, weight], edgeId) => {
+      if (blocked.has(edgeId)) return;
+
+      let v = -1;
+
+      if (a === u) v = b;
+      else if (b === u) v = a;
+
+      if (v !== -1 && !visited[v] &&
+          dist[u] + weight < dist[v]) {
+        dist[v] = dist[u] + weight;
+        parent[v] = u;
+      }
+    });
+  }
+
+  if (dist[destination] === Infinity) {
+    return { distance: Infinity, route: [], visitedCount };
+  }
+
+  const route = [];
+  let current = destination;
+
+  while (current !== -1) {
+    route.unshift(current);
+    current = parent[current];
+  }
+
+  return {
+    distance: dist[destination],
+    route,
+    visitedCount
+  };
+}
+
+function findRoute() {
+  const source = Number(startSelect.value);
+  const destination = Number(endSelect.value);
+
+  if (source === destination) {
+    result.textContent = "Choose two different locations.";
+    return;
+  }
+
+  const answer = dijkstra(source, destination);
+
+  if (!answer.route.length) {
+    result.innerHTML = "❌ No route available. Try unblocking a road.";
+    renderMap();
+    return;
+  }
+
+  renderMap(answer.route);
+
+  result.innerHTML = `
+    ✅ <b>Route found!</b><br>
+    📍 ${answer.route.map(i => locations[i]).join(" → ")}<br>
+    📏 Distance: ${answer.distance} km (simulated)<br>
+    ⏱️ Estimated time: ${answer.distance * 2} minutes (simulated)<br>
+    🧠 Algorithm: Dijkstra's Shortest Path<br>
+    🔎 Locations visited: ${answer.visitedCount}
+  `;
+}
+
+renderMap();
+</script>
+
+</body>
+</html>
