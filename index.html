@@ -2,470 +2,266 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RouteX — Smart Navigation</title>
+<title>RouteX | Smart Navigation</title>
 
-<link href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
-      rel="stylesheet">
+<link
+  href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
+  rel="stylesheet"
+/>
+
 <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
 
 <style>
-:root {
-  --bg: #071525;
-  --panel: rgba(8,25,44,.95);
-  --border: rgba(130,183,224,.25);
-  --blue: #1685ff;
-  --cyan: #42e6d0;
-  --text: #f5f8ff;
-  --muted: #bdcde0;
-}
-
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  padding: 0;
 }
 
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
 }
 
 #map {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
 }
 
-button {
-  color: white;
-  border: 1px solid #4c7097;
-  background: #183858;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 12px;
-  transition: background .2s, transform .2s;
+.panel {
+  position: absolute;
+  z-index: 5;
+  top: 14px;
+  left: 14px;
+  width: min(390px, calc(100% - 28px));
+  padding: 17px;
+  background: rgba(15, 23, 42, 0.97);
+  border: 1px solid #334155;
+  border-radius: 18px;
+  box-shadow: 0 10px 35px #0005;
 }
 
-button:active {
-  transform: scale(.97);
-}
-
-.primary {
-  background: var(--blue);
-  border-color: #4ba1ff;
-}
-
-.secondary {
-  background: #183858;
-}
-
-.top-panel {
-  position: fixed;
-  top: max(10px, env(safe-area-inset-top));
-  left: 12px;
-  right: 12px;
-  z-index: 10;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: var(--panel);
-  box-shadow: 0 8px 30px #0005;
-  backdrop-filter: blur(18px);
-  transition: opacity .3s, transform .35s;
-}
-
-.brand-row {
+.header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
-.brand {
-  font-size: 23px;
-  font-weight: 850;
-  letter-spacing: -.6px;
-}
-
-.brand span {
-  color: var(--cyan);
+.logo {
+  color: #60a5fa;
+  font-size: 27px;
+  font-weight: 800;
 }
 
 .tagline {
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 10px;
+  letter-spacing: 1px;
 }
 
-.gps-btn {
-  padding: 11px 12px;
-  white-space: nowrap;
+.field-label {
+  display: block;
+  color: #cbd5e1;
   font-size: 12px;
-  background: #124d75;
-  border-color: #2d94ca;
+  margin: 10px 0 5px;
 }
 
-.search-row {
+input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #475569;
+  background: #1e293b;
+  color: white;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #60a5fa;
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+.start-row {
   display: flex;
-  flex-direction: column;
   gap: 7px;
 }
 
-.input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 0 11px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: #10263d;
+.start-row input {
+  flex: 1;
 }
 
-.input-wrap input {
-  width: 100%;
-  min-width: 0;
-  border: 0;
-  outline: none;
-  padding: 12px 0;
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 11px;
+  background: #334155;
   color: white;
-  background: transparent;
-  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.input-wrap input::placeholder {
-  color: #9dafc4;
+button:active {
+  transform: scale(.98);
 }
 
-.action-row {
+.location-btn {
+  background: #164e8a;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.primary-btn {
+  width: 100%;
+  background: #2563eb;
+  margin-top: 12px;
+  padding: 13px;
+  font-size: 15px;
+}
+
+.button-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-top: 9px;
 }
 
-.action-row button {
-  padding: 12px 5px;
-  font-size: 13px;
-}
-
-.map-buttons {
-  position: fixed;
-  right: 13px;
-  top: 48%;
-  transform: translateY(-50%);
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: opacity .25s, transform .3s;
-}
-
-.map-buttons button {
-  width: 46px;
-  height: 46px;
-  font-size: 19px;
-  background: rgba(8,25,44,.95);
-  border-radius: 15px;
-  box-shadow: 0 4px 16px #0004;
-}
-
-.map-buttons .gps-circle {
-  color: var(--cyan);
-}
-
-.bottom-card {
-  position: fixed;
-  left: 12px;
-  right: 12px;
-  bottom: max(12px, env(safe-area-inset-bottom));
-  z-index: 8;
-  padding: 15px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 19px;
-  box-shadow: 0 8px 30px #0005;
-  backdrop-filter: blur(18px);
-  transition: opacity .3s, transform .35s;
-}
-
-.route-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.route-title {
-  font-size: 16px;
-  font-weight: 800;
-}
-
-.route-time {
-  color: var(--cyan);
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.route-subtitle {
-  margin-top: 5px;
-  color: var(--muted);
+.button-grid button {
   font-size: 12px;
-  overflow-wrap: anywhere;
+}
+
+.traffic-btn {
+  background: #166534;
 }
 
 .status {
-  margin-top: 10px;
-  color: var(--cyan);
+  margin-top: 12px;
+  padding: 10px;
+  background: #1e293b;
+  border-radius: 10px;
+  color: #cbd5e1;
   font-size: 12px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
+  line-height: 1.6;
 }
 
-.bottom-actions {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px;
-  margin-top: 11px;
-}
-
-.bottom-actions button {
-  padding: 13px 12px;
-  font-size: 14px;
-}
-
-#stopBtn {
-  display: none;
-  background: #642b37;
-  border-color: #a94c5b;
-}
-
-.turn-card {
-  position: fixed;
-  left: 12px;
-  right: 12px;
-  top: 190px;
-  z-index: 6;
-  display: none;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--panel);
-  box-shadow: 0 6px 22px #0004;
-  pointer-events: none;
-  transition: opacity .3s, transform .3s;
-}
-
-.turn-title {
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.turn-distance {
-  margin-top: 4px;
-  color: var(--cyan);
+.legend {
+  margin-top: 9px;
+  padding: 10px;
+  background: #1e293b;
+  border-radius: 10px;
   font-size: 12px;
+  line-height: 1.9;
 }
 
-/* Navigation mode: hide controls */
-
-body.navigation-mode .top-panel {
-  opacity: 0;
-  transform: translateY(-120%);
-  pointer-events: none;
+.legend-title {
+  font-weight: 700;
+  margin-bottom: 3px;
 }
 
-body.navigation-mode .map-buttons {
-  opacity: 0;
-  transform: translate(25px, -50%);
-  pointer-events: none;
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
 }
 
-body.navigation-mode .bottom-card {
-  opacity: 0;
-  transform: translateY(120%);
-  pointer-events: none;
-}
-
-body.navigation-mode .turn-card {
-  top: max(75px, calc(env(safe-area-inset-top) + 65px));
-  left: 12px;
-  right: 76px;
-  display: block;
-  animation: appear .45s ease;
-}
-
-body.navigation-mode .turn-card:not(.visible) {
-  display: none;
-}
-
-/* Small floating navigation controls */
-
-.nav-floating {
-  position: fixed;
-  z-index: 20;
-  top: max(12px, env(safe-area-inset-top));
-  left: 12px;
-  right: 12px;
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  pointer-events: none;
-}
-
-body.navigation-mode .nav-floating {
+.bottom-bar {
+  position: absolute;
+  z-index: 4;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
+  gap: 8px;
+  width: max-content;
+  max-width: calc(100% - 20px);
 }
 
-.nav-logo,
-.menu-btn {
-  pointer-events: auto;
-  box-shadow: 0 5px 22px #0005;
-  backdrop-filter: blur(16px);
+.bottom-bar button {
+  box-shadow: 0 5px 20px #0005;
+  font-size: 12px;
 }
 
-.nav-logo {
-  padding: 10px 15px;
-  border: 1px solid #42e6d066;
-  border-radius: 15px;
-  background: rgba(7,21,37,.92);
-  font-size: 17px;
-  font-weight: 900;
-  letter-spacing: -.4px;
+#reopenBtn {
+  display: none;
+  position: absolute;
+  z-index: 8;
+  top: 14px;
+  left: 14px;
+  background: #0f172a;
+  border: 1px solid #475569;
 }
 
-.nav-logo span {
-  color: var(--cyan);
+#navBanner {
+  display: none;
+  position: absolute;
+  z-index: 4;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(340px, calc(100% - 100px));
+  padding: 14px;
+  text-align: center;
+  background: #0f172a;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px #0005;
 }
 
-.menu-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 15px;
-  font-size: 22px;
-  background: rgba(7,21,37,.94);
-  border-color: #42e6d066;
+#navBanner p {
+  margin-top: 6px;
+  color: #cbd5e1;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-body.navigation-mode.menu-open .top-panel {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-body.navigation-mode.menu-open .map-buttons {
-  opacity: 1;
-  transform: translateY(-50%);
-  pointer-events: auto;
-}
-
-body.navigation-mode.menu-open .bottom-card {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-body.navigation-mode.menu-open .turn-card {
+body.nav-mode .panel {
   display: none;
 }
 
-body.navigation-mode.menu-open .nav-floating {
-  top: auto;
-  bottom: max(12px, env(safe-area-inset-bottom));
+body.nav-mode #reopenBtn,
+body.nav-mode #navBanner {
+  display: block;
 }
 
-body.navigation-mode.menu-open .nav-logo {
-  display: none;
-}
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(-12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (min-width: 700px) {
-  .top-panel {
-    top: 20px;
-    left: 20px;
-    right: auto;
-    width: 390px;
-  }
-
-  .bottom-card {
-    left: 20px;
-    right: auto;
-    bottom: 20px;
-    width: 390px;
-  }
-
-  .turn-card {
-    top: 200px;
-    left: 20px;
-    right: auto;
-    width: 390px;
-  }
-
-  .map-buttons {
-    right: 22px;
-  }
-
-  body.navigation-mode .turn-card {
-    left: 20px;
-    right: 80px;
-    width: min(390px, calc(100% - 110px));
-  }
-
-  .nav-floating {
-    left: 20px;
-    right: 20px;
-  }
-}
-
-@media (max-width: 380px) {
-  .top-panel {
-    padding: 10px;
+@media (max-width: 450px) {
+  .panel {
+    top: 8px;
     left: 8px;
-    right: 8px;
+    width: calc(100% - 16px);
+    padding: 13px;
   }
 
-  .brand {
-    font-size: 20px;
+  .logo {
+    font-size: 23px;
   }
 
-  .gps-btn {
-    padding: 9px;
+  .location-btn {
+    font-size: 11px;
+    padding: 10px 8px;
+  }
+
+  .bottom-bar {
+    bottom: 12px;
+    gap: 5px;
+  }
+
+  .bottom-bar button {
+    padding: 10px 8px;
     font-size: 11px;
   }
 
-  .input-wrap input {
-    font-size: 13px;
-  }
-
-  .bottom-card {
-    left: 8px;
-    right: 8px;
-    bottom: max(8px, env(safe-area-inset-bottom));
-    padding: 12px;
-  }
-
-  .turn-card {
-    left: 8px;
-    right: 8px;
+  .legend {
+    line-height: 1.7;
   }
 }
 </style>
@@ -475,526 +271,522 @@ body.navigation-mode.menu-open .nav-logo {
 
 <div id="map"></div>
 
-<!-- Search and route controls -->
-<div class="top-panel" id="topPanel">
-  <div class="brand-row">
-    <div>
-      <div class="brand">📍 RouteX</div>
-      <div class="tagline">Smart Navigation · GPS · Real Roads</div>
-    </div>
-    <button class="gps-btn" onclick="startGPS()">📍 Live GPS</button>
+<section class="panel">
+
+  <div class="header">
+    <div class="logo">🚘 RouteX</div>
+    <div class="tagline">SMART NAVIGATION</div>
   </div>
 
-  <div class="search-row">
-    <div class="input-wrap">
-      <span style="color:#42e6d0">●</span>
-      <input id="start" value="Ropar, Punjab, India"
-             placeholder="Starting location">
-    </div>
+  <label class="field-label" for="start">
+    Starting point
+  </label>
 
-    <div class="input-wrap">
-      <span style="color:#ff7777">●</span>
-      <input id="destination" value="Kurali, Punjab, India"
-             placeholder="Where to?">
-    </div>
-  </div>
+  <div class="start-row">
+    <input
+      id="start"
+      placeholder="Enter starting location"
+      autocomplete="off"
+    />
 
-  <div class="action-row">
-    <button class="primary" onclick="findRoute()">➤ Find Route</button>
-    <button class="secondary" onclick="toggle3D()">🏙️ Switch 2D / 3D</button>
-  </div>
-</div>
-
-<!-- Floating map buttons -->
-<div class="map-buttons">
-  <button class="gps-circle" onclick="startGPS()" title="My location">◎</button>
-  <button onclick="zoomIn()" title="Zoom in">＋</button>
-  <button onclick="zoomOut()" title="Zoom out">－</button>
-</div>
-
-<!-- Turn guidance -->
-<div class="turn-card" id="turnCard">
-  <div class="turn-title" id="turnTitle">Route ready</div>
-  <div class="turn-distance" id="turnDistance"></div>
-</div>
-
-<!-- Bottom route card -->
-<div class="bottom-card">
-  <div class="route-heading">
-    <div class="route-title" id="routeTitle">RouteX Navigation</div>
-    <div class="route-time" id="routeTime">Find a route</div>
-  </div>
-
-  <div class="route-subtitle" id="routeSubtitle">
-    Enter your destination to get directions.
-  </div>
-
-  <div class="status" id="message">Connecting to map...</div>
-
-  <div class="bottom-actions">
-    <button class="primary" id="startNavBtn" onclick="startNavigation()">
-      ▶ Start Navigation
+    <button
+      class="location-btn"
+      onclick="useMyLocation()"
+      type="button"
+    >
+      📍 Use Current Location
     </button>
-    <button id="stopBtn" onclick="stopNavigation()">■ Stop</button>
   </div>
+
+  <label class="field-label" for="destination">
+    Destination
+  </label>
+
+  <input
+    id="destination"
+    placeholder="Where do you want to go?"
+    autocomplete="off"
+  />
+
+  <button class="primary-btn" onclick="findRoute()">
+    🔎 Find Route
+  </button>
+
+  <div class="button-grid">
+    <button onclick="useMyLocation()">
+      📍 My Location
+    </button>
+
+    <button onclick="toggle3D()">
+      🏙️ 2D / 3D
+    </button>
+
+    <button class="traffic-btn" onclick="toggleTraffic()">
+      🚦 Traffic On / Off
+    </button>
+
+    <button onclick="toggleFullscreen()">
+      ⛶ Full Screen
+    </button>
+  </div>
+
+  <div class="legend">
+    <div class="legend-title">🚦 Traffic conditions</div>
+    <div>
+      <span class="dot" style="background:#36d66b"></span>
+      Smooth traffic
+    </div>
+    <div>
+      <span class="dot" style="background:#ffe14b"></span>
+      Slow traffic
+    </div>
+    <div>
+      <span class="dot" style="background:#ff8c35"></span>
+      Heavy traffic
+    </div>
+    <div>
+      <span class="dot" style="background:#ff3939"></span>
+      Traffic jam
+    </div>
+  </div>
+
+  <div class="status" id="status" aria-live="polite">
+    Enter a destination or tap Use Current Location to begin.
+  </div>
+
+</section>
+
+<button id="reopenBtn" onclick="toggleNavigationPanel()">
+  ☰ RouteX
+</button>
+
+<div id="navBanner">
+  <b>🧭 RouteX Navigation</b>
+  <p id="navStatus">Your route will appear here.</p>
 </div>
 
-<!-- Only visible in navigation mode -->
-<div class="nav-floating">
-  <div class="nav-logo">📍 Route<span>X</span></div>
-  <button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+<div class="bottom-bar">
+  <button onclick="toggleNavigationPanel()">
+    🧭 Navigation View
+  </button>
+
+  <button onclick="stopNavigation()">
+    ✖ Stop
+  </button>
 </div>
 
 <script>
+/*
+  REAL TRAFFIC:
+  Get a TomTom API key and replace the placeholder below.
+  Never share your key publicly.
+*/
+
+const TOMTOM_API_KEY = "YOUR_TOMTOM_API_KEY";
+
+const statusBox = document.getElementById("status");
+const navStatus = document.getElementById("navStatus");
+
+let currentPosition = null;
+let locationMarker = null;
+let destinationMarker = null;
+let routeCoordinates = [];
+let watchId = null;
+let trafficVisible = true;
+let is3D = false;
+let mapReady = false;
+let navigationActive = false;
+
 const map = new maplibregl.Map({
-  container: 'map',
-  style: 'https://tiles.openfreemap.org/styles/liberty',
+  container: "map",
+  style: "https://tiles.openfreemap.org/styles/liberty",
   center: [76.53, 30.97],
-  zoom: 10,
-  pitch: 45,
-  bearing: 0,
-  antialias: true
+  zoom: 10
 });
 
 map.addControl(
-  new maplibregl.NavigationControl({
-    showCompass: true,
-    showZoom: false,
-    visualizePitch: true
-  }),
-  'bottom-right'
+  new maplibregl.NavigationControl(),
+  "bottom-right"
 );
 
-let routeCoordinates = [];
-let routeSteps = [];
-let currentRoute = null;
-let gpsWatch = null;
-let gpsMarker = null;
-let gpsPosition = null;
-let navigationActive = false;
-let is3D = true;
-let routeLayerReady = false;
-let lastNearestIndex = 0;
+map.addControl(
+  new maplibregl.ScaleControl(),
+  "bottom-right"
+);
 
-const $ = id => document.getElementById(id);
-
-function setMessage(text) {
-  $('message').textContent = text;
+function setStatus(message) {
+  statusBox.textContent = message;
+  navStatus.textContent = message;
 }
 
-map.on('load', () => {
-  map.addSource('routeSource', {
-    type: 'geojson',
+map.on("load", () => {
+  mapReady = true;
+
+  // Traffic overlay
+  map.addSource("trafficFlow", {
+    type: "raster",
+    tiles: [
+      "https://api.tomtom.com/traffic/map/4/tile/flow/relative0/{z}/{x}/{y}.png?key=" +
+      encodeURIComponent(TOMTOM_API_KEY)
+    ],
+    tileSize: 256,
+    attribution: "Traffic data © TomTom"
+  });
+
+  map.addLayer({
+    id: "trafficFlowLayer",
+    type: "raster",
+    source: "trafficFlow",
+    layout: {
+      visibility: "visible"
+    },
+    paint: {
+      "raster-opacity": 0.75
+    }
+  });
+
+  // Route source
+  map.addSource("routeSource", {
+    type: "geojson",
     data: {
-      type: 'FeatureCollection',
-      features: []
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: []
+      }
     }
   });
 
+  // Blue route glow
   map.addLayer({
-    id: 'routeGlow',
-    type: 'line',
-    source: 'routeSource',
+    id: "routeGlow",
+    type: "line",
+    source: "routeSource",
     layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
+      "line-cap": "round",
+      "line-join": "round"
     },
     paint: {
-      'line-color': '#42e6d0',
-      'line-width': 13,
-      'line-opacity': 0.22
+      "line-color": "#1685ff",
+      "line-width": 12,
+      "line-opacity": 0.3,
+      "line-blur": 3
     }
   });
 
+  // Main route line
   map.addLayer({
-    id: 'routeLine',
-    type: 'line',
-    source: 'routeSource',
+    id: "routeLine",
+    type: "line",
+    source: "routeSource",
     layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
+      "line-cap": "round",
+      "line-join": "round"
     },
     paint: {
-      'line-color': '#087cff',
-      'line-width': 6
+      "line-color": "#1685ff",
+      "line-width": 5
     }
   });
-
-  routeLayerReady = true;
-  setMessage('Map ready. Enter your destination and find a route.');
 });
 
-/* Search for a place */
 async function geocode(place) {
   const url =
-    'https://nominatim.openstreetmap.org/search?format=json&limit=1&q='
-    + encodeURIComponent(place);
+    "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+    encodeURIComponent(place);
 
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error('Location search failed. Please try again.');
+    throw new Error("Location search failed. Please try again.");
   }
 
-  const data = await response.json();
+  const results = await response.json();
 
-  if (!data.length) {
-    throw new Error('Location not found: ' + place);
+  if (!results.length) {
+    throw new Error("Location not found: " + place);
   }
 
-  return [Number(data[0].lon), Number(data[0].lat)];
+  return [
+    Number(results[0].lon),
+    Number(results[0].lat)
+  ];
 }
 
-/* Calculate a driving route */
-async function findRoute() {
-  if (!map.isStyleLoaded() || !routeLayerReady) {
-    setMessage('Map is still loading. Please wait...');
-    return;
-  }
-
-  const startText = $('start').value.trim();
-  const endText = $('destination').value.trim();
-
-  if (!startText || !endText) {
-    setMessage('Enter both starting location and destination.');
-    return;
-  }
-
-  setMessage('Finding roads and calculating route...');
-  $('routeTitle').textContent = 'Searching...';
-  $('routeTime').textContent = 'Please wait';
-
-  try {
-    const startPoint = await geocode(startText);
-    const endPoint = await geocode(endText);
-
-    const url =
-      'https://router.project-osrm.org/route/v1/driving/'
-      + startPoint.join(',') + ';' + endPoint.join(',')
-      + '?overview=full&geometries=geojson&steps=true&alternatives=true';
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error('Routing service is unavailable. Try again later.');
-    }
-
-    const data = await response.json();
-
-    if (data.code !== 'Ok' || !data.routes.length) {
-      throw new Error('No driving route found for these locations.');
-    }
-
-    currentRoute = data.routes[0];
-    routeCoordinates = currentRoute.geometry.coordinates;
-    lastNearestIndex = 0;
-
-    routeSteps = [];
-    currentRoute.legs.forEach(leg => {
-      leg.steps.forEach(step => routeSteps.push(step));
-    });
-
-    map.getSource('routeSource').setData({
-      type: 'Feature',
-      properties: {},
-      geometry: currentRoute.geometry
-    });
-
-    const bounds = new maplibregl.LngLatBounds();
-    routeCoordinates.forEach(point => bounds.extend(point));
-
-    map.fitBounds(bounds, {
-      padding: {
-        top: 180,
-        bottom: 190,
-        left: 45,
-        right: 45
-      },
-      duration: 1200,
-      maxZoom: 15
-    });
-
-    const km = currentRoute.distance / 1000;
-    const mins = Math.round(currentRoute.duration / 60);
-
-    $('routeTitle').textContent = 'Route ready';
-    $('routeTime').textContent = km.toFixed(1) + ' km · ' + mins + ' min';
-    $('routeSubtitle').textContent = startText + ' → ' + endText;
-
-    setMessage('Route found. Press Start Navigation when ready.');
-    $('turnCard').style.display = 'none';
-
-  } catch (error) {
-    setMessage(error.message || 'Could not find route. Check your internet.');
-    $('routeTitle').textContent = 'Route unavailable';
-    $('routeTime').textContent = 'Try again';
-  }
-}
-
-/* Toggle 2D / 3D map */
-function toggle3D() {
-  is3D = !is3D;
-
-  map.easeTo({
-    pitch: is3D ? 58 : 0,
-    bearing: is3D ? map.getBearing() : 0,
-    duration: 900
-  });
-
-  setMessage(is3D ? '3D view enabled.' : '2D map enabled.');
-}
-
-function zoomIn() {
-  map.zoomIn({ duration: 250 });
-}
-
-function zoomOut() {
-  map.zoomOut({ duration: 250 });
-}
-
-/* GPS */
-function startGPS() {
+// CURRENT LOCATION BUTTON
+function useMyLocation() {
   if (!navigator.geolocation) {
-    setMessage('GPS is not supported by this browser.');
+    setStatus("Your browser does not support GPS location.");
     return;
   }
 
-  if (!window.isSecureContext) {
-    setMessage('GPS requires HTTPS. Open your GitHub Pages website.');
-    return;
-  }
-
-  setMessage('Requesting location permission...');
+  setStatus("📍 Finding your current location...");
 
   navigator.geolocation.getCurrentPosition(
     position => {
-      gpsPosition = [
+      currentPosition = [
         position.coords.longitude,
         position.coords.latitude
       ];
 
-      showGPSMarker(gpsPosition);
+      document.getElementById("start").value = "My Location";
+
+      showLocation(currentPosition);
 
       map.flyTo({
-        center: gpsPosition,
+        center: currentPosition,
         zoom: 16,
-        pitch: is3D ? 58 : 0,
+        pitch: is3D ? 55 : 0,
         duration: 1200
       });
 
-      setMessage('Location found. GPS is ready.');
-
-      if (gpsWatch === null) {
-        gpsWatch = navigator.geolocation.watchPosition(
-          onGPSUpdate,
-          onGPSError,
-          {
-            enableHighAccuracy: true,
-            maximumAge: 2000,
-            timeout: 15000
-          }
-        );
-      }
+      setStatus(
+        "📍 Your current location is ready. Enter a destination to find a route."
+      );
     },
-    onGPSError,
+
+    error => {
+      setStatus(
+        "Could not get your location. Allow location permission and try again."
+      );
+    },
+
     {
       enableHighAccuracy: true,
       timeout: 15000,
-      maximumAge: 1000
+      maximumAge: 5000
     }
   );
 }
 
-function showGPSMarker(coords) {
-  if (!gpsMarker) {
-    const el = document.createElement('div');
-    el.style.cssText = `
-      width:19px;
-      height:19px;
-      border-radius:50%;
-      background:#1685ff;
-      border:4px solid white;
-      box-shadow:0 0 0 9px #1685ff33,0 0 18px #1685ff88;
-    `;
-
-    gpsMarker = new maplibregl.Marker({ element: el })
-      .setLngLat(coords)
-      .addTo(map);
-  } else {
-    gpsMarker.setLngLat(coords);
-  }
-}
-
-function onGPSUpdate(position) {
-  gpsPosition = [
-    position.coords.longitude,
-    position.coords.latitude
-  ];
-
-  showGPSMarker(gpsPosition);
-
-  if (navigationActive) {
-    updateNavigation();
-  }
-}
-
-function onGPSError(error) {
-  const messages = {
-    1: 'Location permission denied. Allow location access in browser settings.',
-    2: 'Your location is unavailable. Check GPS settings.',
-    3: 'GPS timed out. Try again.'
-  };
-
-  setMessage(messages[error.code] || 'Unable to access GPS.');
-}
-
-/* Start navigation mode */
-function startNavigation() {
-  if (!currentRoute) {
-    setMessage('First enter locations and tap Find Route.');
+// BLUE DOT FOR CURRENT LOCATION
+function showLocation(coords) {
+  if (locationMarker) {
+    locationMarker.setLngLat(coords);
     return;
   }
 
-  navigationActive = true;
-  document.body.classList.add('navigation-mode');
-  document.body.classList.remove('menu-open');
+  const el = document.createElement("div");
 
-  $('startNavBtn').textContent = '● Navigation Active';
-  $('stopBtn').style.display = 'block';
-  $('turnCard').classList.add('visible');
+  el.style.width = "22px";
+  el.style.height = "22px";
+  el.style.borderRadius = "50%";
+  el.style.background = "#1685ff";
+  el.style.border = "4px solid white";
+  el.style.boxShadow =
+    "0 0 0 8px #1685ff44, 0 0 20px #1685ff";
 
-  // Animate the camera to the current location if GPS is available.
-  if (gpsPosition) {
-    map.easeTo({
-      center: gpsPosition,
-      zoom: 17,
-      pitch: is3D ? 58 : 0,
-      duration: 1000
-    });
+  locationMarker = new maplibregl.Marker({
+    element: el
+  })
+    .setLngLat(coords)
+    .addTo(map);
+}
 
-    updateNavigation();
-  } else {
-    setMessage('Navigation mode started. Allow GPS to follow your location.');
-    startGPS();
+// FIND ROUTE
+async function findRoute() {
+  if (!mapReady) {
+    setStatus("Map is loading. Please wait a moment.");
+    return;
   }
 
-  // Let MapLibre resize after the UI transition.
-  setTimeout(() => map.resize(), 400);
+  const startText = document.getElementById("start").value.trim();
+  const destinationText =
+    document.getElementById("destination").value.trim();
+
+  if (!startText || !destinationText) {
+    setStatus("Enter a starting point and destination first.");
+    return;
+  }
+
+  setStatus("🔎 Finding locations and calculating your route...");
+
+  try {
+    let start;
+
+    // Use actual GPS coordinates when current location was selected.
+    if (
+      startText.toLowerCase() === "my location" &&
+      currentPosition
+    ) {
+      start = currentPosition;
+    } else {
+      start = await geocode(startText);
+    }
+
+    const destination = await geocode(destinationText);
+
+    const routeURL =
+      "https://router.project-osrm.org/route/v1/driving/" +
+      start.join(",") + ";" +
+      destination.join(",") +
+      "?overview=full&geometries=geojson&steps=true";
+
+    const response = await fetch(routeURL);
+
+    if (!response.ok) {
+      throw new Error("Route service is unavailable. Try again later.");
+    }
+
+    const data = await response.json();
+
+    if (data.code !== "Ok" || !data.routes?.length) {
+      throw new Error("No driving route found for these locations.");
+    }
+
+    const route = data.routes[0];
+    routeCoordinates = route.geometry.coordinates;
+
+    map.getSource("routeSource").setData({
+      type: "Feature",
+      properties: {},
+      geometry: route.geometry
+    });
+
+    if (destinationMarker) {
+      destinationMarker.remove();
+    }
+
+    destinationMarker = new maplibregl.Marker({
+      color: "#ef4444"
+    })
+      .setLngLat(destination)
+      .setPopup(
+        new maplibregl.Popup().setText("Destination")
+      )
+      .addTo(map);
+
+    const bounds = new maplibregl.LngLatBounds();
+
+    routeCoordinates.forEach(point => bounds.extend(point));
+
+    map.fitBounds(bounds, {
+      padding: window.innerWidth < 500 ? 45 : 90,
+      duration: 1200
+    });
+
+    const distance = (route.distance / 1000).toFixed(1);
+    const minutes = Math.round(route.duration / 60);
+
+    setStatus(
+      "✅ Route found: " + distance +
+      " km • Estimated driving time: " + minutes +
+      " minutes. GPS navigation can now follow your location."
+    );
+
+    startNavigation();
+
+  } catch (error) {
+    setStatus(error.message || "Unable to calculate route.");
+  }
 }
 
-/* Show/hide navigation controls */
-function toggleMenu() {
-  const open = document.body.classList.toggle('menu-open');
-  $('menuBtn').textContent = open ? '✕' : '☰';
-  setTimeout(() => map.resize(), 350);
+// LIVE GPS TRACKING
+function startNavigation() {
+  navigationActive = true;
+
+  document.body.classList.add("nav-mode");
+
+  if (!navigator.geolocation) {
+    setStatus("Route ready, but GPS is not supported by this browser.");
+    return;
+  }
+
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+  }
+
+  watchId = navigator.geolocation.watchPosition(
+    position => {
+      currentPosition = [
+        position.coords.longitude,
+        position.coords.latitude
+      ];
+
+      showLocation(currentPosition);
+
+      if (navigationActive) {
+        map.easeTo({
+          center: currentPosition,
+          duration: 700
+        });
+      }
+    },
+
+    error => {
+      setStatus(
+        "Route is ready, but live GPS is unavailable. Check browser permissions."
+      );
+    },
+
+    {
+      enableHighAccuracy: true,
+      maximumAge: 3000,
+      timeout: 15000
+    }
+  );
 }
 
-/* Stop navigation */
+// TRAFFIC ON / OFF
+function toggleTraffic() {
+  if (!mapReady || !map.getLayer("trafficFlowLayer")) {
+    setStatus("Map is still loading. Try again shortly.");
+    return;
+  }
+
+  trafficVisible = !trafficVisible;
+
+  map.setLayoutProperty(
+    "trafficFlowLayer",
+    "visibility",
+    trafficVisible ? "visible" : "none"
+  );
+
+  setStatus(
+    trafficVisible
+      ? "Traffic overlay enabled. A valid TomTom key is required for real traffic data."
+      : "Traffic overlay is switched off."
+  );
+}
+
+// 2D / 3D
+function toggle3D() {
+  is3D = !is3D;
+
+  map.easeTo({
+    pitch: is3D ? 55 : 0,
+    duration: 1000
+  });
+}
+
+// FULL SCREEN
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+// MINIMAL NAVIGATION VIEW
+function toggleNavigationPanel() {
+  document.body.classList.toggle("nav-mode");
+}
+
+// STOP GPS NAVIGATION
 function stopNavigation() {
   navigationActive = false;
 
-  document.body.classList.remove('navigation-mode', 'menu-open');
-  $('menuBtn').textContent = '☰';
-  $('startNavBtn').textContent = '▶ Start Navigation';
-  $('stopBtn').style.display = 'none';
-  $('turnCard').classList.remove('visible');
-  $('turnCard').style.display = 'none';
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+    watchId = null;
+  }
 
-  setMessage('Navigation stopped.');
-  setTimeout(() => map.resize(), 400);
+  document.body.classList.remove("nav-mode");
+
+  setStatus("Navigation stopped. You can search for another route.");
 }
-
-/* Distance between two GPS coordinates */
-function distanceBetween(a, b) {
-  const R = 6371000;
-  const rad = value => value * Math.PI / 180;
-  const lat1 = rad(a[1]);
-  const lat2 = rad(b[1]);
-  const dLat = rad(b[1] - a[1]);
-  const dLon = rad(b[0] - a[0]);
-
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1) * Math.cos(lat2) *
-    Math.sin(dLon / 2) ** 2;
-
-  return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
-}
-
-/* Update progress along the route */
-function updateNavigation() {
-  if (!gpsPosition || !routeCoordinates.length) return;
-
-  let nearestIndex = lastNearestIndex;
-  let nearestDistance = Infinity;
-
-  // Search forward from the last position to avoid jumping backwards.
-  const searchStart = Math.max(0, lastNearestIndex - 3);
-
-  for (let i = searchStart; i < routeCoordinates.length; i++) {
-    const distance = distanceBetween(gpsPosition, routeCoordinates[i]);
-
-    if (distance < nearestDistance) {
-      nearestDistance = distance;
-      nearestIndex = i;
-    }
-  }
-
-  lastNearestIndex = nearestIndex;
-
-  let remainingMeters = 0;
-
-  for (let i = nearestIndex + 1; i < routeCoordinates.length; i++) {
-    remainingMeters += distanceBetween(
-      routeCoordinates[i - 1],
-      routeCoordinates[i]
-    );
-  }
-
-  // Include distance from current GPS position to the nearest route point.
-  remainingMeters += nearestDistance;
-
-  const remainingKm = remainingMeters / 1000;
-  const remainingMinutes = currentRoute
-    ? Math.round((remainingMeters / currentRoute.distance) * currentRoute.duration / 60)
-    : 0;
-
-  $('routeTitle').textContent =
-    remainingMeters < 50 ? 'Destination reached!' : 'Navigation active';
-
-  $('routeTime').textContent =
-    remainingKm.toFixed(1) + ' km · ' + remainingMinutes + ' min left';
-
-  if (nearestDistance > 100) {
-    $('turnTitle').textContent = '📍 You may be off the planned route';
-    $('turnDistance').textContent =
-      Math.round(nearestDistance) + ' m from the nearest route point';
-  } else {
-    $('turnTitle').textContent = '🧭 Follow the highlighted route';
-    $('turnDistance').textContent =
-      Math.round(nearestDistance) + ' m from the route';
-  }
-
-  if (navigationActive && nearestDistance < 100) {
-    map.easeTo({
-      center: gpsPosition,
-      pitch: is3D ? 58 : 0,
-      duration: 500
-    });
-  }
-
-  if (remainingMeters < 50) {
-    $('turnTitle').textContent = '🏁 You have reached your destination!';
-    $('turnDistance').textContent = 'Navigation complete.';
-    navigationActive = false;
-  }
-}
-
-window.addEventListener('beforeunload', () => {
-  if (gpsWatch !== null) {
-    navigator.geolocation.clearWatch(gpsWatch);
-  }
-});
 </script>
 
 </body>
