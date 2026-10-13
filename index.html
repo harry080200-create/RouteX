@@ -3,14 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RouteX - Smart Navigation</title>
 
-<title>RouteX | Smart Navigation</title>
-
-<link
-  href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
-  rel="stylesheet"
-/>
-
+<link href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
 
 <style>
@@ -35,40 +30,39 @@ body {
 .panel {
   position: absolute;
   z-index: 5;
-  top: 14px;
-  left: 14px;
-  width: min(390px, calc(100% - 28px));
-  padding: 17px;
-  background: rgba(15, 23, 42, 0.97);
+  top: 12px;
+  left: 12px;
+  width: min(390px, calc(100% - 24px));
+  padding: 16px;
+  background: rgba(15, 23, 42, .97);
   border: 1px solid #334155;
   border-radius: 18px;
-  box-shadow: 0 10px 35px #0005;
+  box-shadow: 0 8px 30px #0005;
 }
 
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .logo {
+  font-size: 26px;
+  font-weight: bold;
   color: #60a5fa;
-  font-size: 27px;
-  font-weight: 800;
 }
 
 .tagline {
   color: #94a3b8;
   font-size: 10px;
-  letter-spacing: 1px;
 }
 
-.field-label {
+label {
   display: block;
-  color: #cbd5e1;
-  font-size: 12px;
   margin: 10px 0 5px;
+  font-size: 12px;
+  color: #cbd5e1;
 }
 
 input {
@@ -80,11 +74,6 @@ input {
   background: #1e293b;
   color: white;
   font-size: 14px;
-  outline: none;
-}
-
-input:focus {
-  border-color: #60a5fa;
 }
 
 input::placeholder {
@@ -101,12 +90,12 @@ input::placeholder {
 }
 
 button {
-  border: none;
-  border-radius: 10px;
+  border: 0;
   padding: 11px;
+  border-radius: 10px;
   background: #334155;
   color: white;
-  font-weight: 700;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -116,26 +105,26 @@ button:active {
 
 .location-btn {
   background: #164e8a;
+  font-size: 11px;
   white-space: nowrap;
-  font-size: 12px;
 }
 
-.primary-btn {
+.primary {
   width: 100%;
-  background: #2563eb;
-  margin-top: 12px;
+  margin-top: 10px;
   padding: 13px;
+  background: #2563eb;
   font-size: 15px;
 }
 
-.button-grid {
+.grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-top: 9px;
 }
 
-.button-grid button {
+.grid button {
   font-size: 12px;
 }
 
@@ -143,11 +132,15 @@ button:active {
   background: #166534;
 }
 
+.satellite-btn {
+  background: #854d0e;
+}
+
 .status {
-  margin-top: 12px;
   padding: 10px;
-  background: #1e293b;
+  margin-top: 10px;
   border-radius: 10px;
+  background: #1e293b;
   color: #cbd5e1;
   font-size: 12px;
   line-height: 1.6;
@@ -156,15 +149,10 @@ button:active {
 .legend {
   margin-top: 9px;
   padding: 10px;
-  background: #1e293b;
   border-radius: 10px;
+  background: #1e293b;
   font-size: 12px;
-  line-height: 1.9;
-}
-
-.legend-title {
-  font-weight: 700;
-  margin-bottom: 3px;
+  line-height: 1.8;
 }
 
 .dot {
@@ -172,56 +160,53 @@ button:active {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  margin-right: 6px;
+  margin-right: 5px;
 }
 
 .bottom-bar {
   position: absolute;
   z-index: 4;
-  bottom: 18px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
-  width: max-content;
-  max-width: calc(100% - 20px);
+  gap: 7px;
+  max-width: calc(100% - 16px);
 }
 
 .bottom-bar button {
-  box-shadow: 0 5px 20px #0005;
-  font-size: 12px;
+  white-space: nowrap;
+  font-size: 11px;
+  box-shadow: 0 4px 15px #0005;
 }
 
 #reopenBtn {
   display: none;
   position: absolute;
   z-index: 8;
-  top: 14px;
-  left: 14px;
+  top: 12px;
+  left: 12px;
   background: #0f172a;
-  border: 1px solid #475569;
 }
 
 #navBanner {
   display: none;
   position: absolute;
   z-index: 4;
-  top: 16px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(340px, calc(100% - 100px));
-  padding: 14px;
-  text-align: center;
+  width: min(330px, calc(100% - 95px));
   background: #0f172a;
+  padding: 14px;
   border-radius: 14px;
-  box-shadow: 0 5px 20px #0005;
+  text-align: center;
 }
 
 #navBanner p {
-  margin-top: 6px;
-  color: #cbd5e1;
   font-size: 12px;
-  line-height: 1.5;
+  color: #cbd5e1;
+  margin-top: 6px;
 }
 
 body.nav-mode .panel {
@@ -233,12 +218,12 @@ body.nav-mode #navBanner {
   display: block;
 }
 
-@media (max-width: 450px) {
+@media(max-width:450px) {
   .panel {
-    top: 8px;
-    left: 8px;
-    width: calc(100% - 16px);
-    padding: 13px;
+    top: 7px;
+    left: 7px;
+    width: calc(100% - 14px);
+    padding: 12px;
   }
 
   .logo {
@@ -246,22 +231,17 @@ body.nav-mode #navBanner {
   }
 
   .location-btn {
-    font-size: 11px;
-    padding: 10px 8px;
+    padding: 9px 7px;
   }
 
   .bottom-bar {
-    bottom: 12px;
-    gap: 5px;
+    bottom: 10px;
+    gap: 4px;
   }
 
   .bottom-bar button {
-    padding: 10px 8px;
-    font-size: 11px;
-  }
-
-  .legend {
-    line-height: 1.7;
+    padding: 10px 7px;
+    font-size: 10px;
   }
 }
 </style>
@@ -272,130 +252,87 @@ body.nav-mode #navBanner {
 <div id="map"></div>
 
 <section class="panel">
-
   <div class="header">
     <div class="logo">🚘 RouteX</div>
     <div class="tagline">SMART NAVIGATION</div>
   </div>
 
-  <label class="field-label" for="start">
-    Starting point
-  </label>
+  <label for="start">Starting Point</label>
 
   <div class="start-row">
-    <input
-      id="start"
-      placeholder="Enter starting location"
-      autocomplete="off"
-    />
+    <input id="start" placeholder="Enter starting location">
 
-    <button
-      class="location-btn"
-      onclick="useMyLocation()"
-      type="button"
-    >
-      📍 Use Current Location
+    <button class="location-btn" onclick="useMyLocation()">
+      📍 Current Location
     </button>
   </div>
 
-  <label class="field-label" for="destination">
-    Destination
-  </label>
+  <label for="destination">Destination</label>
+  <input id="destination" placeholder="Where do you want to go?">
 
-  <input
-    id="destination"
-    placeholder="Where do you want to go?"
-    autocomplete="off"
-  />
-
-  <button class="primary-btn" onclick="findRoute()">
+  <button class="primary" onclick="findRoute()">
     🔎 Find Route
   </button>
 
-  <div class="button-grid">
-    <button onclick="useMyLocation()">
-      📍 My Location
-    </button>
-
-    <button onclick="toggle3D()">
-      🏙️ 2D / 3D
-    </button>
-
-    <button class="traffic-btn" onclick="toggleTraffic()">
-      🚦 Traffic On / Off
-    </button>
-
-    <button onclick="toggleFullscreen()">
-      ⛶ Full Screen
-    </button>
+  <div class="grid">
+    <button onclick="useMyLocation()">📍 My Location</button>
+    <button onclick="toggle3D()">🏙️ 2D / 3D</button>
+    <button class="satellite-btn" onclick="toggleSatellite()">🛰️ Satellite</button>
+    <button class="traffic-btn" onclick="toggleTraffic()">🚦 Traffic On/Off</button>
+    <button onclick="toggleFullscreen()">⛶ Full Screen</button>
+    <button onclick="clearRoute()">🗑️ Clear Route</button>
   </div>
 
   <div class="legend">
-    <div class="legend-title">🚦 Traffic conditions</div>
-    <div>
-      <span class="dot" style="background:#36d66b"></span>
-      Smooth traffic
-    </div>
-    <div>
-      <span class="dot" style="background:#ffe14b"></span>
-      Slow traffic
-    </div>
-    <div>
-      <span class="dot" style="background:#ff8c35"></span>
-      Heavy traffic
-    </div>
-    <div>
-      <span class="dot" style="background:#ff3939"></span>
-      Traffic jam
-    </div>
+    <b>🚦 Traffic Conditions</b><br>
+    <span class="dot" style="background:#36d66b"></span> Smooth traffic<br>
+    <span class="dot" style="background:#ffe14b"></span> Slow traffic<br>
+    <span class="dot" style="background:#ff8c35"></span> Heavy traffic<br>
+    <span class="dot" style="background:#ff3939"></span> Traffic jam
   </div>
 
   <div class="status" id="status" aria-live="polite">
-    Enter a destination or tap Use Current Location to begin.
+    Tap Current Location or enter your route.
   </div>
-
 </section>
 
-<button id="reopenBtn" onclick="toggleNavigationPanel()">
-  ☰ RouteX
-</button>
+<button id="reopenBtn" onclick="toggleNavigationPanel()">☰ RouteX</button>
 
 <div id="navBanner">
   <b>🧭 RouteX Navigation</b>
-  <p id="navStatus">Your route will appear here.</p>
+  <p id="navStatus">Ready for navigation.</p>
 </div>
 
 <div class="bottom-bar">
-  <button onclick="toggleNavigationPanel()">
-    🧭 Navigation View
-  </button>
-
-  <button onclick="stopNavigation()">
-    ✖ Stop
-  </button>
+  <button onclick="toggleNavigationPanel()">🧭 Navigation View</button>
+  <button onclick="stopNavigation()">✖ Stop</button>
 </div>
 
 <script>
 /*
-  REAL TRAFFIC:
-  Get a TomTom API key and replace the placeholder below.
-  Never share your key publicly.
+  Add your TomTom API key here for real traffic.
+  Satellite imagery uses Esri World Imagery.
 */
 
 const TOMTOM_API_KEY = "YOUR_TOMTOM_API_KEY";
 
-const statusBox = document.getElementById("status");
-const navStatus = document.getElementById("navStatus");
-
+let mapReady = false;
 let currentPosition = null;
 let locationMarker = null;
 let destinationMarker = null;
-let routeCoordinates = [];
 let watchId = null;
-let trafficVisible = true;
-let is3D = false;
-let mapReady = false;
 let navigationActive = false;
+let trafficVisible = true;
+let satelliteMode = false;
+let is3D = false;
+
+const statusBox = document.getElementById("status");
+const navStatus = document.getElementById("navStatus");
+
+function setStatus(message) {
+  statusBox.textContent = message;
+  navStatus.textContent = message;
+}
 
 const map = new maplibregl.Map({
   container: "map",
@@ -404,26 +341,37 @@ const map = new maplibregl.Map({
   zoom: 10
 });
 
-map.addControl(
-  new maplibregl.NavigationControl(),
-  "bottom-right"
-);
-
-map.addControl(
-  new maplibregl.ScaleControl(),
-  "bottom-right"
-);
-
-function setStatus(message) {
-  statusBox.textContent = message;
-  navStatus.textContent = message;
-}
+map.addControl(new maplibregl.NavigationControl(), "bottom-right");
+map.addControl(new maplibregl.ScaleControl(), "bottom-right");
 
 map.on("load", () => {
   mapReady = true;
 
-  // Traffic overlay
-  map.addSource("trafficFlow", {
+  // Satellite imagery source
+  map.addSource("satelliteSource", {
+    type: "raster",
+    tiles: [
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+    ],
+    tileSize: 256,
+    attribution: "Imagery © Esri"
+  });
+
+  // Start hidden: normal map is initially visible.
+  map.addLayer({
+    id: "satelliteLayer",
+    type: "raster",
+    source: "satelliteSource",
+    layout: {
+      visibility: "none"
+    },
+    paint: {
+      "raster-opacity": 1
+    }
+  });
+
+  // Real traffic layer. Requires a valid TomTom key.
+  map.addSource("trafficSource", {
     type: "raster",
     tiles: [
       "https://api.tomtom.com/traffic/map/4/tile/flow/relative0/{z}/{x}/{y}.png?key=" +
@@ -434,14 +382,14 @@ map.on("load", () => {
   });
 
   map.addLayer({
-    id: "trafficFlowLayer",
+    id: "trafficLayer",
     type: "raster",
-    source: "trafficFlow",
+    source: "trafficSource",
     layout: {
       visibility: "visible"
     },
     paint: {
-      "raster-opacity": 0.75
+      "raster-opacity": 0.8
     }
   });
 
@@ -458,7 +406,6 @@ map.on("load", () => {
     }
   });
 
-  // Blue route glow
   map.addLayer({
     id: "routeGlow",
     type: "line",
@@ -468,14 +415,13 @@ map.on("load", () => {
       "line-join": "round"
     },
     paint: {
-      "line-color": "#1685ff",
+      "line-color": "#1677ff",
       "line-width": 12,
       "line-opacity": 0.3,
       "line-blur": 3
     }
   });
 
-  // Main route line
   map.addLayer({
     id: "routeLine",
     type: "line",
@@ -485,12 +431,13 @@ map.on("load", () => {
       "line-join": "round"
     },
     paint: {
-      "line-color": "#1685ff",
+      "line-color": "#1677ff",
       "line-width": 5
     }
   });
 });
 
+// Get coordinates from a place name
 async function geocode(place) {
   const url =
     "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
@@ -508,16 +455,36 @@ async function geocode(place) {
     throw new Error("Location not found: " + place);
   }
 
-  return [
-    Number(results[0].lon),
-    Number(results[0].lat)
-  ];
+  return [Number(results[0].lon), Number(results[0].lat)];
 }
 
-// CURRENT LOCATION BUTTON
+// Show current location on the map
+function showLocation(coords) {
+  if (locationMarker) {
+    locationMarker.setLngLat(coords);
+    return;
+  }
+
+  const element = document.createElement("div");
+
+  element.style.cssText = `
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#1685ff;
+    border:4px solid white;
+    box-shadow:0 0 0 8px #1685ff44, 0 0 20px #1685ff;
+  `;
+
+  locationMarker = new maplibregl.Marker({ element })
+    .setLngLat(coords)
+    .addTo(map);
+}
+
+// Current GPS location
 function useMyLocation() {
   if (!navigator.geolocation) {
-    setStatus("Your browser does not support GPS location.");
+    setStatus("GPS is not supported by this browser.");
     return;
   }
 
@@ -541,71 +508,47 @@ function useMyLocation() {
         duration: 1200
       });
 
-      setStatus(
-        "📍 Your current location is ready. Enter a destination to find a route."
-      );
+      setStatus("Current location found. Enter a destination to continue.");
     },
-
     error => {
-      setStatus(
-        "Could not get your location. Allow location permission and try again."
-      );
+      if (error.code === 1) {
+        setStatus("Location permission denied. Allow GPS access in your browser.");
+      } else if (error.code === 2) {
+        setStatus("Location unavailable. Check GPS and internet connection.");
+      } else if (error.code === 3) {
+        setStatus("GPS request timed out. Try again.");
+      } else {
+        setStatus("Unable to get your location.");
+      }
     },
-
     {
       enableHighAccuracy: true,
-      timeout: 15000,
+      timeout: 20000,
       maximumAge: 5000
     }
   );
 }
 
-// BLUE DOT FOR CURRENT LOCATION
-function showLocation(coords) {
-  if (locationMarker) {
-    locationMarker.setLngLat(coords);
-    return;
-  }
-
-  const el = document.createElement("div");
-
-  el.style.width = "22px";
-  el.style.height = "22px";
-  el.style.borderRadius = "50%";
-  el.style.background = "#1685ff";
-  el.style.border = "4px solid white";
-  el.style.boxShadow =
-    "0 0 0 8px #1685ff44, 0 0 20px #1685ff";
-
-  locationMarker = new maplibregl.Marker({
-    element: el
-  })
-    .setLngLat(coords)
-    .addTo(map);
-}
-
-// FIND ROUTE
+// Calculate and display route
 async function findRoute() {
   if (!mapReady) {
-    setStatus("Map is loading. Please wait a moment.");
+    setStatus("Map is loading. Please wait.");
     return;
   }
 
   const startText = document.getElementById("start").value.trim();
-  const destinationText =
-    document.getElementById("destination").value.trim();
+  const destinationText = document.getElementById("destination").value.trim();
 
   if (!startText || !destinationText) {
-    setStatus("Enter a starting point and destination first.");
+    setStatus("Enter both a starting point and destination.");
     return;
   }
 
-  setStatus("🔎 Finding locations and calculating your route...");
+  setStatus("🔎 Calculating route...");
 
   try {
     let start;
 
-    // Use actual GPS coordinates when current location was selected.
     if (
       startText.toLowerCase() === "my location" &&
       currentPosition
@@ -617,26 +560,25 @@ async function findRoute() {
 
     const destination = await geocode(destinationText);
 
-    const routeURL =
+    const url =
       "https://router.project-osrm.org/route/v1/driving/" +
       start.join(",") + ";" +
       destination.join(",") +
       "?overview=full&geometries=geojson&steps=true";
 
-    const response = await fetch(routeURL);
+    const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error("Route service is unavailable. Try again later.");
+      throw new Error("Route service unavailable. Try again later.");
     }
 
     const data = await response.json();
 
-    if (data.code !== "Ok" || !data.routes?.length) {
-      throw new Error("No driving route found for these locations.");
+    if (data.code !== "Ok" || !data.routes.length) {
+      throw new Error("No driving route found.");
     }
 
     const route = data.routes[0];
-    routeCoordinates = route.geometry.coordinates;
 
     map.getSource("routeSource").setData({
       type: "Feature",
@@ -648,31 +590,26 @@ async function findRoute() {
       destinationMarker.remove();
     }
 
-    destinationMarker = new maplibregl.Marker({
-      color: "#ef4444"
-    })
+    destinationMarker = new maplibregl.Marker({ color: "#ef4444" })
       .setLngLat(destination)
-      .setPopup(
-        new maplibregl.Popup().setText("Destination")
-      )
+      .setPopup(new maplibregl.Popup().setText("Destination"))
       .addTo(map);
 
     const bounds = new maplibregl.LngLatBounds();
 
-    routeCoordinates.forEach(point => bounds.extend(point));
+    route.geometry.coordinates.forEach(point => bounds.extend(point));
 
     map.fitBounds(bounds, {
       padding: window.innerWidth < 500 ? 45 : 90,
       duration: 1200
     });
 
-    const distance = (route.distance / 1000).toFixed(1);
+    const km = (route.distance / 1000).toFixed(1);
     const minutes = Math.round(route.duration / 60);
 
     setStatus(
-      "✅ Route found: " + distance +
-      " km • Estimated driving time: " + minutes +
-      " minutes. GPS navigation can now follow your location."
+      "Route found: " + km + " km. Estimated driving time: " +
+      minutes + " minutes."
     );
 
     startNavigation();
@@ -682,14 +619,96 @@ async function findRoute() {
   }
 }
 
-// LIVE GPS TRACKING
+// Switch normal map and satellite imagery
+function toggleSatellite() {
+  if (!mapReady) {
+    setStatus("Map is loading. Please wait.");
+    return;
+  }
+
+  satelliteMode = !satelliteMode;
+
+  map.setLayoutProperty(
+    "satelliteLayer",
+    "visibility",
+    satelliteMode ? "visible" : "none"
+  );
+
+  // Satellite layer is inserted above the normal map but below
+  // the traffic and route layers. Route and traffic stay visible.
+  setStatus(
+    satelliteMode
+      ? "🛰️ Satellite view enabled."
+      : "🗺️ Normal map view enabled."
+  );
+}
+
+// Toggle traffic
+function toggleTraffic() {
+  if (!mapReady || !map.getLayer("trafficLayer")) {
+    setStatus("Map is loading. Please wait.");
+    return;
+  }
+
+  trafficVisible = !trafficVisible;
+
+  map.setLayoutProperty(
+    "trafficLayer",
+    "visibility",
+    trafficVisible ? "visible" : "none"
+  );
+
+  setStatus(
+    trafficVisible
+      ? "Traffic overlay enabled. A valid TomTom key is required for real traffic."
+      : "Traffic overlay disabled."
+  );
+}
+
+// 2D and 3D
+function toggle3D() {
+  is3D = !is3D;
+
+  map.easeTo({
+    pitch: is3D ? 55 : 0,
+    duration: 1000
+  });
+}
+
+// Full screen
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+// Navigation view
+function toggleNavigationPanel() {
+  document.body.classList.toggle("nav-mode");
+}
+
+// Stop navigation tracking
+function stopNavigation() {
+  navigationActive = false;
+
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+    watchId = null;
+  }
+
+  document.body.classList.remove("nav-mode");
+
+  setStatus("Navigation stopped.");
+}
+
+// Keep the map centred on live GPS location
 function startNavigation() {
   navigationActive = true;
-
   document.body.classList.add("nav-mode");
 
   if (!navigator.geolocation) {
-    setStatus("Route ready, but GPS is not supported by this browser.");
     return;
   }
 
@@ -713,13 +732,9 @@ function startNavigation() {
         });
       }
     },
-
     error => {
-      setStatus(
-        "Route is ready, but live GPS is unavailable. Check browser permissions."
-      );
+      console.warn("Live GPS update failed:", error.message);
     },
-
     {
       enableHighAccuracy: true,
       maximumAge: 3000,
@@ -728,64 +743,29 @@ function startNavigation() {
   );
 }
 
-// TRAFFIC ON / OFF
-function toggleTraffic() {
-  if (!mapReady || !map.getLayer("trafficFlowLayer")) {
-    setStatus("Map is still loading. Try again shortly.");
-    return;
+// Clear route and destination
+function clearRoute() {
+  if (mapReady && map.getSource("routeSource")) {
+    map.getSource("routeSource").setData({
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: []
+      }
+    });
   }
 
-  trafficVisible = !trafficVisible;
-
-  map.setLayoutProperty(
-    "trafficFlowLayer",
-    "visibility",
-    trafficVisible ? "visible" : "none"
-  );
-
-  setStatus(
-    trafficVisible
-      ? "Traffic overlay enabled. A valid TomTom key is required for real traffic data."
-      : "Traffic overlay is switched off."
-  );
-}
-
-// 2D / 3D
-function toggle3D() {
-  is3D = !is3D;
-
-  map.easeTo({
-    pitch: is3D ? 55 : 0,
-    duration: 1000
-  });
-}
-
-// FULL SCREEN
-function toggleFullscreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen?.();
-  } else {
-    document.exitFullscreen?.();
-  }
-}
-
-// MINIMAL NAVIGATION VIEW
-function toggleNavigationPanel() {
-  document.body.classList.toggle("nav-mode");
-}
-
-// STOP GPS NAVIGATION
-function stopNavigation() {
-  navigationActive = false;
-
-  if (watchId !== null) {
-    navigator.geolocation.clearWatch(watchId);
-    watchId = null;
+  if (destinationMarker) {
+    destinationMarker.remove();
+    destinationMarker = null;
   }
 
-  document.body.classList.remove("nav-mode");
+  stopNavigation();
 
-  setStatus("Navigation stopped. You can search for another route.");
+  document.getElementById("destination").value = "";
+
+  setStatus("Route cleared. Enter a new destination.");
 }
 </script>
 
