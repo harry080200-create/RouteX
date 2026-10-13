@@ -11,160 +11,145 @@
 
 <style>
 :root {
-  --bg: #080b14;
-  --panel: rgba(13,18,32,.95);
-  --border: rgba(148,163,184,.17);
-  --text: #f3f6ff;
-  --muted: #95a2b8;
-  --blue: #4385ff;
-  --purple: #8b5cf6;
+  --bg:#080b14;
+  --panel:rgba(13,18,32,.96);
+  --border:rgba(148,163,184,.18);
+  --text:#f1f5ff;
+  --muted:#95a2b8;
+  --blue:#4385ff;
 }
 
 * { box-sizing:border-box; margin:0; padding:0; }
-
-body {
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--text);
-  background:var(--bg);
-  overflow:hidden;
-}
-
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg); color:var(--text); overflow:hidden; }
 button,input { font:inherit; }
 button { color:inherit; cursor:pointer; }
 .icon { width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0; }
 
-#map { position:absolute;inset:0;background:#111827; }
+#map { position:absolute;inset:0; }
 
 .panel {
-  position:absolute;z-index:5;top:14px;left:14px;
-  width:min(390px,calc(100% - 28px));
-  max-height:calc(100dvh - 90px);
-  overflow:visible;
-  padding:18px;
-  border:1px solid var(--border);
-  border-radius:21px;
-  background:var(--panel);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  box-shadow:0 20px 65px #0006;
+  position:absolute;z-index:5;top:12px;left:12px;
+  width:min(390px,calc(100% - 24px));
+  max-height:calc(100dvh - 85px);
+  overflow-y:auto;padding:16px;
+  border:1px solid var(--border);border-radius:20px;
+  background:var(--panel);backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  box-shadow:0 18px 55px #0006;
 }
 
-.brand { display:flex;align-items:center;gap:11px;margin-bottom:20px; }
-
+.brand { display:flex;align-items:center;gap:10px;margin-bottom:16px; }
 .logo {
   width:43px;height:43px;display:grid;place-items:center;
-  border-radius:14px;
-  background:linear-gradient(145deg,#12d7ff,#4385ff 55%,#9333ea);
-  box-shadow:0 5px 24px #4385ff45;
+  border-radius:14px;background:linear-gradient(140deg,#08d8ff,#4385ff 55%,#8b35f5);
+  box-shadow:0 5px 22px #4385ff45;
 }
-
 .logo svg { width:35px;height:35px; }
-
-.brand-text { flex:1; }
+.brand-copy { flex:1; }
 .brand-name { font-size:24px;font-weight:850;letter-spacing:-1px; }
-.brand-name span { color:#60a5fa; }
-.brand-sub { margin-top:3px;font-size:9px;color:var(--muted);letter-spacing:2px;font-weight:700; }
+.brand-name span { color:#73b1ff; }
+.brand-sub { margin-top:3px;font-size:9px;color:var(--muted);letter-spacing:2px; }
 
-.online { display:flex;align-items:center;gap:6px;color:#86efac;font-size:10px;font-weight:700; }
-.online-dot { width:6px;height:6px;border-radius:50%;background:#22c55e; }
-
-.label { display:block;margin:13px 0 7px;font-size:10px;font-weight:750;letter-spacing:1px;color:#a9b6ca; }
-
-.input-wrap { position:relative; }
-.input-wrap > .icon { position:absolute;top:13px;left:12px;width:17px;height:17px;color:#8aa7d5;pointer-events:none; }
+.label { display:block;margin:12px 0 6px;font-size:10px;font-weight:750;letter-spacing:1px;color:#a9b6ca; }
+.start-row { display:flex;gap:7px;align-items:stretch; }
+.input-wrap { position:relative;flex:1;min-width:0; }
+.input-wrap>.icon { position:absolute;left:11px;top:13px;width:17px;height:17px;color:#91b5f7;pointer-events:none; }
 
 input {
-  width:100%;min-width:0;padding:13px 12px 13px 38px;
+  width:100%;padding:12px 10px 12px 36px;
   color:var(--text);background:#171f30;
   border:1px solid #303c52;border-radius:11px;
-  outline:none;font-size:13px;
+  outline:none;font-size:12px;
 }
-input:focus { border-color:#4385ff;box-shadow:0 0 0 3px #4385ff18; }
+input:focus { border-color:var(--blue); }
 input::placeholder { color:#8190a8; }
 
-.start-row { display:flex;gap:7px;align-items:stretch; }
-.start-row .input-wrap { flex:1;min-width:0; }
-
 .gps-btn {
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  padding:9px;border:1px solid #315b9c;border-radius:11px;
-  background:#172e50;color:#bfdbfe;font-size:10px;font-weight:750;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:8px;border:1px solid #315b9c;border-radius:11px;
+  background:#172e50;color:#bfdbfe;font-size:10px;font-weight:700;
 }
-.gps-btn .icon { width:17px;height:17px; }
 
 .suggestions {
-  display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;
-  z-index:20;max-height:220px;overflow-y:auto;
-  background:#111a2b;border:1px solid #35445d;
-  border-radius:12px;box-shadow:0 12px 35px #0009;
+  display:none;position:absolute;z-index:20;top:calc(100% + 5px);
+  left:0;right:0;max-height:200px;overflow:auto;
+  background:#111a2b;border:1px solid #35445d;border-radius:12px;
+  box-shadow:0 12px 30px #0009;
 }
 .suggestions.show { display:block; }
-
 .suggestion {
-  display:flex;align-items:center;gap:10px;
-  width:100%;padding:12px;text-align:left;
-  background:transparent;border:0;border-bottom:1px solid #263248;
+  display:flex;gap:9px;align-items:flex-start;width:100%;
+  padding:11px;text-align:left;background:transparent;border:0;
+  border-bottom:1px solid #263248;
 }
-.suggestion:last-child { border-bottom:0; }
 .suggestion:hover { background:#20304a; }
-.suggestion .icon { color:#79aaff;width:18px;height:18px; }
-.suggestion-text { min-width:0; }
-.suggestion-title { font-size:12px;font-weight:700; }
-.suggestion-address { margin-top:3px;font-size:10px;line-height:1.4;color:var(--muted);overflow-wrap:anywhere; }
-.suggestion-message { padding:13px;color:var(--muted);font-size:11px; }
+.suggestion .icon { color:#83adff;width:17px;height:17px; }
+.suggestion-title { font-size:11px;font-weight:700; }
+.suggestion-address { margin-top:3px;font-size:10px;line-height:1.4;color:var(--muted); }
+.suggestion-message { padding:12px;font-size:11px;color:var(--muted); }
 
 .primary {
-  width:100%;display:flex;justify-content:center;align-items:center;gap:9px;
-  margin-top:13px;padding:14px;border:0;border-radius:12px;
-  background:linear-gradient(110deg,#4385ff,#5b5cf0 65%,#873cff);
-  box-shadow:0 7px 24px #4385ff2d;color:white;font-weight:750;font-size:13px;
+  width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:12px;padding:13px;border:0;border-radius:12px;
+  background:linear-gradient(110deg,#4385ff,#6354ed,#833df0);
+  font-size:12px;font-weight:750;box-shadow:0 6px 20px #4385ff30;
 }
-.primary:hover { filter:brightness(1.12); }
 
-.tools { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px; }
-
+.tools { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px; }
 .tool {
-  display:flex;align-items:center;gap:8px;
-  padding:11px 9px;border:1px solid var(--border);
-  border-radius:11px;background:#171f30;color:#dce6f6;
-  font-size:10px;font-weight:700;
+  display:flex;align-items:center;gap:7px;padding:10px 8px;
+  border:1px solid var(--border);border-radius:10px;
+  background:#171f30;font-size:10px;font-weight:700;
 }
-.tool .icon { width:18px;height:18px;color:#93b9ff; }
+.tool .icon { width:17px;height:17px;color:#93b9ff; }
 .tool.active { border-color:#367b63;background:#12352c;color:#a7f3d0; }
 
 .status {
-  display:flex;gap:9px;margin-top:13px;padding:12px;
-  border:1px solid var(--border);border-radius:12px;
-  background:#111827;color:#bfcbdd;font-size:11px;line-height:1.6;
+  display:flex;gap:8px;margin-top:11px;padding:11px;
+  border:1px solid var(--border);border-radius:11px;
+  background:#111827;color:#bfcbdd;font-size:11px;line-height:1.55;
 }
 .status .icon { color:#76a9ff; }
 
+.places-card {
+  display:none;margin-top:12px;padding:12px;
+  border:1px solid var(--border);border-radius:12px;background:#101827;
+}
+.places-card.show { display:block; }
+.places-title { font-size:12px;font-weight:800;margin-bottom:4px; }
+.places-subtitle { font-size:10px;color:var(--muted);line-height:1.5;margin-bottom:9px; }
+.place-list { display:flex;flex-direction:column;gap:0; }
+.place-item { display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid #263248; }
+.place-item:last-child { border-bottom:0; }
+.place-symbol { width:25px;height:25px;flex-shrink:0;display:grid;place-items:center;border-radius:8px;background:#1d3150;color:#9fc5ff; }
+.place-symbol .icon { width:15px;height:15px; }
+.place-name { font-size:11px;font-weight:750;line-height:1.5; }
+.place-detail { margin-top:2px;font-size:10px;color:var(--muted);line-height:1.4; }
+
 .bottom {
-  position:absolute;z-index:4;bottom:14px;left:50%;
-  transform:translateX(-50%);display:flex;gap:7px;
-  max-width:calc(100% - 16px);
+  position:absolute;z-index:4;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;gap:6px;max-width:calc(100% - 12px);
 }
 .bottom button {
-  display:flex;align-items:center;justify-content:center;gap:7px;
-  padding:12px 13px;border:1px solid #46536a;
-  border-radius:12px;background:#101827ed;
-  backdrop-filter:blur(18px);font-size:10px;font-weight:750;white-space:nowrap;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 10px;border:1px solid #46536a;border-radius:11px;
+  background:#101827ed;backdrop-filter:blur(16px);
+  font-size:10px;font-weight:700;white-space:nowrap;
 }
-.bottom .icon { color:#8bb5ff;width:17px;height:17px; }
+.bottom .icon { width:16px;height:16px;color:#8bb5ff; }
 
 #reopen {
-  display:none;position:absolute;z-index:8;top:14px;left:14px;
-  padding:12px 15px;border:1px solid var(--border);border-radius:12px;
-  background:var(--panel);align-items:center;gap:9px;
+  display:none;position:absolute;z-index:8;top:12px;left:12px;
+  padding:12px 14px;border:1px solid var(--border);border-radius:12px;
+  background:var(--panel);align-items:center;gap:8px;
 }
 #navBanner {
-  display:none;position:absolute;z-index:4;top:14px;left:50%;
-  transform:translateX(-50%);width:min(300px,calc(100% - 115px));
-  padding:13px;border:1px solid var(--border);border-radius:13px;
-  background:var(--panel);text-align:center;backdrop-filter:blur(20px);
+  display:none;position:absolute;z-index:4;top:12px;left:50%;
+  transform:translateX(-50%);width:min(300px,calc(100% - 110px));
+  padding:12px;border:1px solid var(--border);border-radius:12px;
+  background:var(--panel);text-align:center;backdrop-filter:blur(18px);
 }
-#navBanner strong { font-size:12px; }
-#navText { margin-top:5px;color:var(--muted);font-size:10px;line-height:1.5; }
+#navText { margin-top:5px;font-size:10px;color:var(--muted);line-height:1.5; }
 body.nav-mode .panel { display:none; }
 body.nav-mode #reopen { display:flex; }
 body.nav-mode #navBanner { display:block; }
@@ -174,46 +159,31 @@ body.nav-mode #navBanner { display:block; }
 .maplibregl-ctrl-group button span { filter:invert(1); }
 
 @media(max-width:480px) {
-  .panel { top:8px;left:8px;width:calc(100% - 16px);max-height:calc(100dvh - 75px);padding:14px;border-radius:17px; }
-  .brand { margin-bottom:12px; }
+  .panel { top:7px;left:7px;width:calc(100% - 14px);max-height:calc(100dvh - 68px);padding:13px; }
+  .brand { margin-bottom:11px; }
   .brand-name { font-size:22px; }
-  .label { margin-top:10px; }
-  .gps-btn { padding:8px;font-size:9px; }
-  .tool { padding:10px 8px;font-size:10px; }
-  .bottom { bottom:8px;gap:5px; }
-  .bottom button { padding:10px 9px;font-size:9px; }
-}
-
-@media(max-width:350px) {
-  .brand-sub { letter-spacing:1px; }
-  .tool { font-size:9px;gap:5px; }
-  .gps-btn { gap:3px; }
+  .label { margin-top:9px; }
+  .tool { padding:9px 7px;font-size:9px; }
+  .bottom { bottom:7px;gap:4px; }
+  .bottom button { padding:10px 8px;font-size:9px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Premium RouteX SVG logo and icon library -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
-  <symbol id="route-logo" viewBox="0 0 48 48">
-    <defs>
-      <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#ffffff"/>
-        <stop offset="1" stop-color="#c8ddff"/>
-      </linearGradient>
-    </defs>
-    <path d="M24 4C13 4 5 12 5 23c0 8 5 13 10 19l9 5 9-10c5-6 10-11 10-19C43 12 35 4 24 4Z" fill="none" stroke="url(#logoGradient)" stroke-width="3.4" stroke-linejoin="round"/>
-    <path d="M29 12H22c-5 0-8 3-8 7 0 3 2 5 5 6l8 3c3 1 4 2 4 4 0 3-3 5-7 5h-6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-    <path d="M24 16c-4 4-3 7 0 10s4 5 0 9" fill="none" stroke="#d8e8ff" stroke-width="1.8" stroke-dasharray="2 3" stroke-linecap="round"/>
+  <symbol id="logoSymbol" viewBox="0 0 48 48">
+    <path d="M24 4C13 4 5 12 5 23c0 8 5 13 10 19l9 5 9-10c5-6 10-11 10-19C43 12 35 4 24 4Z" fill="none" stroke="white" stroke-width="3.4"/>
+    <path d="M29 12H22c-5 0-8 3-8 7 0 3 2 5 5 6l8 3c3 1 4 2 4 4 0 3-3 5-7 5h-6" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <path d="M24 16c-4 4-3 7 0 10s4 5 0 9" fill="none" stroke="#d8e8ff" stroke-width="1.8" stroke-dasharray="2 3"/>
   </symbol>
-
   <symbol id="pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
   <symbol id="gps" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
   <symbol id="search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
   <symbol id="satellite" viewBox="0 0 24 24"><path d="m4 4 5 5M15 15l5 5M3 8l5-5 4 4-5 5zM12 17l5-5 4 4-5 5zM9 15l6-6"/></symbol>
   <symbol id="layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></symbol>
-  <symbol id="traffic" viewBox="0 0 24 24"><path d="M5 21V4M19 21V4M3 5h4M17 5h4M8 9h8l2 4v4H6v-4l2-4Z"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></symbol>
+  <symbol id="traffic" viewBox="0 0 24 24"><path d="M5 21V4M19 21V4M8 9h8l2 4v4H6v-4l2-4Z"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></symbol>
   <symbol id="expand" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/></symbol>
   <symbol id="menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
   <symbol id="close" viewBox="0 0 24 24"><path d="m18 6-12 12M6 6l12 12"/></symbol>
@@ -225,12 +195,11 @@ body.nav-mode #navBanner { display:block; }
 
 <section class="panel">
   <div class="brand">
-    <div class="logo"><svg class="icon" style="width:37px;height:37px;stroke:none"><use href="#route-logo"/></svg></div>
-    <div class="brand-text">
+    <div class="logo"><svg style="width:36px;height:36px"><use href="#logoSymbol"/></svg></div>
+    <div class="brand-copy">
       <div class="brand-name">Route<span>X</span></div>
       <div class="brand-sub">SMART NAVIGATION</div>
     </div>
-    <div class="online"><span class="online-dot"></span> READY</div>
   </div>
 
   <label class="label" for="start">STARTING POINT</label>
@@ -263,16 +232,18 @@ body.nav-mode #navBanner { display:block; }
 
   <div class="status">
     <svg class="icon"><use href="#compass"/></svg>
-    <span id="status" aria-live="polite">Type a location and select one of the suggestions.</span>
+    <span id="status" aria-live="polite">Choose a starting point and destination.</span>
+  </div>
+
+  <div class="places-card" id="placesCard">
+    <div class="places-title">Places Along Your Route</div>
+    <div class="places-subtitle" id="placesSubtitle">Nearby places along the selected route.</div>
+    <div class="place-list" id="placeList"></div>
   </div>
 </section>
 
 <button id="reopen" onclick="toggleNavPanel()"><svg class="icon"><use href="#menu"/></svg>RouteX</button>
-
-<div id="navBanner">
-  <strong>RouteX Navigation</strong>
-  <div id="navText">Navigation ready.</div>
-</div>
+<div id="navBanner"><strong>RouteX Navigation</strong><div id="navText">Navigation ready.</div></div>
 
 <div class="bottom">
   <button onclick="toggleNavPanel()"><svg class="icon"><use href="#compass"/></svg>Navigation View</button>
@@ -280,9 +251,6 @@ body.nav-mode #navBanner { display:block; }
 </div>
 
 <script>
-/*
-  To enable live TomTom traffic, add your restricted API key below.
-*/
 const TOMTOM_API_KEY = "YOUR_TOMTOM_API_KEY";
 
 let currentPosition = null;
@@ -294,6 +262,7 @@ let trafficOn = true;
 let satelliteOn = false;
 let threeD = false;
 let routeCoordinates = [];
+let placesRequest = 0;
 
 const statusEl = document.getElementById("status");
 const navText = document.getElementById("navText");
@@ -304,364 +273,481 @@ function status(message) {
 }
 
 const map = new maplibregl.Map({
-  container: "map",
-  style: "https://tiles.openfreemap.org/styles/liberty",
-  center: [76.53, 30.97],
-  zoom: 10
+  container:"map",
+  style:"https://tiles.openfreemap.org/styles/liberty",
+  center:[76.53,30.97],
+  zoom:10
 });
 
-map.addControl(new maplibregl.NavigationControl(), "bottom-right");
-map.addControl(new maplibregl.ScaleControl(), "bottom-right");
+map.addControl(new maplibregl.NavigationControl(),"bottom-right");
+map.addControl(new maplibregl.ScaleControl(),"bottom-right");
 
-map.on("load", () => {
-  map.addSource("satelliteSource", {
-    type: "raster",
-    tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
-    tileSize: 256,
-    attribution: "Imagery © Esri"
+map.on("load",()=>{
+  map.addSource("satelliteSource",{
+    type:"raster",
+    tiles:["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+    tileSize:256,
+    attribution:"Imagery © Esri"
   });
 
   map.addLayer({
-    id: "satelliteLayer",
-    type: "raster",
-    source: "satelliteSource",
-    layout: { visibility: "none" }
+    id:"satelliteLayer",
+    type:"raster",
+    source:"satelliteSource",
+    layout:{visibility:"none"}
   });
 
-  map.addSource("trafficSource", {
-    type: "raster",
-    tiles: ["https://api.tomtom.com/traffic/map/4/tile/flow/relative0/{z}/{x}/{y}.png?key=" + encodeURIComponent(TOMTOM_API_KEY)],
-    tileSize: 256,
-    attribution: "Traffic © TomTom"
-  });
-
-  map.addLayer({
-    id: "trafficLayer",
-    type: "raster",
-    source: "trafficSource",
-    layout: { visibility: "visible" },
-    paint: { "raster-opacity": 0.8 }
-  });
-
-  map.addSource("routeSource", {
-    type: "geojson",
-    data: {
-      type: "Feature",
-      properties: {},
-      geometry: { type: "LineString", coordinates: [] }
-    }
+  map.addSource("trafficSource",{
+    type:"raster",
+    tiles:["https://api.tomtom.com/traffic/map/4/tile/flow/relative0/{z}/{x}/{y}.png?key="+encodeURIComponent(TOMTOM_API_KEY)],
+    tileSize:256,
+    attribution:"Traffic © TomTom"
   });
 
   map.addLayer({
-    id: "routeGlow",
-    type: "line",
-    source: "routeSource",
-    layout: { "line-cap": "round", "line-join": "round" },
-    paint: { "line-color": "#4385ff", "line-width": 13, "line-opacity": 0.3, "line-blur": 3 }
+    id:"trafficLayer",
+    type:"raster",
+    source:"trafficSource",
+    layout:{visibility:"visible"},
+    paint:{"raster-opacity":0.8}
+  });
+
+  map.addSource("routeSource",{
+    type:"geojson",
+    data:{type:"Feature",properties:{},geometry:{type:"LineString",coordinates:[]}}
   });
 
   map.addLayer({
-    id: "routeLine",
-    type: "line",
-    source: "routeSource",
-    layout: { "line-cap": "round", "line-join": "round" },
-    paint: { "line-color": "#4385ff", "line-width": 5 }
+    id:"routeGlow",type:"line",source:"routeSource",
+    layout:{"line-cap":"round","line-join":"round"},
+    paint:{"line-color":"#4385ff","line-width":12,"line-opacity":0.3,"line-blur":3}
   });
 
-  status("Map ready. Type a location to see suggestions.");
+  map.addLayer({
+    id:"routeLine",type:"line",source:"routeSource",
+    layout:{"line-cap":"round","line-join":"round"},
+    paint:{"line-color":"#4385ff","line-width":5}
+  });
+
+  status("Map ready. Search and select a location.");
 });
 
-/* Autocomplete suggestions */
-function setupAutocomplete(inputId, suggestionsId) {
-  const input = document.getElementById(inputId);
-  const box = document.getElementById(suggestionsId);
+/* Location autocomplete */
+function setupAutocomplete(inputId,boxId) {
+  const input=document.getElementById(inputId);
+  const box=document.getElementById(boxId);
   let timer;
-  let requestNumber = 0;
+  let requestId=0;
 
-  input.addEventListener("input", () => {
+  input.addEventListener("input",()=>{
     clearTimeout(timer);
-    const query = input.value.trim();
-    const thisRequest = ++requestNumber;
+    delete input.dataset.lon;
+    delete input.dataset.lat;
 
-    if (query.length < 3) {
+    const query=input.value.trim();
+    const id=++requestId;
+
+    if(query.length<3) {
       box.classList.remove("show");
-      box.innerHTML = "";
+      box.innerHTML="";
       return;
     }
 
-    box.innerHTML = '<div class="suggestion-message">Searching locations...</div>';
+    box.innerHTML='<div class="suggestion-message">Searching locations...</div>';
     box.classList.add("show");
 
-    timer = setTimeout(async () => {
+    timer=setTimeout(async()=>{
       try {
-        const url = "https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=6&q=" + encodeURIComponent(query);
-        const response = await fetch(url, {
-          headers: { "Accept-Language": "en" }
-        });
+        const url="https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=7&q="+encodeURIComponent(query);
+        const response=await fetch(url,{headers:{"Accept-Language":"en"}});
+        if(!response.ok) throw new Error("Search unavailable");
 
-        if (!response.ok) throw new Error("Search unavailable");
+        const results=await response.json();
+        if(id!==requestId) return;
 
-        const places = await response.json();
+        box.innerHTML="";
 
-        if (thisRequest !== requestNumber) return;
-
-        box.innerHTML = "";
-
-        if (!places.length) {
-          box.innerHTML = '<div class="suggestion-message">No locations found. Try another search.</div>';
-          box.classList.add("show");
+        if(!results.length) {
+          box.innerHTML='<div class="suggestion-message">No locations found. Try another search.</div>';
           return;
         }
 
-        places.forEach(place => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "suggestion";
+        results.forEach(place=>{
+          const button=document.createElement("button");
+          button.type="button";
+          button.className="suggestion";
 
-          const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-          icon.setAttribute("class", "icon");
-          const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-          use.setAttribute("href", "#pin");
+          const icon=document.createElementNS("http://www.w3.org/2000/svg","svg");
+          icon.setAttribute("class","icon");
+          const use=document.createElementNS("http://www.w3.org/2000/svg","use");
+          use.setAttribute("href","#pin");
           icon.appendChild(use);
 
-          const textWrap = document.createElement("div");
-          textWrap.className = "suggestion-text";
+          const textWrap=document.createElement("div");
+          const title=document.createElement("div");
+          const address=document.createElement("div");
 
-          const title = document.createElement("div");
-          title.className = "suggestion-title";
-          title.textContent = place.name || place.display_name.split(",")[0];
+          textWrap.className="suggestion-text";
+          title.className="suggestion-title";
+          address.className="suggestion-address";
+          title.textContent=place.name||place.display_name.split(",")[0];
+          address.textContent=place.display_name;
 
-          const address = document.createElement("div");
-          address.className = "suggestion-address";
-          address.textContent = place.display_name;
+          textWrap.append(title,address);
+          button.append(icon,textWrap);
 
-          textWrap.append(title, address);
-          button.append(icon, textWrap);
-
-          button.addEventListener("click", () => {
-            input.value = place.display_name;
-            input.dataset.lon = place.lon;
-            input.dataset.lat = place.lat;
+          button.addEventListener("click",()=>{
+            input.value=place.display_name;
+            input.dataset.lon=place.lon;
+            input.dataset.lat=place.lat;
             box.classList.remove("show");
-            box.innerHTML = "";
+            box.innerHTML="";
           });
 
           box.appendChild(button);
         });
 
-        box.classList.add("show");
-      } catch (error) {
-        if (thisRequest !== requestNumber) return;
-        box.innerHTML = '<div class="suggestion-message">Could not load suggestions. Check your internet connection.</div>';
-        box.classList.add("show");
+      } catch(error) {
+        if(id!==requestId) return;
+        box.innerHTML='<div class="suggestion-message">Could not load locations. Check internet.</div>';
       }
-    }, 350);
+    },400);
   });
 
-  input.addEventListener("keydown", event => {
-    if (event.key === "Escape") box.classList.remove("show");
-
-    if (event.key === "Enter") {
-      const first = box.querySelector(".suggestion");
-      if (first) {
-        event.preventDefault();
-        first.click();
-      } else {
-        box.classList.remove("show");
-      }
+  input.addEventListener("keydown",event=>{
+    if(event.key==="Escape") box.classList.remove("show");
+    if(event.key==="Enter") {
+      const first=box.querySelector(".suggestion");
+      if(first) { event.preventDefault(); first.click(); }
     }
   });
 
-  document.addEventListener("click", event => {
-    if (!box.contains(event.target) && event.target !== input) {
-      box.classList.remove("show");
-    }
+  document.addEventListener("click",event=>{
+    if(!box.contains(event.target)&&event.target!==input) box.classList.remove("show");
   });
 }
 
-setupAutocomplete("start", "startSuggestions");
-setupAutocomplete("destination", "destinationSuggestions");
+setupAutocomplete("start","startSuggestions");
+setupAutocomplete("destination","destinationSuggestions");
 
-async function geocode(text, input) {
-  const lon = Number(input.dataset.lon);
-  const lat = Number(input.dataset.lat);
-
-  if (input.dataset.lon && input.dataset.lat &&
-      Number.isFinite(lon) && Number.isFinite(lat)) {
-    return [lon, lat];
+async function geocode(text,input) {
+  if(input.dataset.lon&&input.dataset.lat) {
+    return [Number(input.dataset.lon),Number(input.dataset.lat)];
   }
 
-  const url = "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=" + encodeURIComponent(text);
-  const response = await fetch(url);
+  const url="https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q="+encodeURIComponent(text);
+  const response=await fetch(url);
+  if(!response.ok) throw new Error("Location search failed.");
 
-  if (!response.ok) throw new Error("Location search failed.");
+  const results=await response.json();
+  if(!results.length) throw new Error("Location not found: "+text);
 
-  const results = await response.json();
-  if (!results.length) throw new Error("Location not found: " + text);
-
-  input.dataset.lon = results[0].lon;
-  input.dataset.lat = results[0].lat;
-
-  return [Number(results[0].lon), Number(results[0].lat)];
+  input.dataset.lon=results[0].lon;
+  input.dataset.lat=results[0].lat;
+  return [Number(results[0].lon),Number(results[0].lat)];
 }
 
 function useMyLocation() {
-  if (!navigator.geolocation) {
-    status("This browser does not support GPS location.");
-    return;
-  }
+  if(!navigator.geolocation) return status("GPS is not supported by this browser.");
 
   status("Finding your current location...");
 
-  navigator.geolocation.getCurrentPosition(position => {
-    currentPosition = [position.coords.longitude, position.coords.latitude];
+  navigator.geolocation.getCurrentPosition(position=>{
+    currentPosition=[position.coords.longitude,position.coords.latitude];
 
-    const input = document.getElementById("start");
-    input.value = "My Location";
-    input.dataset.lon = currentPosition[0];
-    input.dataset.lat = currentPosition[1];
+    const input=document.getElementById("start");
+    input.value="My Location";
+    input.dataset.lon=currentPosition[0];
+    input.dataset.lat=currentPosition[1];
 
     showGps(currentPosition);
+    map.flyTo({center:currentPosition,zoom:15,pitch:threeD?55:0,duration:1000});
 
-    map.flyTo({
-      center: currentPosition,
-      zoom: 16,
-      pitch: threeD ? 55 : 0,
-      duration: 1200
-    });
-
-    status("Current location found. Choose a destination.");
-  }, error => {
-    status(error.code === 1
-      ? "Location permission denied. Allow location access in browser settings."
-      : "Unable to get GPS location. Check your settings and try again.");
-  }, {
-    enableHighAccuracy: true,
-    timeout: 20000,
-    maximumAge: 5000
-  });
+    status("Location found. Select your destination.");
+  },error=>{
+    status(error.code===1
+      ?"Location permission denied. Allow GPS access in browser settings."
+      :"Unable to get your GPS location. Please try again.");
+  },{enableHighAccuracy:true,timeout:20000,maximumAge:5000});
 }
 
 function showGps(coords) {
-  if (gpsMarker) {
-    gpsMarker.setLngLat(coords);
-    return;
-  }
+  if(gpsMarker) { gpsMarker.setLngLat(coords); return; }
 
-  const el = document.createElement("div");
-  el.style.cssText = "width:19px;height:19px;border-radius:50%;background:#4385ff;border:3px solid white;box-shadow:0 0 0 8px #4385ff35,0 0 20px #4385ff;";
+  const element=document.createElement("div");
+  element.style.cssText="width:19px;height:19px;border-radius:50%;background:#4385ff;border:3px solid white;box-shadow:0 0 0 8px #4385ff35,0 0 20px #4385ff;";
 
-  gpsMarker = new maplibregl.Marker({ element: el })
-    .setLngLat(coords)
-    .addTo(map);
+  gpsMarker=new maplibregl.Marker({element}).setLngLat(coords).addTo(map);
 }
 
 async function findRoute() {
-  const startInput = document.getElementById("start");
-  const destInput = document.getElementById("destination");
-  const startText = startInput.value.trim();
-  const destText = destInput.value.trim();
+  const startInput=document.getElementById("start");
+  const destInput=document.getElementById("destination");
+  const startText=startInput.value.trim();
+  const destText=destInput.value.trim();
 
-  if (!startText || !destText) {
-    status("Enter both a starting point and destination.");
-    return;
-  }
+  if(!startText||!destText) return status("Enter both starting point and destination.");
 
-  status("Finding your route...");
+  status("Calculating route and finding places along the way...");
 
   try {
     let start;
 
-    if (startText.toLowerCase() === "my location" && currentPosition) {
-      start = currentPosition;
+    if(startText.toLowerCase()==="my location"&&currentPosition) {
+      start=currentPosition;
     } else {
-      start = await geocode(startText, startInput);
+      start=await geocode(startText,startInput);
     }
 
-    const destination = await geocode(destText, destInput);
+    const destination=await geocode(destText,destInput);
 
-    const url = "https://router.project-osrm.org/route/v1/driving/" +
-      start.join(",") + ";" + destination.join(",") +
+    const url="https://router.project-osrm.org/route/v1/driving/"+
+      start.join(",")+";"+destination.join(",")+
       "?overview=full&geometries=geojson&steps=true";
 
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Routing service unavailable.");
+    const response=await fetch(url);
+    if(!response.ok) throw new Error("Routing service unavailable.");
 
-    const data = await response.json();
+    const data=await response.json();
+    if(data.code!=="Ok"||!data.routes.length) throw new Error("No driving route found.");
 
-    if (data.code !== "Ok" || !data.routes.length) {
-      throw new Error("No driving route found.");
-    }
-
-    const route = data.routes[0];
-    routeCoordinates = route.geometry.coordinates;
+    const route=data.routes[0];
+    routeCoordinates=route.geometry.coordinates;
 
     map.getSource("routeSource").setData({
-      type: "Feature",
-      properties: {},
-      geometry: route.geometry
+      type:"Feature",properties:{},geometry:route.geometry
     });
 
-    if (destinationMarker) destinationMarker.remove();
+    if(destinationMarker) destinationMarker.remove();
 
-    destinationMarker = new maplibregl.Marker({ color: "#f43f5e" })
+    destinationMarker=new maplibregl.Marker({color:"#f43f5e"})
       .setLngLat(destination)
       .setPopup(new maplibregl.Popup().setText("Destination"))
       .addTo(map);
 
-    const bounds = new maplibregl.LngLatBounds();
-    routeCoordinates.forEach(point => bounds.extend(point));
+    const bounds=new maplibregl.LngLatBounds();
+    routeCoordinates.forEach(point=>bounds.extend(point));
 
-    map.fitBounds(bounds, {
-      padding: window.innerWidth < 480 ? 55 : 80,
-      duration: 1200
+    map.fitBounds(bounds,{
+      padding:window.innerWidth<480?45:70,
+      duration:1200
     });
 
-    const km = (route.distance / 1000).toFixed(1);
-    const minutes = Math.round(route.duration / 60);
+    const km=(route.distance/1000).toFixed(1);
+    const minutes=Math.round(route.duration/60);
 
-    status("Route found: " + km + " km. Estimated driving time: " + minutes + " minutes. GPS navigation can now be started.");
+    status("Route: "+km+" km. Estimated driving time: "+minutes+" minutes.");
 
     startNavigation();
-  } catch (error) {
-    status(error.message || "Unable to calculate route.");
+    await findPlacesAlongRoute(routeCoordinates,start,destination);
+
+  } catch(error) {
+    status(error.message||"Unable to calculate route.");
   }
 }
 
-function toggleSatellite() {
-  if (!map.getLayer("satelliteLayer")) return status("Map is still loading.");
+/*
+  Find named settlements and nearby places along the route.
+  We sample several points on the route and query OpenStreetMap's
+  Overpass API for nearby towns, villages, suburbs and landmarks.
+*/
+async function findPlacesAlongRoute(coords,start,destination) {
+  const card=document.getElementById("placesCard");
+  const list=document.getElementById("placeList");
+  const subtitle=document.getElementById("placesSubtitle");
+  const request=++placesRequest;
 
-  satelliteOn = !satelliteOn;
-  map.setLayoutProperty("satelliteLayer", "visibility", satelliteOn ? "visible" : "none");
-  document.getElementById("satBtn").classList.toggle("active", satelliteOn);
-  status(satelliteOn ? "Satellite imagery enabled." : "Normal map enabled.");
+  card.classList.add("show");
+  list.innerHTML='<div class="suggestion-message">Finding towns and places along your route...</div>';
+  subtitle.textContent="Searching OpenStreetMap data near your route.";
+
+  try {
+    if(!coords||coords.length<2) throw new Error("No route coordinates");
+
+    // Sample up to 7 evenly spaced route points.
+    const sampleCount=Math.min(7,Math.max(3,Math.ceil(coords.length/100)));
+    const samples=[];
+
+    for(let i=1;i<sampleCount;i++) {
+      const index=Math.round(i*(coords.length-1)/sampleCount);
+      samples.push(coords[index]);
+    }
+
+    const uniqueSamples=[];
+    samples.forEach(point=>{
+      if(!uniqueSamples.some(p=>Math.abs(p[0]-point[0])<0.03&&Math.abs(p[1]-point[1])<0.03)) {
+        uniqueSamples.push(point);
+      }
+    });
+
+    const allPlaces=new Map();
+
+    // Query nearby settlements and important named places.
+    // Requests are sequential to reduce load on the public service.
+    for(const point of uniqueSamples) {
+      if(request!==placesRequest) return;
+
+      const lon=point[0];
+      const lat=point[1];
+
+      const query=`
+        [out:json][timeout:15];
+        (
+          node(around:5000,${lat},${lon})["place"~"city|town|village|suburb|hamlet"];
+          way(around:5000,${lat},${lon})["place"~"city|town|village|suburb|hamlet"];
+          node(around:2500,${lat},${lon})["tourism"~"attraction|museum|viewpoint"];
+          node(around:2500,${lat},${lon})["historic"];
+        );
+        out center tags;
+      `;
+
+      const response=await fetch("https://overpass-api.de/api/interpreter",{
+        method:"POST",
+        headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
+        body:"data="+encodeURIComponent(query)
+      });
+
+      if(!response.ok) continue;
+
+      const data=await response.json();
+
+      (data.elements||[]).forEach(item=>{
+        const tags=item.tags||{};
+        const name=tags.name||tags["name:en"];
+        if(!name) return;
+
+        const placeLon=item.lon??item.center?.lon;
+        const placeLat=item.lat??item.center?.lat;
+        if(placeLon==null||placeLat==null) return;
+
+        // Keep places within a reasonable distance of the route sample.
+        const key=name.toLowerCase();
+        if(key===String(name).toLowerCase()) {
+          if(!allPlaces.has(key)) {
+            allPlaces.set(key,{
+              name,
+              type:tags.place||tags.tourism||tags.historic||"place",
+              coords:[placeLon,placeLat],
+              distance:Math.hypot((placeLon-lon)*85,(placeLat-lat)*111)
+            });
+          }
+        }
+      });
+    }
+
+    if(request!==placesRequest) return;
+
+    const places=[...allPlaces.values()]
+      .filter(p=>p.name.toLowerCase()!==document.getElementById("start").value.trim().toLowerCase())
+      .filter(p=>p.name.toLowerCase()!==document.getElementById("destination").value.trim().toLowerCase())
+      .sort((a,b)=>a.distance-b.distance)
+      .slice(0,15);
+
+    list.innerHTML="";
+
+    // Starting and destination places are always shown.
+    const startName=document.getElementById("start").value.trim();
+    const destName=document.getElementById("destination").value.trim();
+
+    addPlaceRow("Starting point",startName||"Start location","Route begins here",start);
+    places.forEach(place=>{
+      addPlaceRow("Along route",place.name,formatPlaceType(place.type),place.coords);
+    });
+    addPlaceRow("Destination",destName||"Destination","Route ends here",destination);
+
+    subtitle.textContent=places.length
+      ? "Named places found near sampled sections of your route."
+      : "No intermediate named places were returned. Starting point and destination are shown.";
+
+  } catch(error) {
+    if(request!==placesRequest) return;
+
+    list.innerHTML="";
+    addPlaceRow("Starting point",document.getElementById("start").value||"Start","Route begins here",start);
+    addPlaceRow("Destination",document.getElementById("destination").value||"Destination","Route ends here",destination);
+    subtitle.textContent="Nearby place search is temporarily unavailable. Try again later.";
+  }
+}
+
+function formatPlaceType(type) {
+  const labels={
+    city:"City",town:"Town",village:"Village",suburb:"Neighbourhood",
+    hamlet:"Small settlement",attraction:"Attraction",museum:"Museum",
+    viewpoint:"Viewpoint",historic:"Historic place"
+  };
+  return labels[type]||"Nearby place";
+}
+
+function addPlaceRow(category,name,detail,coords) {
+  const list=document.getElementById("placeList");
+
+  const row=document.createElement("div");
+  row.className="place-item";
+
+  const symbol=document.createElement("div");
+  symbol.className="place-symbol";
+
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("class","icon");
+
+  const use=document.createElementNS("http://www.w3.org/2000/svg","use");
+  use.setAttribute("href","#pin");
+  svg.appendChild(use);
+  symbol.appendChild(svg);
+
+  const text=document.createElement("div");
+  text.style.flex="1";
+
+  const title=document.createElement("div");
+  title.className="place-name";
+  title.textContent=name;
+
+  const desc=document.createElement("div");
+  desc.className="place-detail";
+  desc.textContent=category+" · "+detail;
+
+  text.append(title,desc);
+  row.append(symbol,text);
+
+  row.style.cursor="pointer";
+  row.addEventListener("click",()=>{
+    map.flyTo({center:coords,zoom:13,duration:700});
+  });
+
+  list.appendChild(row);
+}
+
+function toggleSatellite() {
+  if(!map.getLayer("satelliteLayer")) return status("Map is loading.");
+
+  satelliteOn=!satelliteOn;
+  map.setLayoutProperty("satelliteLayer","visibility",satelliteOn?"visible":"none");
+  document.getElementById("satBtn").classList.toggle("active",satelliteOn);
+  status(satelliteOn?"Satellite view enabled.":"Normal map enabled.");
 }
 
 function toggleTraffic() {
-  if (!map.getLayer("trafficLayer")) return status("Map is still loading.");
+  if(!map.getLayer("trafficLayer")) return status("Map is loading.");
 
-  trafficOn = !trafficOn;
-  map.setLayoutProperty("trafficLayer", "visibility", trafficOn ? "visible" : "none");
-  document.getElementById("trafficBtn").classList.toggle("active", trafficOn);
+  trafficOn=!trafficOn;
+  map.setLayoutProperty("trafficLayer","visibility",trafficOn?"visible":"none");
+  document.getElementById("trafficBtn").classList.toggle("active",trafficOn);
 
   status(trafficOn
-    ? "Traffic layer enabled. A valid TomTom API key is required for live traffic."
-    : "Traffic layer disabled.");
+    ?"Traffic layer enabled. A valid TomTom API key is required for live traffic."
+    :"Traffic layer disabled.");
 }
 
 function toggle3D() {
-  threeD = !threeD;
-  map.easeTo({ pitch: threeD ? 55 : 0, duration: 900 });
-  status(threeD ? "3D view enabled." : "2D view enabled.");
+  threeD=!threeD;
+  map.easeTo({pitch:threeD?55:0,duration:900});
+  status(threeD?"3D view enabled.":"2D view enabled.");
 }
 
 async function toggleFullscreen() {
   try {
-    if (!document.fullscreenElement) {
-      await document.documentElement.requestFullscreen();
-    } else {
-      await document.exitFullscreen();
-    }
+    if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
+    else await document.exitFullscreen();
   } catch {
     status("Fullscreen is not available in this browser.");
   }
@@ -672,35 +758,33 @@ function toggleNavPanel() {
 }
 
 function startNavigation() {
-  navActive = true;
+  navActive=true;
   document.body.classList.add("nav-mode");
 
-  if (!navigator.geolocation) return;
+  if(!navigator.geolocation) return;
 
-  if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+  if(watchId!==null) navigator.geolocation.clearWatch(watchId);
 
-  watchId = navigator.geolocation.watchPosition(position => {
-    currentPosition = [position.coords.longitude, position.coords.latitude];
+  watchId=navigator.geolocation.watchPosition(position=>{
+    currentPosition=[position.coords.longitude,position.coords.latitude];
     showGps(currentPosition);
 
-    if (navActive) {
-      map.easeTo({ center: currentPosition, duration: 700 });
-    }
-  }, error => {
-    console.warn("GPS update unavailable:", error.message);
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 3000,
-    timeout: 15000
+    if(navActive) map.easeTo({center:currentPosition,duration:700});
+  },error=>{
+    console.warn("GPS update unavailable:",error.message);
+  },{
+    enableHighAccuracy:true,
+    maximumAge:3000,
+    timeout:15000
   });
 }
 
 function stopNavigation() {
-  navActive = false;
+  navActive=false;
 
-  if (watchId !== null) {
+  if(watchId!==null) {
     navigator.geolocation.clearWatch(watchId);
-    watchId = null;
+    watchId=null;
   }
 
   document.body.classList.remove("nav-mode");
@@ -708,27 +792,30 @@ function stopNavigation() {
 }
 
 function clearRoute() {
-  if (map.getSource("routeSource")) {
+  placesRequest++;
+
+  if(map.getSource("routeSource")) {
     map.getSource("routeSource").setData({
-      type: "Feature",
-      properties: {},
-      geometry: { type: "LineString", coordinates: [] }
+      type:"Feature",properties:{},geometry:{type:"LineString",coordinates:[]}
     });
   }
 
-  if (destinationMarker) {
+  if(destinationMarker) {
     destinationMarker.remove();
-    destinationMarker = null;
+    destinationMarker=null;
   }
 
-  stopNavigation();
+  document.getElementById("placesCard").classList.remove("show");
+  document.getElementById("placeList").innerHTML="";
 
-  const dest = document.getElementById("destination");
-  dest.value = "";
+  const dest=document.getElementById("destination");
+  dest.value="";
   delete dest.dataset.lon;
   delete dest.dataset.lat;
 
-  status("Route cleared. Enter a new destination.");
+  routeCoordinates=[];
+  stopNavigation();
+  status("Route cleared. Choose a new destination.");
 }
 </script>
 </body>
