@@ -3,12 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RouteX - Smart Navigation</title>
+<meta name="theme-color" content="#080d18">
 
-<link href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css" rel="stylesheet">
+<title>RouteX — Premium Navigation</title>
+
+<link rel="stylesheet"
+ href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css">
+
 <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
 
 <style>
+:root {
+  --bg: #080d18;
+  --panel: rgba(13, 21, 37, .94);
+  --border: rgba(148, 163, 184, .18);
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --blue: #4385ff;
+  --blue-light: #75adff;
+  --green: #22c55e;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,232 +31,521 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   overflow: hidden;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  color: inherit;
 }
 
 #map {
   position: absolute;
   inset: 0;
+  background: #101827;
+}
+
+.icon {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brand-icon {
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: white;
+  background: linear-gradient(145deg, #4f93ff, #1554dc);
+  box-shadow: 0 5px 22px #2563eb55;
+}
+
+.brand-icon .icon {
+  width: 23px;
+  height: 23px;
 }
 
 .panel {
   position: absolute;
   z-index: 5;
-  top: 12px;
-  left: 12px;
-  width: min(390px, calc(100% - 24px));
-  padding: 16px;
-  background: rgba(15, 23, 42, .97);
-  border: 1px solid #334155;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px #0005;
+  top: 15px;
+  left: 15px;
+  width: min(390px, calc(100% - 30px));
+  max-height: calc(100dvh - 90px);
+  overflow-y: auto;
+  padding: 19px;
+  border: 1px solid var(--border);
+  border-radius: 21px;
+  background: var(--panel);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 18px 65px #0005;
+  scrollbar-width: thin;
 }
 
-.header {
+.brand-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  gap: 11px;
+  margin-bottom: 21px;
 }
 
-.logo {
-  font-size: 26px;
-  font-weight: bold;
-  color: #60a5fa;
+.brand-copy {
+  flex: 1;
 }
 
-.tagline {
-  color: #94a3b8;
+.brand-name {
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -.8px;
+}
+
+.brand-name span {
+  color: var(--blue-light);
+}
+
+.brand-caption {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #86efac;
   font-size: 10px;
+  font-weight: 700;
 }
 
-label {
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px #22c55e88;
+}
+
+.section-label {
   display: block;
-  margin: 10px 0 5px;
-  font-size: 12px;
-  color: #cbd5e1;
+  margin: 15px 0 7px;
+  color: #aab8cb;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+.start-row {
+  display: flex;
+  align-items: stretch;
+  gap: 7px;
 }
 
 input {
   width: 100%;
   min-width: 0;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #475569;
-  background: #1e293b;
-  color: white;
-  font-size: 14px;
+  padding: 12px 13px;
+  color: var(--text);
+  background: rgba(30, 41, 59, .76);
+  border: 1px solid #344258;
+  border-radius: 11px;
+  outline: none;
+  font-size: 13px;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px #4385ff18;
 }
 
 input::placeholder {
-  color: #94a3b8;
-}
-
-.start-row {
-  display: flex;
-  gap: 7px;
-}
-
-.start-row input {
-  flex: 1;
-}
-
-button {
-  border: 0;
-  padding: 11px;
-  border-radius: 10px;
-  background: #334155;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:active {
-  transform: scale(.98);
+  color: #7e8da3;
 }
 
 .location-btn {
-  background: #164e8a;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px;
+  border: 1px solid #3765ad;
+  border-radius: 11px;
+  color: #b9d5ff;
+  background: #1b3761;
   font-size: 11px;
-  white-space: nowrap;
+  font-weight: 700;
+  transition: .2s;
 }
 
-.primary {
+.location-btn .icon {
+  width: 17px;
+  height: 17px;
+}
+
+.location-btn:hover {
+  background: #254b80;
+}
+
+.destination-wrap {
+  position: relative;
+}
+
+.destination-wrap input {
+  padding-left: 35px;
+}
+
+.destination-wrap .icon {
+  position: absolute;
+  top: 12px;
+  left: 11px;
+  width: 17px;
+  height: 17px;
+  color: #fb7185;
+}
+
+.primary-btn {
   width: 100%;
-  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 12px;
   padding: 13px;
-  background: #2563eb;
-  font-size: 15px;
+  border: 1px solid #679cff55;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #397eff, #2458db);
+  color: white;
+  font-size: 13px;
+  font-weight: 750;
+  box-shadow: 0 6px 20px #2563eb30;
+  transition: transform .2s, filter .2s;
 }
 
-.grid {
+.primary-btn:hover {
+  filter: brightness(1.12);
+}
+
+.primary-btn:active {
+  transform: scale(.98);
+}
+
+.primary-btn .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  min-width: 0;
+  padding: 11px 10px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: rgba(30, 41, 59, .7);
+  color: #dbe5f3;
+  font-size: 11px;
+  font-weight: 650;
+  transition: background .2s, border-color .2s;
+}
+
+.tool-btn .icon {
+  width: 18px;
+  height: 18px;
+  color: #91baff;
+}
+
+.tool-btn:hover {
+  border-color: #6388c7;
+  background: #263750;
+}
+
+.tool-btn.active {
+  border-color: #3d9b70;
+  background: #123b30;
+  color: #a7f3d0;
+}
+
+.tool-btn.active .icon {
+  color: #6ee7b7;
+}
+
+.status-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 13px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(30, 41, 59, .56);
+}
+
+.status-card > .icon {
+  color: var(--blue-light);
+  margin-top: 1px;
+}
+
+.status-text {
+  color: #c5d1e2;
+  font-size: 11px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.traffic-legend {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(8, 13, 24, .45);
+}
+
+.legend-title {
+  margin-bottom: 10px;
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.legend-items {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 9px;
+  gap: 9px;
 }
 
-.grid button {
-  font-size: 12px;
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 10px;
 }
 
-.traffic-btn {
-  background: #166534;
-}
-
-.satellite-btn {
-  background: #854d0e;
-}
-
-.status {
-  padding: 10px;
-  margin-top: 10px;
+.legend-line {
+  width: 17px;
+  height: 4px;
   border-radius: 10px;
-  background: #1e293b;
-  color: #cbd5e1;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.legend {
-  margin-top: 9px;
-  padding: 10px;
-  border-radius: 10px;
-  background: #1e293b;
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-.dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 5px;
 }
 
 .bottom-bar {
   position: absolute;
   z-index: 4;
-  bottom: 16px;
+  bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 7px;
-  max-width: calc(100% - 16px);
+  gap: 8px;
+  max-width: calc(100% - 20px);
 }
 
-.bottom-bar button {
+.bottom-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 15px;
+  border: 1px solid #475569b0;
+  border-radius: 13px;
+  background: rgba(13, 21, 37, .94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 7px 25px #0004;
   white-space: nowrap;
   font-size: 11px;
-  box-shadow: 0 4px 15px #0005;
+  font-weight: 700;
+  transition: background .2s;
+}
+
+.bottom-btn .icon {
+  width: 17px;
+  height: 17px;
+  color: var(--blue-light);
+}
+
+.bottom-btn:hover {
+  background: #263750;
 }
 
 #reopenBtn {
   display: none;
   position: absolute;
   z-index: 8;
-  top: 12px;
-  left: 12px;
-  background: #0f172a;
+  top: 15px;
+  left: 15px;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--panel);
+  backdrop-filter: blur(20px);
+  font-weight: 750;
 }
 
 #navBanner {
   display: none;
   position: absolute;
   z-index: 4;
-  top: 12px;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(330px, calc(100% - 95px));
-  background: #0f172a;
-  padding: 14px;
-  border-radius: 14px;
+  width: min(330px, calc(100% - 125px));
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: var(--panel);
+  backdrop-filter: blur(20px);
   text-align: center;
+  box-shadow: 0 8px 25px #0003;
 }
 
-#navBanner p {
-  font-size: 12px;
-  color: #cbd5e1;
+.nav-heading {
+  font-size: 13px;
+  font-weight: 750;
+}
+
+#navStatus {
   margin-top: 6px;
+  color: #b8c5d8;
+  font-size: 11px;
+  line-height: 1.6;
 }
 
 body.nav-mode .panel {
   display: none;
 }
 
-body.nav-mode #reopenBtn,
+body.nav-mode #reopenBtn {
+  display: flex;
+}
+
 body.nav-mode #navBanner {
   display: block;
 }
 
-@media(max-width:450px) {
+.maplibregl-ctrl-group {
+  border: 1px solid #475569 !important;
+  border-radius: 11px !important;
+  overflow: hidden;
+  background: #111c2e !important;
+  box-shadow: 0 4px 15px #0003 !important;
+}
+
+.maplibregl-ctrl-group button {
+  background-color: #111c2e !important;
+}
+
+.maplibregl-ctrl-group button span {
+  filter: invert(1);
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 9px !important;
+}
+
+@media(max-width: 480px) {
   .panel {
-    top: 7px;
-    left: 7px;
-    width: calc(100% - 14px);
-    padding: 12px;
+    top: 8px;
+    left: 8px;
+    width: calc(100% - 16px);
+    max-height: calc(100dvh - 75px);
+    padding: 14px;
+    border-radius: 17px;
   }
 
-  .logo {
-    font-size: 23px;
+  .brand-row {
+    margin-bottom: 12px;
+  }
+
+  .brand-name {
+    font-size: 21px;
+  }
+
+  .section-label {
+    margin-top: 11px;
+  }
+
+  .start-row {
+    gap: 6px;
   }
 
   .location-btn {
-    padding: 9px 7px;
+    padding: 8px;
+    font-size: 10px;
+  }
+
+  .tools-grid {
+    gap: 7px;
+    margin-top: 9px;
+  }
+
+  .tool-btn {
+    padding: 10px 8px;
+    font-size: 10px;
+  }
+
+  .traffic-legend {
+    padding: 9px;
   }
 
   .bottom-bar {
     bottom: 10px;
+    gap: 5px;
+  }
+
+  .bottom-btn {
+    padding: 11px 10px;
+    gap: 6px;
+    font-size: 10px;
+  }
+}
+
+@media(max-width: 350px) {
+  .brand-caption {
+    letter-spacing: 1px;
+  }
+
+  .location-btn {
+    font-size: 9px;
     gap: 4px;
   }
 
-  .bottom-bar button {
-    padding: 10px 7px;
-    font-size: 10px;
+  .tool-btn {
+    font-size: 9px;
+    gap: 6px;
+  }
+
+  .bottom-btn {
+    padding: 10px 8px;
   }
 }
 </style>
@@ -249,69 +553,227 @@ body.nav-mode #navBanner {
 
 <body>
 
+<!-- Reusable SVG icon library -->
+<svg xmlns="http://www.w3.org/2000/svg"
+     style="position:absolute;width:0;height:0;overflow:hidden"
+     aria-hidden="true">
+
+  <symbol id="i-route" viewBox="0 0 24 24">
+    <circle cx="6" cy="18" r="3"/>
+    <circle cx="18" cy="6" r="3"/>
+    <path d="M9 18h3a3 3 0 0 0 3-3V9"/>
+    <path d="M12 9h3"/>
+  </symbol>
+
+  <symbol id="i-location" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8"/>
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+  </symbol>
+
+  <symbol id="i-pin" viewBox="0 0 24 24">
+    <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
+    <circle cx="12" cy="10" r="2.5"/>
+  </symbol>
+
+  <symbol id="i-search" viewBox="0 0 24 24">
+    <circle cx="10.5" cy="10.5" r="6.5"/>
+    <path d="m16 16 4.5 4.5"/>
+  </symbol>
+
+  <symbol id="i-satellite" viewBox="0 0 24 24">
+    <path d="m4 4 5 5M15 15l5 5"/>
+    <path d="m3 8 5-5 4 4-5 5zM12 17l5-5 4 4-5 5z"/>
+    <path d="m9 15 6-6M5 19l3-3M16 8l3-3"/>
+    <path d="M3 21h6M21 3v6"/>
+  </symbol>
+
+  <symbol id="i-layers" viewBox="0 0 24 24">
+    <path d="m12 3 9 5-9 5-9-5 9-5Z"/>
+    <path d="m3 12 9 5 9-5M3 16l9 5 9-5"/>
+  </symbol>
+
+  <symbol id="i-traffic" viewBox="0 0 24 24">
+    <path d="M5 21V5M19 21V5"/>
+    <path d="M3 5h4M17 5h4"/>
+    <path d="M8 9h8l2 4v4H6v-4l2-4Z"/>
+    <circle cx="9" cy="14" r="1"/>
+    <circle cx="15" cy="14" r="1"/>
+  </symbol>
+
+  <symbol id="i-expand" viewBox="0 0 24 24">
+    <path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/>
+    <path d="M3 3l7 7M21 3l-7 7M3 21l7-7M21 21l-7-7"/>
+  </symbol>
+
+  <symbol id="i-compass" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="m16 8-2.5 5.5L8 16l2.5-5.5L16 8Z"/>
+  </symbol>
+
+  <symbol id="i-close" viewBox="0 0 24 24">
+    <path d="m18 6-12 12M6 6l12 12"/>
+  </symbol>
+
+  <symbol id="i-menu" viewBox="0 0 24 24">
+    <path d="M4 6h16M4 12h16M4 18h16"/>
+  </symbol>
+
+  <symbol id="i-trash" viewBox="0 0 24 24">
+    <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>
+    <path d="M10 10v6M14 10v6"/>
+  </symbol>
+
+  <symbol id="i-navigation" viewBox="0 0 24 24">
+    <path d="m12 3 8 18-8-5-8 5 8-18Z"/>
+  </symbol>
+</svg>
+
 <div id="map"></div>
 
 <section class="panel">
-  <div class="header">
-    <div class="logo">🚘 RouteX</div>
-    <div class="tagline">SMART NAVIGATION</div>
+
+  <div class="brand-row">
+    <div class="brand-icon">
+      <svg class="icon"><use href="#i-route"/></svg>
+    </div>
+
+    <div class="brand-copy">
+      <div class="brand-name">Route<span>X</span></div>
+      <div class="brand-caption">SMART NAVIGATION</div>
+    </div>
+
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      MAP READY
+    </div>
   </div>
 
-  <label for="start">Starting Point</label>
+  <label class="section-label" for="start">STARTING POINT</label>
 
   <div class="start-row">
-    <input id="start" placeholder="Enter starting location">
+    <input id="start"
+           placeholder="Enter starting location"
+           autocomplete="off">
 
     <button class="location-btn" onclick="useMyLocation()">
-      📍 Current Location
+      <svg class="icon"><use href="#i-location"/></svg>
+      Current
     </button>
   </div>
 
-  <label for="destination">Destination</label>
-  <input id="destination" placeholder="Where do you want to go?">
+  <label class="section-label" for="destination">DESTINATION</label>
 
-  <button class="primary" onclick="findRoute()">
-    🔎 Find Route
+  <div class="destination-wrap">
+    <svg class="icon"><use href="#i-pin"/></svg>
+    <input id="destination"
+           placeholder="Where do you want to go?"
+           autocomplete="off">
+  </div>
+
+  <button class="primary-btn" onclick="findRoute()">
+    <svg class="icon"><use href="#i-search"/></svg>
+    Find Best Route
   </button>
 
-  <div class="grid">
-    <button onclick="useMyLocation()">📍 My Location</button>
-    <button onclick="toggle3D()">🏙️ 2D / 3D</button>
-    <button class="satellite-btn" onclick="toggleSatellite()">🛰️ Satellite</button>
-    <button class="traffic-btn" onclick="toggleTraffic()">🚦 Traffic On/Off</button>
-    <button onclick="toggleFullscreen()">⛶ Full Screen</button>
-    <button onclick="clearRoute()">🗑️ Clear Route</button>
+  <div class="tools-grid">
+
+    <button class="tool-btn" onclick="useMyLocation()">
+      <svg class="icon"><use href="#i-location"/></svg>
+      My Location
+    </button>
+
+    <button class="tool-btn" id="satelliteBtn" onclick="toggleSatellite()">
+      <svg class="icon"><use href="#i-satellite"/></svg>
+      Satellite View
+    </button>
+
+    <button class="tool-btn" onclick="toggle3D()">
+      <svg class="icon"><use href="#i-layers"/></svg>
+      2D / 3D View
+    </button>
+
+    <button class="tool-btn" id="trafficBtn" onclick="toggleTraffic()">
+      <svg class="icon"><use href="#i-traffic"/></svg>
+      Traffic Layer
+    </button>
+
+    <button class="tool-btn" onclick="toggleFullscreen()">
+      <svg class="icon"><use href="#i-expand"/></svg>
+      Full Screen
+    </button>
+
+    <button class="tool-btn" onclick="clearRoute()">
+      <svg class="icon"><use href="#i-trash"/></svg>
+      Clear Route
+    </button>
+
   </div>
 
-  <div class="legend">
-    <b>🚦 Traffic Conditions</b><br>
-    <span class="dot" style="background:#36d66b"></span> Smooth traffic<br>
-    <span class="dot" style="background:#ffe14b"></span> Slow traffic<br>
-    <span class="dot" style="background:#ff8c35"></span> Heavy traffic<br>
-    <span class="dot" style="background:#ff3939"></span> Traffic jam
+  <div class="traffic-legend">
+    <div class="legend-title">Traffic Conditions</div>
+
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="legend-line" style="background:#36d66b"></span>
+        Smooth
+      </div>
+
+      <div class="legend-item">
+        <span class="legend-line" style="background:#ffe14b"></span>
+        Slow
+      </div>
+
+      <div class="legend-item">
+        <span class="legend-line" style="background:#ff8c35"></span>
+        Heavy
+      </div>
+
+      <div class="legend-item">
+        <span class="legend-line" style="background:#ff3939"></span>
+        Congested
+      </div>
+    </div>
   </div>
 
-  <div class="status" id="status" aria-live="polite">
-    Tap Current Location or enter your route.
+  <div class="status-card">
+    <svg class="icon"><use href="#i-navigation"/></svg>
+    <div class="status-text" id="status" aria-live="polite">
+      Enter your destination or select your current location.
+    </div>
   </div>
+
 </section>
 
-<button id="reopenBtn" onclick="toggleNavigationPanel()">☰ RouteX</button>
+<button id="reopenBtn" onclick="toggleNavigationPanel()">
+  <svg class="icon"><use href="#i-menu"/></svg>
+  RouteX
+</button>
 
 <div id="navBanner">
-  <b>🧭 RouteX Navigation</b>
-  <p id="navStatus">Ready for navigation.</p>
+  <div class="nav-heading">RouteX Navigation</div>
+  <p id="navStatus">Ready to navigate.</p>
 </div>
 
 <div class="bottom-bar">
-  <button onclick="toggleNavigationPanel()">🧭 Navigation View</button>
-  <button onclick="stopNavigation()">✖ Stop</button>
+  <button class="bottom-btn" onclick="toggleNavigationPanel()">
+    <svg class="icon"><use href="#i-compass"/></svg>
+    Navigation View
+  </button>
+
+  <button class="bottom-btn" onclick="stopNavigation()">
+    <svg class="icon"><use href="#i-close"/></svg>
+    Stop
+  </button>
 </div>
 
 <script>
 /*
-  Add your TomTom API key here for real traffic.
-  Satellite imagery uses Esri World Imagery.
+  ROUTEX CONFIGURATION
+
+  For real traffic:
+  Replace YOUR_TOMTOM_API_KEY with a valid TomTom key.
+  Do not publish an unrestricted API key.
 */
 
 const TOMTOM_API_KEY = "YOUR_TOMTOM_API_KEY";
@@ -347,7 +809,7 @@ map.addControl(new maplibregl.ScaleControl(), "bottom-right");
 map.on("load", () => {
   mapReady = true;
 
-  // Satellite imagery source
+  // Satellite imagery
   map.addSource("satelliteSource", {
     type: "raster",
     tiles: [
@@ -357,20 +819,15 @@ map.on("load", () => {
     attribution: "Imagery © Esri"
   });
 
-  // Start hidden: normal map is initially visible.
   map.addLayer({
     id: "satelliteLayer",
     type: "raster",
     source: "satelliteSource",
-    layout: {
-      visibility: "none"
-    },
-    paint: {
-      "raster-opacity": 1
-    }
+    layout: { visibility: "none" },
+    paint: { "raster-opacity": 1 }
   });
 
-  // Real traffic layer. Requires a valid TomTom key.
+  // Traffic overlay: valid TomTom key required.
   map.addSource("trafficSource", {
     type: "raster",
     tiles: [
@@ -385,12 +842,8 @@ map.on("load", () => {
     id: "trafficLayer",
     type: "raster",
     source: "trafficSource",
-    layout: {
-      visibility: "visible"
-    },
-    paint: {
-      "raster-opacity": 0.8
-    }
+    layout: { visibility: "visible" },
+    paint: { "raster-opacity": 0.8 }
   });
 
   // Route source
@@ -415,8 +868,8 @@ map.on("load", () => {
       "line-join": "round"
     },
     paint: {
-      "line-color": "#1677ff",
-      "line-width": 12,
+      "line-color": "#4385ff",
+      "line-width": 13,
       "line-opacity": 0.3,
       "line-blur": 3
     }
@@ -431,13 +884,13 @@ map.on("load", () => {
       "line-join": "round"
     },
     paint: {
-      "line-color": "#1677ff",
+      "line-color": "#4385ff",
       "line-width": 5
     }
   });
 });
 
-// Get coordinates from a place name
+// Geocoding
 async function geocode(place) {
   const url =
     "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
@@ -455,40 +908,20 @@ async function geocode(place) {
     throw new Error("Location not found: " + place);
   }
 
-  return [Number(results[0].lon), Number(results[0].lat)];
-}
-
-// Show current location on the map
-function showLocation(coords) {
-  if (locationMarker) {
-    locationMarker.setLngLat(coords);
-    return;
-  }
-
-  const element = document.createElement("div");
-
-  element.style.cssText = `
-    width:22px;
-    height:22px;
-    border-radius:50%;
-    background:#1685ff;
-    border:4px solid white;
-    box-shadow:0 0 0 8px #1685ff44, 0 0 20px #1685ff;
-  `;
-
-  locationMarker = new maplibregl.Marker({ element })
-    .setLngLat(coords)
-    .addTo(map);
+  return [
+    Number(results[0].lon),
+    Number(results[0].lat)
+  ];
 }
 
 // Current GPS location
 function useMyLocation() {
   if (!navigator.geolocation) {
-    setStatus("GPS is not supported by this browser.");
+    setStatus("This browser does not support location services.");
     return;
   }
 
-  setStatus("📍 Finding your current location...");
+  setStatus("Finding your current location...");
 
   navigator.geolocation.getCurrentPosition(
     position => {
@@ -508,19 +941,23 @@ function useMyLocation() {
         duration: 1200
       });
 
-      setStatus("Current location found. Enter a destination to continue.");
+      setStatus(
+        "Current location found. Enter a destination to find your route."
+      );
     },
+
     error => {
       if (error.code === 1) {
-        setStatus("Location permission denied. Allow GPS access in your browser.");
+        setStatus("Location permission denied. Allow location access in your browser.");
       } else if (error.code === 2) {
         setStatus("Location unavailable. Check GPS and internet connection.");
       } else if (error.code === 3) {
-        setStatus("GPS request timed out. Try again.");
+        setStatus("Location request timed out. Try again.");
       } else {
-        setStatus("Unable to get your location.");
+        setStatus("Unable to access your current location.");
       }
     },
+
     {
       enableHighAccuracy: true,
       timeout: 20000,
@@ -529,7 +966,30 @@ function useMyLocation() {
   );
 }
 
-// Calculate and display route
+// Blue GPS dot
+function showLocation(coords) {
+  if (locationMarker) {
+    locationMarker.setLngLat(coords);
+    return;
+  }
+
+  const element = document.createElement("div");
+
+  element.style.cssText = `
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#4385ff;
+    border:3px solid white;
+    box-shadow:0 0 0 8px #4385ff38,0 0 22px #4385ff;
+  `;
+
+  locationMarker = new maplibregl.Marker({ element })
+    .setLngLat(coords)
+    .addTo(map);
+}
+
+// Find route
 async function findRoute() {
   if (!mapReady) {
     setStatus("Map is loading. Please wait.");
@@ -537,14 +997,15 @@ async function findRoute() {
   }
 
   const startText = document.getElementById("start").value.trim();
-  const destinationText = document.getElementById("destination").value.trim();
+  const destinationText =
+    document.getElementById("destination").value.trim();
 
   if (!startText || !destinationText) {
-    setStatus("Enter both a starting point and destination.");
+    setStatus("Please enter both a starting point and destination.");
     return;
   }
 
-  setStatus("🔎 Calculating route...");
+  setStatus("Finding locations and calculating your route...");
 
   try {
     let start;
@@ -560,22 +1021,22 @@ async function findRoute() {
 
     const destination = await geocode(destinationText);
 
-    const url =
+    const routeURL =
       "https://router.project-osrm.org/route/v1/driving/" +
       start.join(",") + ";" +
       destination.join(",") +
       "?overview=full&geometries=geojson&steps=true";
 
-    const response = await fetch(url);
+    const response = await fetch(routeURL);
 
     if (!response.ok) {
-      throw new Error("Route service unavailable. Try again later.");
+      throw new Error("Routing service unavailable. Please try again.");
     }
 
     const data = await response.json();
 
     if (data.code !== "Ok" || !data.routes.length) {
-      throw new Error("No driving route found.");
+      throw new Error("No driving route found between these locations.");
     }
 
     const route = data.routes[0];
@@ -600,16 +1061,17 @@ async function findRoute() {
     route.geometry.coordinates.forEach(point => bounds.extend(point));
 
     map.fitBounds(bounds, {
-      padding: window.innerWidth < 500 ? 45 : 90,
+      padding: window.innerWidth < 480 ? 45 : 85,
       duration: 1200
     });
 
-    const km = (route.distance / 1000).toFixed(1);
+    const distance = (route.distance / 1000).toFixed(1);
     const minutes = Math.round(route.duration / 60);
 
     setStatus(
-      "Route found: " + km + " km. Estimated driving time: " +
-      minutes + " minutes."
+      "Route found: " + distance +
+      " km. Estimated driving time: " + minutes +
+      " minutes. GPS tracking is ready."
     );
 
     startNavigation();
@@ -619,7 +1081,7 @@ async function findRoute() {
   }
 }
 
-// Switch normal map and satellite imagery
+// Satellite toggle
 function toggleSatellite() {
   if (!mapReady) {
     setStatus("Map is loading. Please wait.");
@@ -634,16 +1096,19 @@ function toggleSatellite() {
     satelliteMode ? "visible" : "none"
   );
 
-  // Satellite layer is inserted above the normal map but below
-  // the traffic and route layers. Route and traffic stay visible.
+  document.getElementById("satelliteBtn").classList.toggle(
+    "active",
+    satelliteMode
+  );
+
   setStatus(
     satelliteMode
-      ? "🛰️ Satellite view enabled."
-      : "🗺️ Normal map view enabled."
+      ? "Satellite imagery enabled."
+      : "Normal map view enabled."
   );
 }
 
-// Toggle traffic
+// Traffic toggle
 function toggleTraffic() {
   if (!mapReady || !map.getLayer("trafficLayer")) {
     setStatus("Map is loading. Please wait.");
@@ -658,21 +1123,28 @@ function toggleTraffic() {
     trafficVisible ? "visible" : "none"
   );
 
+  document.getElementById("trafficBtn").classList.toggle(
+    "active",
+    trafficVisible
+  );
+
   setStatus(
     trafficVisible
-      ? "Traffic overlay enabled. A valid TomTom key is required for real traffic."
-      : "Traffic overlay disabled."
+      ? "Traffic layer enabled. Real traffic requires a valid TomTom API key."
+      : "Traffic layer disabled."
   );
 }
 
-// 2D and 3D
+// 2D / 3D
 function toggle3D() {
   is3D = !is3D;
 
   map.easeTo({
     pitch: is3D ? 55 : 0,
-    duration: 1000
+    duration: 900
   });
+
+  setStatus(is3D ? "3D map view enabled." : "2D map view enabled.");
 }
 
 // Full screen
@@ -684,33 +1156,17 @@ function toggleFullscreen() {
   }
 }
 
-// Navigation view
+// Navigation panel
 function toggleNavigationPanel() {
   document.body.classList.toggle("nav-mode");
 }
 
-// Stop navigation tracking
-function stopNavigation() {
-  navigationActive = false;
-
-  if (watchId !== null) {
-    navigator.geolocation.clearWatch(watchId);
-    watchId = null;
-  }
-
-  document.body.classList.remove("nav-mode");
-
-  setStatus("Navigation stopped.");
-}
-
-// Keep the map centred on live GPS location
+// Live GPS tracking
 function startNavigation() {
   navigationActive = true;
   document.body.classList.add("nav-mode");
 
-  if (!navigator.geolocation) {
-    return;
-  }
+  if (!navigator.geolocation) return;
 
   if (watchId !== null) {
     navigator.geolocation.clearWatch(watchId);
@@ -732,9 +1188,11 @@ function startNavigation() {
         });
       }
     },
+
     error => {
-      console.warn("Live GPS update failed:", error.message);
+      console.warn("GPS tracking update failed:", error.message);
     },
+
     {
       enableHighAccuracy: true,
       maximumAge: 3000,
@@ -743,7 +1201,21 @@ function startNavigation() {
   );
 }
 
-// Clear route and destination
+// Stop navigation
+function stopNavigation() {
+  navigationActive = false;
+
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+    watchId = null;
+  }
+
+  document.body.classList.remove("nav-mode");
+
+  setStatus("Navigation stopped.");
+}
+
+// Clear route
 function clearRoute() {
   if (mapReady && map.getSource("routeSource")) {
     map.getSource("routeSource").setData({
