@@ -2,79 +2,75 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>RouteX — Explore More</title>
 
-<link href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css">
 
 <style>
 :root {
-  --bg:#071323;
+  --navy:#071323;
   --panel:rgba(7,19,35,.96);
-  --border:rgba(148,174,210,.2);
   --blue:#1685ff;
   --cyan:#51c8ff;
-  --text:#f6f9ff;
+  --white:#f6f9ff;
   --muted:#9aabc3;
 }
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--navy);color:var(--white)}
 button,input{font:inherit}
 button{cursor:pointer;color:inherit}
 #map{position:absolute;inset:0}
-.maplibregl-ctrl-attrib{font-size:9px!important}
-.maplibregl-ctrl-bottom-right{bottom:4px!important}
-.maplibregl-ctrl-bottom-left{bottom:4px!important}
 
 .topbar{
- position:absolute;z-index:5;top:14px;left:14px;right:14px;
- min-height:78px;padding:10px 12px;display:flex;align-items:center;gap:12px;
- background:rgba(5,17,33,.94);border:1px solid var(--border);
- border-radius:25px;box-shadow:0 12px 35px #0005;backdrop-filter:blur(20px)
+ position:absolute;z-index:5;top:14px;left:12px;right:12px;
+ min-height:78px;padding:10px;display:flex;align-items:center;gap:10px;
+ background:rgba(5,17,33,.96);border:1px solid #8ba7cc30;
+ border-radius:24px;box-shadow:0 12px 35px #0005;
+ backdrop-filter:blur(18px)
 }
 .logo{
- width:55px;height:55px;flex-shrink:0;border-radius:18px;
+ width:54px;height:54px;flex-shrink:0;border-radius:17px;
  display:grid;place-items:center;
- background:linear-gradient(140deg,#27c9ff,#0875ff 55%,#7049ff);
- box-shadow:0 0 25px #1685ff40
+ background:linear-gradient(140deg,#27c9ff,#0875ff 55%,#7049ff)
 }
 .logo svg{width:35px;height:35px}
-.brand{min-width:0;flex-shrink:0}
-.brand h1{font-size:24px;letter-spacing:-1.1px;margin:0;font-weight:850}
-.brand p{font-size:10px;letter-spacing:2.3px;color:#a9bbd5;margin:3px 0 0}
-.divider{height:43px;width:1px;background:#ffffff20}
-.searchbox{flex:1;min-width:0;display:flex;align-items:center;gap:8px}
-.searchbox input{width:100%;min-width:0;background:transparent;border:0;outline:0;color:white;font-size:15px}
+.brand{flex-shrink:0}
+.brand h1{font-size:23px;letter-spacing:-1px;margin:0;font-weight:850}
+.brand p{font-size:9px;letter-spacing:2px;color:#a9bbd5;margin:4px 0 0}
+.divider{height:42px;width:1px;background:#ffffff20}
+.searchbox{flex:1;min-width:0;display:flex;align-items:center;gap:7px}
+.searchbox input{width:100%;min-width:0;background:transparent;border:0;outline:0;color:white;font-size:14px}
 .searchbox input::placeholder{color:#b4c2d7}
-.iconbtn{border:0;background:transparent;display:grid;place-items:center;flex-shrink:0}
-.iconbtn svg{width:25px;height:25px}
+.iconbtn{border:0;background:transparent;display:grid;place-items:center;flex-shrink:0;padding:3px}
+.iconbtn svg{width:24px;height:24px}
 .profile{
- width:53px;height:53px;flex-shrink:0;border-radius:50%;
- border:4px solid var(--blue);background:#10233e;display:grid;place-items:center
+ width:49px;height:49px;flex-shrink:0;border-radius:50%;
+ border:3px solid var(--blue);background:#10233e;display:grid;place-items:center
 }
-.profile svg{width:27px;height:27px}
+.profile svg{width:26px;height:26px}
 
 .maptools{
- position:absolute;z-index:4;right:13px;top:115px;
+ position:absolute;z-index:4;right:12px;top:112px;
  display:flex;flex-direction:column;gap:12px
 }
 .tool{
  width:55px;height:55px;border-radius:50%;display:grid;place-items:center;
- background:rgba(5,17,33,.96);border:1px solid #31445d;
+ background:rgba(5,17,33,.97);border:1px solid #31445d;
  box-shadow:0 5px 20px #0004
 }
 .tool svg{width:26px;height:26px}
 .tool.active{border-color:var(--blue);color:var(--cyan)}
 
 .panel{
- position:absolute;z-index:6;left:13px;right:13px;bottom:14px;
- padding:19px 16px 17px;border:1px solid var(--border);
- background:var(--panel);border-radius:27px;
+ position:absolute;z-index:6;left:12px;right:12px;bottom:13px;
+ padding:18px 15px 16px;border:1px solid #8ba7cc30;
+ background:var(--panel);border-radius:26px;
  box-shadow:0 15px 45px #0005;backdrop-filter:blur(22px);
- max-height:67vh;overflow:visible;transition:transform .3s,opacity .3s
+ max-height:72vh;overflow:visible
 }
 .panel.hidden{display:none}
-.panelhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}
+.panelhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .panelhead h2{font-size:19px;margin:0;font-weight:750}
 .close{
  width:38px;height:38px;border-radius:50%;border:1px solid #ffffff18;
@@ -83,25 +79,26 @@ button{cursor:pointer;color:inherit}
 .close svg{width:21px;height:21px}
 .fieldwrap{position:relative;margin-bottom:12px}
 .fieldrow{display:flex;align-items:center;gap:10px}
-.pin{width:12px;height:12px;flex-shrink:0;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 5px #51c8ff18}
+.pin{width:11px;height:11px;flex-shrink:0;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 5px #51c8ff18}
 .pin.end{border-radius:4px;background:#ff5684;transform:rotate(45deg)}
 .inputbox{
- height:54px;display:flex;align-items:center;gap:9px;flex:1;min-width:0;
- padding:0 13px;border:1px solid #ffffff20;border-radius:17px;background:#ffffff08
+ height:53px;display:flex;align-items:center;flex:1;min-width:0;
+ padding:0 13px;border:1px solid #ffffff20;border-radius:16px;background:#ffffff08
 }
 .inputbox input{width:100%;min-width:0;border:0;outline:0;color:white;background:transparent;font-size:14px}
 .inputbox input::placeholder{color:#a9b8cc}
 .gpsmini{width:43px;height:43px;border-radius:14px;border:1px solid #ffffff20;background:#ffffff08;color:var(--cyan);display:grid;place-items:center}
 .gpsmini svg{width:23px;height:23px}
 .suggestions{
- display:none;position:absolute;top:59px;left:22px;right:0;z-index:12;
- border:1px solid #ffffff22;border-radius:16px;overflow:hidden;
- background:#0b1b30;box-shadow:0 12px 30px #0009;max-height:190px;overflow-y:auto
+ display:none;position:absolute;top:58px;left:22px;right:0;z-index:12;
+ border:1px solid #ffffff22;border-radius:15px;overflow:hidden;
+ background:#0b1b30;box-shadow:0 12px 30px #0009;max-height:180px;overflow-y:auto
 }
 .suggestion{display:block;width:100%;padding:13px;text-align:left;background:transparent;border:0;border-bottom:1px solid #ffffff10;color:#fff;font-size:13px}
 .suggestion:active{background:#1685ff30}
+
 .primary{
- width:100%;height:58px;border:0;border-radius:18px;
+ width:100%;height:57px;border:0;border-radius:17px;
  background:linear-gradient(105deg,#1685ff,#0756e9);
  font-weight:750;font-size:16px;display:flex;align-items:center;justify-content:center;gap:11px;
  box-shadow:0 8px 25px #087cff30
@@ -109,42 +106,40 @@ button{cursor:pointer;color:inherit}
 .primary svg{width:23px;height:23px}
 .secondaryrow{display:flex;gap:9px;margin-top:10px}
 .secondary{
- flex:1;height:44px;border-radius:14px;border:1px solid #ffffff1b;background:#ffffff08;
+ flex:1;height:43px;border-radius:13px;border:1px solid #ffffff1b;background:#ffffff08;
  font-size:12px;color:#dce8f8
 }
-.status{font-size:12px;line-height:1.5;color:var(--muted);margin:12px 2px 0;min-height:16px}
+.status{font-size:12px;line-height:1.5;color:var(--muted);margin:11px 2px 0;min-height:15px}
 .routeinfo{
- display:none;margin:0 0 14px;padding:14px;border:1px solid #ffffff16;
- border-radius:17px;background:#ffffff07
+ display:none;margin:0 0 13px;padding:13px;border:1px solid #ffffff16;
+ border-radius:16px;background:#ffffff07
 }
 .routeinfo.show{display:block}
 .metrics{display:flex;align-items:center;gap:14px}
-.metric strong{font-size:25px;display:block;color:#69e5a3}
+.metric strong{font-size:24px;display:block;color:#69e5a3}
 .metric span{font-size:11px;color:var(--muted)}
 .metricline{height:34px;width:1px;background:#ffffff20}
-#places{font-size:12px;color:#c4d1e5;line-height:1.7;margin-top:8px}
+#places{font-size:12px;color:#c4d1e5;line-height:1.7;margin-top:9px}
+
 .navbanner{
- display:none;position:absolute;z-index:7;left:13px;right:13px;top:105px;
- background:#00645f;border-radius:22px;padding:22px 18px;
+ display:none;position:absolute;z-index:7;left:12px;right:12px;top:105px;
+ background:#00645f;border-radius:21px;padding:21px 17px;
  box-shadow:0 12px 35px #0005
 }
-.navbanner.show{display:flex;align-items:center;gap:17px}
+.navbanner.show{display:flex;align-items:center;gap:16px}
 .navbanner svg{width:35px;height:35px;flex-shrink:0}
-.navbanner strong{font-size:23px;font-weight:600}
+.navbanner strong{font-size:22px;font-weight:600}
 .navbanner small{display:block;font-size:12px;color:#c2f4ee;margin-top:5px}
 .navbottom{
  display:none;position:absolute;z-index:7;bottom:12px;left:10px;right:10px;
- border:1px solid #ffffff16;border-radius:26px;padding:18px;
+ border:1px solid #ffffff16;border-radius:25px;padding:17px;
  background:#101113;box-shadow:0 12px 40px #0008
 }
 .navbottom.show{display:block}
 .navbottomtop{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.eta{font-size:32px;color:#6cdda0;font-weight:800}
+.eta{font-size:31px;color:#6cdda0;font-weight:800}
 .detail{color:#b7bac1;font-size:14px;margin-top:5px}
-.exit{
- border:0;border-radius:30px;background:#e53935;color:#fff;
- padding:16px 25px;font-size:16px;font-weight:700
-}
+.exit{border:0;border-radius:30px;background:#e53935;color:#fff;padding:15px 24px;font-weight:700}
 .recentre{
  position:absolute;z-index:5;left:15px;bottom:20px;display:none;
  border:0;border-radius:30px;background:#101113;padding:14px 18px;
@@ -152,12 +147,12 @@ button{cursor:pointer;color:inherit}
 }
 .recentre.show{display:flex}
 .recentre svg{width:22px;height:22px}
-body.navigating .topbar{opacity:.94}
 body.navigating .panel{display:none}
-body.navigating .maptools{top:45%;transform:translateY(-50%)}
-body.navigating .recentre{bottom:155px}
+body.navigating .maptools{top:46%;transform:translateY(-50%)}
+body.navigating .recentre{bottom:145px}
+
 @media(min-width:700px){
- .topbar{left:22px;right:22px;top:20px;max-width:700px}
+ .topbar{left:22px;right:22px;top:20px;max-width:680px}
  .panel{left:22px;bottom:22px;width:410px;right:auto}
  .maptools{right:22px;top:125px}
  .navbanner{left:22px;right:22px;max-width:600px;top:125px}
@@ -167,12 +162,12 @@ body.navigating .recentre{bottom:155px}
 </head>
 
 <body>
-
 <div id="map"></div>
 
+<!-- TOP BAR: Explore, Saved and Food tabs have been removed -->
 <header class="topbar">
-  <div class="logo" aria-label="RouteX logo">
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+  <div class="logo">
+    <svg viewBox="0 0 40 40" fill="none">
       <path d="M20 4C11 4 5 10.7 5 19c0 10 15 18 15 18s15-8 15-18C35 10.7 29 4 20 4Z" stroke="white" stroke-width="2.5"/>
       <circle cx="20" cy="15" r="5" stroke="white" stroke-width="2.5"/>
       <path d="M11 28c1.8-5 5-7 9-7s7.2 2 9 7" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
@@ -207,31 +202,39 @@ body.navigating .recentre{bottom:155px}
   </button>
 </header>
 
+<!-- MAP CONTROLS -->
 <div class="maptools">
-  <button class="tool active" id="layersBtn" title="Satellite map" aria-label="Toggle satellite map">
+  <button class="tool active" id="layersBtn" title="Satellite map" aria-label="Toggle satellite">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
       <path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/>
     </svg>
   </button>
+
   <button class="tool" id="gpsBtn" title="My location" aria-label="My location">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>
     </svg>
   </button>
+
   <button class="tool" id="routeToggle" title="Plan route" aria-label="Plan route">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M9 18h3a3 3 0 0 0 3-3V9"/>
     </svg>
   </button>
-  <button class="tool" id="zoomIn" title="Zoom in" aria-label="Zoom in" style="font-size:27px">+</button>
-  <button class="tool" id="zoomOut" title="Zoom out" aria-label="Zoom out" style="font-size:27px">−</button>
+
+  <button class="tool" id="zoomIn" aria-label="Zoom in" style="font-size:27px">+</button>
+  <button class="tool" id="zoomOut" aria-label="Zoom out" style="font-size:27px">−</button>
 </div>
 
+<!-- NAVIGATION DIRECTION -->
 <div class="navbanner" id="navBanner">
   <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 22V3m-7 7 7-7 7 7"/>
   </svg>
-  <div><strong id="navInstruction">Start navigation</strong><small id="navStreet">Follow the route</small></div>
+  <div>
+    <strong id="navInstruction">Follow the route</strong>
+    <small id="navStreet">RouteX navigation</small>
+  </div>
 </div>
 
 <button class="recentre" id="recentre">
@@ -239,11 +242,14 @@ body.navigating .recentre{bottom:155px}
   Re-centre
 </button>
 
+<!-- ROUTE PLANNER -->
 <section class="panel" id="journeyPanel">
   <div class="panelhead">
     <h2>Plan your journey</h2>
     <button class="close" id="closePanel" aria-label="Close route planner">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m6 6 12 12M18 6 6 18"/>
+      </svg>
     </button>
   </div>
 
@@ -274,9 +280,15 @@ body.navigating .recentre{bottom:155px}
 
   <div class="routeinfo" id="routeInfo">
     <div class="metrics">
-      <div class="metric"><strong id="eta">-- min</strong><span>Estimated travel time</span></div>
+      <div class="metric">
+        <strong id="eta">-- min</strong>
+        <span>Estimated travel time</span>
+      </div>
       <div class="metricline"></div>
-      <div class="metric"><strong id="km">-- km</strong><span>Route distance</span></div>
+      <div class="metric">
+        <strong id="km">-- km</strong>
+        <span>Route distance</span>
+      </div>
     </div>
     <div id="places"></div>
   </div>
@@ -296,11 +308,12 @@ body.navigating .recentre{bottom:155px}
   <div class="status" id="status">Enter your destination to plan a journey.</div>
 </section>
 
+<!-- NAVIGATION SUMMARY -->
 <div class="navbottom" id="navBottom">
   <div class="navbottomtop">
     <div>
       <div class="eta" id="navEta">-- min</div>
-      <div class="detail"><span id="navKm">-- km</span> remaining</div>
+      <div class="detail"><span id="navKm">-- km</span> total distance</div>
     </div>
     <button class="exit" id="exitNav">Exit</button>
   </div>
@@ -319,37 +332,34 @@ body.navigating .recentre{bottom:155px}
   let satellite = true;
   let searchTimers = {};
   let lastInstruction = "Follow the route";
+  let userMarker = null;
 
   const map = new maplibregl.Map({
-    container: "map",
-    style: "https://tiles.openfreemap.org/styles/liberty",
-    center: [76.53, 30.97],
-    zoom: 11,
-    pitch: 35,
-    attributionControl: true
+    container:"map",
+    style:"https://tiles.openfreemap.org/styles/liberty",
+    center:[76.53,30.97],
+    zoom:11,
+    pitch:35
   });
 
-  map.addControl(new maplibregl.NavigationControl({showCompass:false}), "bottom-right");
+  map.addControl(new maplibregl.NavigationControl({showCompass:false}),"bottom-right");
 
-  const satelliteSource = {
-    type:"raster",
-    tiles:["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
-    tileSize:256,
-    attribution:"Tiles © Esri"
-  };
-
-  map.on("load", () => {
-    map.addSource("satellite", satelliteSource);
+  map.on("load",()=>{
+    map.addSource("satellite",{
+      type:"raster",
+      tiles:["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+      tileSize:256,
+      attribution:"Tiles © Esri"
+    });
 
     map.addLayer({
       id:"satellite-layer",
       type:"raster",
       source:"satellite",
-      layout:{visibility:"visible"},
-      paint:{"raster-opacity":1}
+      layout:{visibility:"visible"}
     });
 
-    map.addSource("route", {
+    map.addSource("route",{
       type:"geojson",
       data:{type:"FeatureCollection",features:[]}
     });
@@ -359,12 +369,7 @@ body.navigating .recentre{bottom:155px}
       type:"line",
       source:"route",
       layout:{"line-join":"round","line-cap":"round"},
-      paint:{
-        "line-color":"#006dff",
-        "line-width":12,
-        "line-opacity":0.4,
-        "line-blur":3
-      }
+      paint:{"line-color":"#006dff","line-width":12,"line-opacity":0.4,"line-blur":3}
     });
 
     map.addLayer({
@@ -372,11 +377,7 @@ body.navigating .recentre{bottom:155px}
       type:"line",
       source:"route",
       layout:{"line-join":"round","line-cap":"round"},
-      paint:{
-        "line-color":"#5838ff",
-        "line-width":6,
-        "line-opacity":1
-      }
+      paint:{"line-color":"#5838ff","line-width":6,"line-opacity":1}
     });
 
     map.addLayer({
@@ -384,61 +385,58 @@ body.navigating .recentre{bottom:155px}
       type:"line",
       source:"route",
       layout:{"line-join":"round","line-cap":"round"},
-      paint:{
-        "line-color":"#a7c8ff",
-        "line-width":1.5,
-        "line-opacity":0.8
-      }
+      paint:{"line-color":"#a7c8ff","line-width":1.5,"line-opacity":0.85}
     });
 
     findRoute();
   });
 
   function setStatus(message){
-    $("status").textContent = message;
+    $("status").textContent=message;
   }
 
   function formatDistance(m){
-    return m >= 1000 ? (m/1000).toFixed(1)+" km" : Math.round(m)+" m";
+    return m>=1000?(m/1000).toFixed(1)+" km":Math.round(m)+" m";
   }
 
   function formatTime(seconds){
-    const mins = Math.max(1,Math.round(seconds/60));
-    if(mins < 60) return mins+" min";
-    const h = Math.floor(mins/60);
-    const m = mins%60;
-    return h+" hr "+(m ? m+" min" : "");
+    const mins=Math.max(1,Math.round(seconds/60));
+    if(mins<60)return mins+" min";
+    const h=Math.floor(mins/60),m=mins%60;
+    return h+" hr "+(m?m+" min":"");
   }
 
   async function geocode(query){
-    const url = "https://nominatim.openstreetmap.org/search?format=json&limit=5&addressdetails=1&q="+encodeURIComponent(query);
-    const response = await fetch(url,{headers:{"Accept-Language":"en"}});
-    if(!response.ok) throw new Error("Place search failed.");
+    const url="https://nominatim.openstreetmap.org/search?format=json&limit=5&addressdetails=1&q="+encodeURIComponent(query);
+    const response=await fetch(url,{headers:{"Accept-Language":"en"}});
+    if(!response.ok)throw new Error("Place search failed. Try again.");
     return response.json();
   }
 
   function addSuggestions(inputId,boxId){
-    const input = $(inputId);
-    const box = $(boxId);
+    const input=$(inputId),box=$(boxId);
 
     input.addEventListener("input",()=>{
       clearTimeout(searchTimers[inputId]);
-      const query = input.value.trim();
+      input.dataset.lon="";
+      input.dataset.lat="";
 
-      if(query.length < 3){
+      const query=input.value.trim();
+      if(query.length<3){
         box.style.display="none";
         return;
       }
 
-      searchTimers[inputId] = setTimeout(async()=>{
+      searchTimers[inputId]=setTimeout(async()=>{
         try{
-          const results = await geocode(query);
+          const results=await geocode(query);
           box.innerHTML="";
 
           results.forEach(place=>{
-            const button = document.createElement("button");
+            const button=document.createElement("button");
             button.className="suggestion";
             button.textContent=place.display_name;
+
             button.onclick=()=>{
               input.value=place.display_name;
               input.dataset.lon=place.lon;
@@ -450,18 +448,19 @@ body.navigating .recentre{bottom:155px}
                 duration:800
               });
             };
+
             box.appendChild(button);
           });
 
           box.style.display=results.length?"block":"none";
-        }catch(error){
+        }catch(e){
           box.style.display="none";
         }
       },450);
     });
 
     document.addEventListener("click",event=>{
-      if(!box.contains(event.target) && event.target!==input){
+      if(!box.contains(event.target)&&event.target!==input){
         box.style.display="none";
       }
     });
@@ -470,9 +469,11 @@ body.navigating .recentre{bottom:155px}
   addSuggestions("start","startSuggestions");
   addSuggestions("end","endSuggestions");
 
+  $("focusSearch").onclick=()=>$("topSearch").focus();
+
   $("topSearch").addEventListener("keydown",event=>{
     if(event.key==="Enter"){
-      $("end").value=$("topSearch").value;
+      $("end").value=$("topSearch").value.trim();
       $("end").dataset.lon="";
       $("end").dataset.lat="";
       $("journeyPanel").classList.remove("hidden");
@@ -480,46 +481,50 @@ body.navigating .recentre{bottom:155px}
     }
   });
 
-  $("topSearch").addEventListener("change",()=>{
-    $("end").value=$("topSearch").value;
-  });
-
-  $("focusSearch").onclick=()=>$("topSearch").focus();
-
   $("micBtn").onclick=()=>{
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+
     if(!SpeechRecognition){
-      setStatus("Voice search is not supported by this browser.");
+      setStatus("Voice search is not supported in this browser.");
       return;
     }
-    const recognition = new SpeechRecognition();
+
+    const recognition=new SpeechRecognition();
     recognition.lang="en-IN";
-    recognition.onresult=e=>{
-      const text=e.results[0][0].transcript;
-      $("topSearch").value=text;
-      $("end").value=text;
+    recognition.onresult=event=>{
+      const value=event.results[0][0].transcript;
+      $("topSearch").value=value;
+      $("end").value=value;
+      $("end").dataset.lon="";
+      $("end").dataset.lat="";
     };
     recognition.start();
   };
 
-  async function resolvePlace(inputId){
-    const input=$(inputId);
-    const lon=input.dataset.lon;
-    const lat=input.dataset.lat;
+  async function resolvePlace(id){
+    const input=$(id);
+    const query=input.value.trim();
 
-    if(lon && lat && input.value.trim()){
+    if(!query)throw new Error("Enter both starting point and destination.");
+
+    if(query.toLowerCase()==="my location"&&currentPosition){
       return {
-        lon:Number(lon),
-        lat:Number(lat),
-        name:input.value
+        lon:currentPosition[0],
+        lat:currentPosition[1],
+        name:"My location"
       };
     }
 
-    const query=input.value.trim();
-    if(!query) throw new Error("Please enter both starting point and destination.");
+    if(input.dataset.lon&&input.dataset.lat){
+      return {
+        lon:Number(input.dataset.lon),
+        lat:Number(input.dataset.lat),
+        name:query
+      };
+    }
 
     const results=await geocode(query);
-    if(!results.length) throw new Error("Place not found: "+query);
+    if(!results.length)throw new Error("Place not found: "+query);
 
     input.dataset.lon=results[0].lon;
     input.dataset.lat=results[0].lat;
@@ -532,36 +537,27 @@ body.navigating .recentre{bottom:155px}
   }
 
   async function findRoute(){
-    const startValue=$("start").value.trim();
-    const endValue=$("end").value.trim();
-
-    if(!startValue || !endValue){
+    if(!$("start").value.trim()||!$("end").value.trim()){
       setStatus("Enter a starting point and destination.");
       return;
     }
 
     $("findRoute").disabled=true;
     $("findRoute").textContent="Finding route...";
-    setStatus("Searching places and calculating the route...");
+    setStatus("Searching places and calculating your route...");
 
     try{
-      let start,end;
+      const start=await resolvePlace("start");
+      const end=await resolvePlace("end");
 
-      if(startValue.toLowerCase()==="my location" && currentPosition){
-        start={lon:currentPosition[0],lat:currentPosition[1],name:"My location"};
-      }else{
-        start=await resolvePlace("start");
-      }
-
-      end=await resolvePlace("end");
-
-      const url=`https://router.project-osrm.org/route/v1/driving/${start.lon},${start.lat};${end.lon},${end.lat}?overview=full&geometries=geojson&steps=true`;
+      const url=
+        `https://router.project-osrm.org/route/v1/driving/${start.lon},${start.lat};${end.lon},${end.lat}?overview=full&geometries=geojson&steps=true`;
 
       const response=await fetch(url);
-      if(!response.ok) throw new Error("Route service is unavailable.");
+      if(!response.ok)throw new Error("Route service unavailable. Try again.");
 
       const data=await response.json();
-      if(data.code!=="Ok" || !data.routes.length){
+      if(data.code!=="Ok"||!data.routes.length){
         throw new Error("No driving route found for these places.");
       }
 
@@ -579,7 +575,10 @@ body.navigating .recentre{bottom:155px}
         new maplibregl.LngLatBounds(coordinates[0],coordinates[0])
       );
 
-      map.fitBounds(bounds,{padding:{top:150,bottom:270,left:45,right:45},duration:1000});
+      map.fitBounds(bounds,{
+        padding:{top:145,bottom:285,left:40,right:40},
+        duration:1000
+      });
 
       $("routeInfo").classList.add("show");
       $("eta").textContent=formatTime(activeRoute.duration);
@@ -588,28 +587,28 @@ body.navigating .recentre{bottom:155px}
       $("navKm").textContent=formatDistance(activeRoute.distance);
 
       const steps=activeRoute.legs.flatMap(leg=>leg.steps);
-      const names=[];
+      const roadNames=[];
 
       steps.forEach(step=>{
-        const name=step.name && step.name.trim();
-        if(name && !names.includes(name)) names.push(name);
+        if(step.name&&step.name.trim()&&!roadNames.includes(step.name.trim())){
+          roadNames.push(step.name.trim());
+        }
       });
 
-      $("places").textContent=names.length
-        ? "Places and roads along route: "+names.slice(0,8).join(" → ")
-        : "Route calculated. Road names may not be available for every section.";
+      $("places").textContent=roadNames.length
+        ?"Roads along route: "+roadNames.slice(0,8).join(" → ")
+        :"Route calculated. Road names are unavailable for some sections.";
 
       lastInstruction=steps.length
-        ? (steps[0].maneuver.instruction || steps[0].name || "Follow the route")
-        : "Follow the route";
+        ?(steps[0].maneuver.instruction||steps[0].name||"Follow the route")
+        :"Follow the route";
 
       $("navInstruction").textContent=lastInstruction;
       $("navStreet").textContent=start.name+" to "+end.name;
 
-      setStatus("Route ready. Check the route before starting navigation.");
-
+      setStatus("Route ready. Tap Start Navigation to begin.");
     }catch(error){
-      setStatus(error.message || "Unable to calculate route. Try again.");
+      setStatus(error.message||"Could not calculate the route.");
     }finally{
       $("findRoute").disabled=false;
       $("findRoute").innerHTML=`
@@ -627,7 +626,7 @@ body.navigating .recentre{bottom:155px}
     }
 
     if(!window.isSecureContext){
-      setStatus("GPS requires a secure HTTPS website.");
+      setStatus("GPS requires an HTTPS website.");
       return;
     }
 
@@ -638,35 +637,39 @@ body.navigating .recentre{bottom:155px}
     setStatus("Waiting for GPS location...");
 
     gpsWatch=navigator.geolocation.watchPosition(position=>{
-      const c=[position.coords.longitude,position.coords.latitude];
-      currentPosition=c;
+      const coords=[position.coords.longitude,position.coords.latitude];
+      currentPosition=coords;
 
       $("gpsBtn").classList.add("active");
 
-      if(!window.userMarker){
-        const el=document.createElement("div");
-        el.style.cssText="width:19px;height:19px;border-radius:50%;background:#1685ff;border:4px solid white;box-shadow:0 0 0 8px #1685ff40";
-        window.userMarker=new maplibregl.Marker({element:el}).setLngLat(c).addTo(map);
+      if(!userMarker){
+        const element=document.createElement("div");
+        element.style.cssText=
+          "width:20px;height:20px;border-radius:50%;background:#1685ff;border:4px solid white;box-shadow:0 0 0 8px #1685ff40";
+
+        userMarker=new maplibregl.Marker({element})
+          .setLngLat(coords)
+          .addTo(map);
       }else{
-        window.userMarker.setLngLat(c);
+        userMarker.setLngLat(coords);
       }
 
       if(navOn){
         map.easeTo({
-          center:c,
+          center:coords,
           zoom:17,
-          pitch:55,
+          pitch:50,
           duration:700
         });
       }
 
       $("start").value="My Location";
-      $("start").dataset.lon=c[0];
-      $("start").dataset.lat=c[1];
+      $("start").dataset.lon=coords[0];
+      $("start").dataset.lat=coords[1];
 
       setStatus("GPS location updated.");
-    },error=>{
-      setStatus("Could not get GPS. Allow location permission in your browser settings.");
+    },()=>{
+      setStatus("Allow location permission in your browser settings.");
     },{
       enableHighAccuracy:true,
       maximumAge:1000,
@@ -694,13 +697,16 @@ body.navigating .recentre{bottom:155px}
 
     startGPS();
 
-    const coordinates=activeRoute.geometry.coordinates;
-    const bounds=coordinates.reduce(
+    const coords=activeRoute.geometry.coordinates;
+    const bounds=coords.reduce(
       (b,c)=>b.extend(c),
-      new maplibregl.LngLatBounds(coordinates[0],coordinates[0])
+      new maplibregl.LngLatBounds(coords[0],coords[0])
     );
 
-    map.fitBounds(bounds,{padding:{top:210,bottom:180,left:40,right:40},duration:900});
+    map.fitBounds(bounds,{
+      padding:{top:210,bottom:170,left:35,right:35},
+      duration:900
+    });
   }
 
   function exitNavigation(){
@@ -715,6 +721,7 @@ body.navigating .recentre{bottom:155px}
       navigator.geolocation.clearWatch(gpsWatch);
       gpsWatch=null;
     }
+
     $("gpsBtn").classList.remove("active");
     setStatus("Navigation ended.");
   }
@@ -724,7 +731,10 @@ body.navigating .recentre{bottom:155px}
     exitNavigation();
 
     if(map.getSource("route")){
-      map.getSource("route").setData({type:"FeatureCollection",features:[]});
+      map.getSource("route").setData({
+        type:"FeatureCollection",
+        features:[]
+      });
     }
 
     $("routeInfo").classList.remove("show");
@@ -743,11 +753,12 @@ body.navigating .recentre{bottom:155px}
   $("clearRoute").onclick=clearRoute;
 
   $("gpsBtn").onclick=startGPS;
+
   $("useLocation").onclick=()=>{
-    startGPS();
     $("start").value="My Location";
     $("start").dataset.lon="";
     $("start").dataset.lat="";
+    startGPS();
   };
 
   $("routeToggle").onclick=()=>{
@@ -760,7 +771,12 @@ body.navigating .recentre{bottom:155px}
 
   $("recentre").onclick=()=>{
     if(currentPosition){
-      map.easeTo({center:currentPosition,zoom:17,pitch:55,duration:700});
+      map.easeTo({
+        center:currentPosition,
+        zoom:17,
+        pitch:50,
+        duration:700
+      });
     }else{
       startGPS();
     }
@@ -768,11 +784,13 @@ body.navigating .recentre{bottom:155px}
 
   $("layersBtn").onclick=()=>{
     satellite=!satellite;
+
     map.setLayoutProperty(
       "satellite-layer",
       "visibility",
       satellite?"visible":"none"
     );
+
     $("layersBtn").classList.toggle("active",satellite);
   };
 
@@ -787,16 +805,13 @@ body.navigating .recentre{bottom:155px}
         findRoute();
       }
     });
-    $(id).addEventListener("input",()=>{
-      $(id).dataset.lon="";
-      $(id).dataset.lat="";
-    });
   });
 
   window.addEventListener("beforeunload",()=>{
-    if(gpsWatch!==null)navigator.geolocation.clearWatch(gpsWatch);
+    if(gpsWatch!==null){
+      navigator.geolocation.clearWatch(gpsWatch);
+    }
   });
-
 })();
 </script>
 </body>
